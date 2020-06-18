@@ -1,20 +1,31 @@
 {
   "name": "nurtureup",
   "version": "1.0.0",
-  "description": "",
+  "description": "NurtureUp backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+
   },
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/cnsible/nurtureup.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "CNSible Solutions, LLC",
   "license": "ISC",
   "bugs": {
     "url": "https://gitlab.com/cnsible/nurtureup/issues"
   },
-  "homepage": "https://gitlab.com/cnsible/nurtureup#readme"
+  "homepage": "https://gitlab.com/cnsible/nurtureup#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.5.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
+  }
 }
