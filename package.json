@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "NurtureUp backend",
   "main": "index.js",
-  "scripts": {
-
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/cnsible/nurtureup.git"
@@ -19,10 +17,22 @@
   "homepage": "https://gitlab.com/cnsible/nurtureup#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "classnames": "^2.2.6",
     "config": "^3.3.1",
     "express": "^4.17.1",
     "express-validator": "^6.5.0",
-    "jsonwebtoken": "^8.5.1"
+    "helmet": "^3.23.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet-async": "^1.0.6",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "sharetribe-flex-sdk": "^1.11.0",
+    "sharetribe-scripts": "^3.1.1"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
