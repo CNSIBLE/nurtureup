@@ -36,7 +36,7 @@
 // Other independent components
 export { default as ExternalLink } from './ExternalLink/ExternalLink';
 // export { default as ExpandingTextarea } from './ExpandingTextarea/ExpandingTextarea';
-// export { default as Form } from './Form/Form';
+export { default as Form } from './Form/Form';
 export { default as LimitedAccessBanner } from './LimitedAccessBanner/LimitedAccessBanner';
 export { default as Logo } from './Logo/Logo';
 export { default as NamedLink } from './NamedLink/NamedLink';
@@ -49,7 +49,7 @@ export { default as NamedRedirect } from './NamedRedirect/NamedRedirect';
 // export { default as ResponsiveImage } from './ResponsiveImage/ResponsiveImage';
 // export { default as TimeRange } from './TimeRange/TimeRange';
 // export { default as UserDisplayName } from './UserDisplayName/UserDisplayName';
-// export { default as ValidationError } from './ValidationError/ValidationError';
+export { default as ValidationError } from './ValidationError/ValidationError';
 
 /**
  * Composite components
@@ -103,7 +103,7 @@ export { default as Modal } from './Modal/Modal';
 // export { default as FieldCheckboxGroup } from './FieldCheckboxGroup/FieldCheckboxGroup';
 // export { default as FieldPhoneNumberInput } from './FieldPhoneNumberInput/FieldPhoneNumberInput';
 // Fields and inputs using old naming pattern
-// export { default as LocationAutocompleteInput, LocationAutocompleteInputField } from './LocationAutocompleteInput/LocationAutocompleteInput';
+export { default as LocationAutocompleteInput, LocationAutocompleteInputField } from './LocationAutocompleteInput/LocationAutocompleteInput';
 // export { default as StripeBankAccountTokenInputField } from './StripeBankAccountTokenInputField/StripeBankAccountTokenInputField';
 
 // Tab navigation
