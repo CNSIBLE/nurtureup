@@ -16,7 +16,6 @@ import {
   ListingLink,
   OwnListingLink,
 } from '../../components';
-import { TopbarSearchForm } from '../../forms';
 
 import css from './TopbarDesktop.css';
 
@@ -32,9 +31,7 @@ const TopbarDesktop = props => {
     notificationCount,
     intl,
     isAuthenticated,
-    onLogout,
-    onSearchSubmit,
-    initialSearchFormValues,
+    onLogout
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -46,15 +43,6 @@ const TopbarDesktop = props => {
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
 
   const classes = classNames(rootClassName || css.root, className);
-
-  const search = (
-    <TopbarSearchForm
-      className={css.searchLink}
-      desktopInputRoot={css.topbarSearchWithLeftPadding}
-      onSubmit={onSearchSubmit}
-      initialValues={initialSearchFormValues}
-    />
-  );
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
 
@@ -174,7 +162,6 @@ const TopbarDesktop = props => {
           alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
         />
       </NamedLink>
-      {search}
       {listingLink}
       {createListingLink}
       {inboxLink}

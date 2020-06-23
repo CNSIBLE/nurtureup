@@ -20,10 +20,8 @@ import {
   TopbarDesktop,
   TopbarMobileMenu,
 } from '../../components';
-import { TopbarSearchForm } from '../../forms';
 
 import MenuIcon from './MenuIcon';
-import SearchIcon from './SearchIcon';
 import css from './Topbar.css';
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
@@ -71,9 +69,9 @@ class TopbarComponent extends Component {
     super(props);
     this.handleMobileMenuOpen = this.handleMobileMenuOpen.bind(this);
     this.handleMobileMenuClose = this.handleMobileMenuClose.bind(this);
-    this.handleMobileSearchOpen = this.handleMobileSearchOpen.bind(this);
-    this.handleMobileSearchClose = this.handleMobileSearchClose.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleMobileSearchOpen = this.handleMobileSearchOpen.bind(this);
+    // this.handleMobileSearchClose = this.handleMobileSearchClose.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
 
@@ -85,28 +83,28 @@ class TopbarComponent extends Component {
     redirectToURLWithoutModalState(this.props, 'mobilemenu');
   }
 
-  handleMobileSearchOpen() {
-    redirectToURLWithModalState(this.props, 'mobilesearch');
-  }
+  // handleMobileSearchOpen() {
+  //   redirectToURLWithModalState(this.props, 'mobilesearch');
+  // }
+  //
+  // handleMobileSearchClose() {
+  //   redirectToURLWithoutModalState(this.props, 'mobilesearch');
+  // }
 
-  handleMobileSearchClose() {
-    redirectToURLWithoutModalState(this.props, 'mobilesearch');
-  }
-
-  handleSubmit(values) {
-    const { currentSearchParams } = this.props;
-    const { search, selectedPlace } = values.location;
-    const { history } = this.props;
-    const { origin, bounds } = selectedPlace;
-    const originMaybe = config.sortSearchByDistance ? { origin } : {};
-    const searchParams = {
-      ...currentSearchParams,
-      ...originMaybe,
-      address: search,
-      bounds,
-    };
-    history.push(createResourceLocatorString('SearchPage', routeConfiguration(), {}, searchParams));
-  }
+  // handleSubmit(values) {
+  //   const { currentSearchParams } = this.props;
+  //   const { search, selectedPlace } = values.location;
+  //   const { history } = this.props;
+  //   const { origin, bounds } = selectedPlace;
+  //   const originMaybe = config.sortSearchByDistance ? { origin } : {};
+  //   const searchParams = {
+  //     ...currentSearchParams,
+  //     ...originMaybe,
+  //     address: search,
+  //     bounds,
+  //   };
+  //   history.push(createResourceLocatorString('SearchPage', routeConfiguration(), {}, searchParams));
+  // }
 
   handleLogout() {
     const { onLogout, history } = this.props;
@@ -152,16 +150,15 @@ class TopbarComponent extends Component {
       showGenericError,
     } = this.props;
 
-    const { mobilemenu, mobilesearch, address, origin, bounds } = parse(location.search, {
-      latlng: ['origin'],
-      latlngBounds: ['bounds'],
-    });
+    // const { mobilemenu, mobilesearch, address, origin, bounds } = parse(location.search, {
+    //   latlng: ['origin'],
+    //   latlngBounds: ['bounds'],
+    // });
 
     const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
 
     const isMobileLayout = viewport.width < MAX_MOBILE_SCREEN_WIDTH;
-    const isMobileMenuOpen = isMobileLayout && mobilemenu === 'open';
-    const isMobileSearchOpen = isMobileLayout && mobilesearch === 'open';
+    // const isMobileMenuOpen = isMobileLayout && mobilemenu === 'open';
 
     const mobileMenu = (
       <TopbarMobileMenu
@@ -176,19 +173,6 @@ class TopbarComponent extends Component {
       />
     );
 
-    // Only render current search if full place object is available in the URL params
-    const locationFieldsPresent = config.sortSearchByDistance
-      ? address && origin && bounds
-      : address && bounds;
-    const initialSearchFormValues = {
-      location: locationFieldsPresent
-        ? {
-            search: address,
-            selectedPlace: { address, origin, bounds },
-          }
-        : null,
-    };
-
     const classes = classNames(rootClassName || css.root, className);
 
     return (
@@ -201,14 +185,6 @@ class TopbarComponent extends Component {
           currentPage={currentPage}
         />
         <div className={classNames(mobileRootClassName || css.container, mobileClassName)}>
-          <Button
-            rootClassName={css.menu}
-            onClick={this.handleMobileMenuOpen}
-            title={intl.formatMessage({ id: 'Topbar.menuIcon' })}
-          >
-            <MenuIcon className={css.menuIcon} />
-            {notificationDot}
-          </Button>
           <NamedLink
             className={css.home}
             name="LandingPage"
@@ -217,11 +193,12 @@ class TopbarComponent extends Component {
             <Logo format="mobile" />
           </NamedLink>
           <Button
-            rootClassName={css.searchMenu}
-            onClick={this.handleMobileSearchOpen}
-            title={intl.formatMessage({ id: 'Topbar.searchIcon' })}
+              rootClassName={css.menu}
+              onClick={this.handleMobileMenuOpen}
+              title={intl.formatMessage({ id: 'Topbar.menuIcon' })}
           >
-            <SearchIcon className={css.searchMenuIcon} />
+            <MenuIcon className={css.menuIcon} />
+            {notificationDot}
           </Button>
         </div>
         <div className={css.desktop}>
@@ -248,24 +225,7 @@ class TopbarComponent extends Component {
         >
           {authInProgress ? null : mobileMenu}
         </Modal>
-        <Modal
-          id="TopbarMobileSearch"
-          containerClassName={css.modalContainer}
-          isOpen={isMobileSearchOpen}
-          onClose={this.handleMobileSearchClose}
-          onManageDisableScrolling={onManageDisableScrolling}
-        >
-          <div className={css.searchContainer}>
-            <TopbarSearchForm
-              onSubmit={this.handleSubmit}
-              initialValues={initialSearchFormValues}
-              isMobile
-            />
-            <p className={css.mobileHelp}>
-              <FormattedMessage id="Topbar.mobileSearchHelp" />
-            </p>
-          </div>
-        </Modal>
+
         <ModalMissingInformation
           id="MissingInformationReminder"
           containerClassName={css.missingInformationModal}
