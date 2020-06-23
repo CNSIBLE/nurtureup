@@ -31,7 +31,7 @@ const TopbarDesktop = props => {
     notificationCount,
     intl,
     isAuthenticated,
-    onLogout
+    onLogout,
   } = props;
   const [mounted, setMounted] = useState(false);
 

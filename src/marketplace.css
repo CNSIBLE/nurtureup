@@ -33,7 +33,10 @@
 
     /* Align the image within the container */
     background-position: center center;
-  }
+
+    height: 100%;
+    width: auto;
+  };
 
   /* ================ Colors ================ */
 
@@ -62,6 +65,7 @@
   --matterColorLight: #ffffff;
 
   --matterColorLightTransparent: rgba(255, 255, 255, 0.65);
+  --matterColorTransparent: rgba(0, 255, 255, 1);
 
   /* ================ Spacing unites ================ */
 
