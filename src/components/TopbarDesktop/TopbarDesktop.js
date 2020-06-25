@@ -144,29 +144,22 @@ const TopbarDesktop = props => {
       />
     ) : null;
 
-  const createListingLink =
-    isAuthenticatedOrJustHydrated && !(currentUserListingFetched && !currentUserListing) ? null : (
-      <NamedLink className={css.createListingLink} name="NewListingPage">
-        <span className={css.createListing}>
-          <FormattedMessage id="TopbarDesktop.createListing" />
-        </span>
-      </NamedLink>
-    );
+  const logoLink = isAuthenticated ? (
+    <NamedLink className={css.logoLink} name="LandingPage">
+      <Logo
+        format="desktop"
+        className={css.logo}
+        alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
+      />
+    </NamedLink>
+  ) : null;
 
   return (
     <nav className={classes}>
-      <NamedLink className={css.logoLink} name="LandingPage">
-        <Logo
-          format="desktop"
-          className={css.logo}
-          alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
-        />
-      </NamedLink>
+      {logoLink}
       {listingLink}
-      {createListingLink}
       {inboxLink}
       {profileMenu}
-      {signupLink}
       {loginLink}
     </nav>
   );
