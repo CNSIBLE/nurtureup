@@ -18,7 +18,7 @@
 
   /* Top Bar's drop shadow should always be visible */
   z-index: var(--zIndexTopbar);
-  position: relative;
+  position: absolute;
 }
 
 .container {
@@ -33,7 +33,7 @@
   align-items: center;
 
   /* fill */
-  background-color: var(--matterColorLight);
+  background-color: var(--matterColorTransparent);
 
   /* shadows */
   box-shadow: var(--boxShadow);

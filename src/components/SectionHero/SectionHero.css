@@ -43,7 +43,7 @@
   @apply --backgroundImage;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: auto;
   height: 100%;
 
   /* Text positioning is done with paddings */

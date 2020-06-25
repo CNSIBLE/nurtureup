@@ -29,7 +29,7 @@
     transition: var(--transitionStyleButton);
 
     &:hover {
-      border-bottom: 4px solid var(--marketplaceColor);
+      border-bottom: 4px solid var(--matterColorTransparent);
       border-radius: 0;
       text-decoration: none;
     }
@@ -50,10 +50,7 @@
   padding: 0 12px 0 0;
 
   /* fill */
-  background-color: var(--matterColorLight);
-
-  /* shadows */
-  box-shadow: var(--boxShadowLight);
+  background-color: var(--matterColorTransparent);
 
   @media (--viewportLarge) {
     padding: 0 24px 0 0;
@@ -249,16 +246,19 @@
   height: 100%;
   padding: 0 12px 0 12px;
 
-  color: var(--matterColor);
+  color: var(--nuPink);
 
   &:hover {
-    color: var(--matterColorDark);
+    text-decoration: underline;
   }
 }
 
-.signup,
+.signup {
+
+}
+
 .login {
-  @apply --marketplaceH4FontStyles;
+  @apply --marketplaceH2FontStyles;
   @apply --TopbarDesktop_label;
 }
 

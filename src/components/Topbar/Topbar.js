@@ -20,10 +20,8 @@ import {
   TopbarDesktop,
   TopbarMobileMenu,
 } from '../../components';
-import { TopbarSearchForm } from '../../forms';
 
 import MenuIcon from './MenuIcon';
-import SearchIcon from './SearchIcon';
 import css from './Topbar.css';
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
@@ -71,8 +69,6 @@ class TopbarComponent extends Component {
     super(props);
     this.handleMobileMenuOpen = this.handleMobileMenuOpen.bind(this);
     this.handleMobileMenuClose = this.handleMobileMenuClose.bind(this);
-    this.handleMobileSearchOpen = this.handleMobileSearchOpen.bind(this);
-    this.handleMobileSearchClose = this.handleMobileSearchClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
   }
@@ -83,14 +79,6 @@ class TopbarComponent extends Component {
 
   handleMobileMenuClose() {
     redirectToURLWithoutModalState(this.props, 'mobilemenu');
-  }
-
-  handleMobileSearchOpen() {
-    redirectToURLWithModalState(this.props, 'mobilesearch');
-  }
-
-  handleMobileSearchClose() {
-    redirectToURLWithoutModalState(this.props, 'mobilesearch');
   }
 
   handleSubmit(values) {
@@ -152,7 +140,7 @@ class TopbarComponent extends Component {
       showGenericError,
     } = this.props;
 
-    const { mobilemenu, mobilesearch, address, origin, bounds } = parse(location.search, {
+    const { mobilemenu, address, origin, bounds } = parse(location.search, {
       latlng: ['origin'],
       latlngBounds: ['bounds'],
     });
@@ -161,7 +149,6 @@ class TopbarComponent extends Component {
 
     const isMobileLayout = viewport.width < MAX_MOBILE_SCREEN_WIDTH;
     const isMobileMenuOpen = isMobileLayout && mobilemenu === 'open';
-    const isMobileSearchOpen = isMobileLayout && mobilesearch === 'open';
 
     const mobileMenu = (
       <TopbarMobileMenu
@@ -201,6 +188,7 @@ class TopbarComponent extends Component {
           currentPage={currentPage}
         />
         <div className={classNames(mobileRootClassName || css.container, mobileClassName)}>
+          <Logo format="mobile" />
           <Button
             rootClassName={css.menu}
             onClick={this.handleMobileMenuOpen}
@@ -214,15 +202,8 @@ class TopbarComponent extends Component {
             name="LandingPage"
             title={intl.formatMessage({ id: 'Topbar.logoIcon' })}
           >
-            <Logo format="mobile" />
+
           </NamedLink>
-          <Button
-            rootClassName={css.searchMenu}
-            onClick={this.handleMobileSearchOpen}
-            title={intl.formatMessage({ id: 'Topbar.searchIcon' })}
-          >
-            <SearchIcon className={css.searchMenuIcon} />
-          </Button>
         </div>
         <div className={css.desktop}>
           <TopbarDesktop
@@ -248,24 +229,7 @@ class TopbarComponent extends Component {
         >
           {authInProgress ? null : mobileMenu}
         </Modal>
-        <Modal
-          id="TopbarMobileSearch"
-          containerClassName={css.modalContainer}
-          isOpen={isMobileSearchOpen}
-          onClose={this.handleMobileSearchClose}
-          onManageDisableScrolling={onManageDisableScrolling}
-        >
-          <div className={css.searchContainer}>
-            <TopbarSearchForm
-              onSubmit={this.handleSubmit}
-              initialValues={initialSearchFormValues}
-              isMobile
-            />
-            <p className={css.mobileHelp}>
-              <FormattedMessage id="Topbar.mobileSearchHelp" />
-            </p>
-          </div>
-        </Modal>
+
         <ModalMissingInformation
           id="MissingInformationReminder"
           containerClassName={css.missingInformationModal}

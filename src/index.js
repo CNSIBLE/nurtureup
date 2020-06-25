@@ -24,7 +24,7 @@ import { createInstance, types as sdkTypes } from './util/sdkLoader';
 import { ClientApp, renderApp } from './app';
 import configureStore from './store';
 import { matchPathname } from './util/routes';
-// import * as sample from './util/sample';
+import * as sample from './util/sample';
 import config from './config';
 import { authInfo } from './ducks/Auth.duck';
 import { fetchCurrentUser } from './ducks/user.duck';
@@ -102,17 +102,17 @@ if (typeof window !== 'undefined') {
   require('./util/polyfills');
   render(store, !!window.__PRELOADED_STATE__);
 
-  // if (config.dev) {
-  //   // Expose stuff for the browser REPL
-  //   window.app = {
-  //     config,
-  //     sdk,
-  //     sdkTypes,
-  //     store,
-  //     sample,
-  //     routeConfiguration: routeConfiguration(),
-  //   };
-  // }
+  if (config.dev) {
+    // Expose stuff for the browser REPL
+    window.app = {
+      config,
+      sdk,
+      sdkTypes,
+      store,
+      sample,
+      routeConfiguration: routeConfiguration(),
+    };
+  }
 }
 
 // Export the function for server side rendering.

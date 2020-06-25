@@ -16,7 +16,6 @@ import {
   ListingLink,
   OwnListingLink,
 } from '../../components';
-import { TopbarSearchForm } from '../../forms';
 
 import css from './TopbarDesktop.css';
 
@@ -33,8 +32,6 @@ const TopbarDesktop = props => {
     intl,
     isAuthenticated,
     onLogout,
-    onSearchSubmit,
-    initialSearchFormValues,
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -46,15 +43,6 @@ const TopbarDesktop = props => {
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
 
   const classes = classNames(rootClassName || css.root, className);
-
-  const search = (
-    <TopbarSearchForm
-      className={css.searchLink}
-      desktopInputRoot={css.topbarSearchWithLeftPadding}
-      onSubmit={onSearchSubmit}
-      initialValues={initialSearchFormValues}
-    />
-  );
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
 
@@ -156,30 +144,22 @@ const TopbarDesktop = props => {
       />
     ) : null;
 
-  const createListingLink =
-    isAuthenticatedOrJustHydrated && !(currentUserListingFetched && !currentUserListing) ? null : (
-      <NamedLink className={css.createListingLink} name="NewListingPage">
-        <span className={css.createListing}>
-          <FormattedMessage id="TopbarDesktop.createListing" />
-        </span>
-      </NamedLink>
-    );
+  const logoLink = isAuthenticated ? (
+    <NamedLink className={css.logoLink} name="LandingPage">
+      <Logo
+        format="desktop"
+        className={css.logo}
+        alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
+      />
+    </NamedLink>
+  ) : null;
 
   return (
     <nav className={classes}>
-      <NamedLink className={css.logoLink} name="LandingPage">
-        <Logo
-          format="desktop"
-          className={css.logo}
-          alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
-        />
-      </NamedLink>
-      {search}
+      {logoLink}
       {listingLink}
-      {createListingLink}
       {inboxLink}
       {profileMenu}
-      {signupLink}
       {loginLink}
     </nav>
   );

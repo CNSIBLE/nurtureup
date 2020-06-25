@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchPageComponent matches snapshot 1`] = `
+<Page
+  description="SearchPage.schemaDescription"
+  schema={
+    Object {
+      "@context": "http://schema.org",
+      "@type": "SearchResultsPage",
+      "description": "SearchPage.schemaDescription",
+      "mainEntity": Array [
+        "{\\"@type\\":\\"ItemList\\",\\"name\\":\\"SearchPage.schemaMapSearch\\",\\"itemListOrder\\":\\"http://schema.org/ItemListOrderAscending\\",\\"itemListElement\\":[]}",
+      ],
+      "name": "SearchPage.schemaTitle",
+    }
+  }
+  scrollingDisabled={false}
+  title="SearchPage.schemaTitle"
+>
+  <withRouter(Connect(TopbarContainerComponent))
+    currentPage="SearchPage"
+    currentSearchParams={Object {}}
+  />
+  <div>
+    <MainPanel
+      className={null}
+      listings={Array []}
+      onActivateListing={[Function]}
+      onCloseModal={[Function]}
+      onManageDisableScrolling={[Function]}
+      onMapIconClick={[Function]}
+      onOpenModal={[Function]}
+      pagination={
+        Object {
+          "page": 1,
+          "perPage": 12,
+          "totalItems": 22,
+          "totalPages": 2,
+        }
+      }
+      primaryFilters={
+        Object {
+          "certificateFilter": Object {
+            "options": Array [
+              Object {
+                "key": "200h",
+                "label": "Registered yoga teacher 200h",
+              },
+              Object {
+                "key": "500h",
+                "label": "Registered yoga teacher 500h",
+              },
+            ],
+            "paramName": "pub_certificate",
+          },
+          "keywordFilter": Object {
+            "config": Object {
+              "active": true,
+            },
+            "paramName": "keywords",
+          },
+          "priceFilter": Object {
+            "config": Object {
+              "max": 1000,
+              "min": 0,
+              "step": 5,
+            },
+            "paramName": "price",
+          },
+          "yogaStylesFilter": Object {
+            "options": Array [
+              Object {
+                "key": "ashtanga",
+                "label": "Ashtanga",
+              },
+              Object {
+                "key": "hatha",
+                "label": "Hatha",
+              },
+              Object {
+                "key": "kundalini",
+                "label": "Kundalini",
+              },
+              Object {
+                "key": "restorative",
+                "label": "Restorative",
+              },
+              Object {
+                "key": "vinyasa",
+                "label": "Vinyasa",
+              },
+              Object {
+                "key": "yin",
+                "label": "Yin",
+              },
+            ],
+            "paramName": "pub_yogaStyles",
+          },
+        }
+      }
+      resultsCount={0}
+      rootClassName={null}
+      searchInProgress={false}
+      searchListingsError={null}
+      searchParamsAreInSync={true}
+      searchParamsForPagination={Object {}}
+      secondaryFilters={null}
+      showAsModalMaxWidth={768}
+      urlQueryParams={Object {}}
+    />
+    <withViewport(ModalInMobileComponent)
+      id="SearchPage.map"
+      isModalOpenOnMobile={false}
+      onClose={[Function]}
+      onManageDisableScrolling={[Function]}
+      showAsModalMaxWidth={768}
+    >
+      <div>
+        <withRouter(SearchMapComponent)
+          activeListingId={null}
+          isSearchMapOpenOnMobile={false}
+          listings={Array []}
+          location={
+            Object {
+              "search": "",
+            }
+          }
+          onCloseAsModal={[Function]}
+          onMapMoveEnd={[Function]}
+        />
+      </div>
+    </withViewport(ModalInMobileComponent)>
+  </div>
+</Page>
+`;
