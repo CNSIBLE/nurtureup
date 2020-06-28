@@ -38,6 +38,7 @@
   /* ================ Colors ================ */
 
   --nuPink: #D6277F;
+  --nuYellow: #f6cb3c;
   --nuBackground: #FFFBEE;
   --nuBackgroundDark: #FFF9E4;
 
@@ -82,7 +83,7 @@
   --boxShadowPopup: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
   --boxShadowPopupLight: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
   --boxShadowBreakdown: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
-  --boxShadowButton: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  --boxShadowButton: 4px 8px 10px rgba(0, 0, 0, 0.3);
   --boxShadowListingCard: 0 0 50px 0 rgba(0, 0, 0, 0.1);
   --boxShadowNotFoundPageSearch: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   --boxShadowSectionLocationHover: 0 10px 30px 0 rgba(0, 0, 0, 0.1);
@@ -103,6 +104,7 @@
   /* ================ Border radius ================ */
 
   --borderRadius: 2px;
+  --nuButtonRadius: 33px;
   --borderRadiusMobileSearch: 3px;
 
   /* ================ Transition styles ================ */
@@ -161,7 +163,7 @@
   /* ================ Buttons ================ */
 
   --marketplaceButtonFontStyles: {
-    font-family: 'sofiapro', Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', Helvetica, Arial, sans-serif;
     font-weight: var(--fontWeightSemiBold);
     font-size: 18px;
     line-height: 24px;
@@ -171,6 +173,50 @@
       /* TODO: Make sure button text aligns with the baseline */
     }
   }
+  --nuButtonStyles {
+    @apply --marketplaceButtonFontStyles;
+
+    /* Dimensions */
+    display: block;
+    width: fit-content;
+    margin: 0;
+
+    /* Padding is only for <a> elements where button styles are applied,
+    buttons elements should have zero padding */
+    padding: 5px 30px;
+
+    /* Borders */
+    border: none;
+    border-radius: var(--nuButtonRadius);
+
+    /* Colors */
+    background: linear-gradient(340deg, var(--nuYellow), #ffffff);
+    background-size: 100% 200%;
+    color: var(--nuPink);
+
+    /* Text */
+    text-align: center;
+    text-decoration: none;
+
+    /* Effects */
+    transition: all var(--transitionStyleButton);
+    cursor: pointer;
+
+    &:hover {
+      /*outline: none;*/
+      /*background: var(--nuYellow);*/
+       text-decoration: none;
+       box-shadow: var(--boxShadowButton);
+       background: linear-gradient(340deg, var(--nuYellow), var(--nuYellow));
+    }
+
+    &:disabled {
+       background: linear-gradient(340deg, var(--nuYellow), var(--nuYellow));
+
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+}
   --marketplaceButtonStyles {
     @apply --marketplaceButtonFontStyles;
 

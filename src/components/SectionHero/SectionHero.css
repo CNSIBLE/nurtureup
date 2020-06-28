@@ -98,13 +98,13 @@
 }
 
 .heroButton {
-  @apply --marketplaceButtonStyles;
-  @apply --SectionHero_animation;
+  @apply --nuButtonStyles;
+  /*@apply --SectionHero_animation;*/
 
-  animation-delay: 0.8s;
+  /*animation-delay: 0.8s;*/
 
-  @media (--viewportMedium) {
-    display: block;
-    width: 260px;
-  }
+  /*@media (--viewportMedium) {*/
+  /*  display: block;*/
+  /*  width: 260px;*/
+  /*}*/
 }
