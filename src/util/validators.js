@@ -110,6 +110,20 @@ export const emailFormatValid = message => value => {
   return value && EMAIL_RE.test(value) ? VALID : message;
 };
 
+// phone
+const PHONE_RE = /^[2-9]\d{2}-\d{3}-\d{4}$/i;
+
+export const phoneFormatValid = message => value => {
+  return value && PHONE_RE.test(value) ? VALID : message;
+};
+
+// zip
+const ZIP_RE = /^\d{5}$|^\d{5}-\d{4}$/i;
+
+export const addressZipFormatValid = message => value => {
+  return value && ZIP_RE.test(value) ? VALID : message;
+};
+
 export const moneySubUnitAmountAtLeast = (message, minValue) => value => {
   return value instanceof Money && value.amount >= minValue ? VALID : message;
 };
