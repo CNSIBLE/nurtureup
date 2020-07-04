@@ -1,0 +1,18 @@
+@import '../../marketplace.css';
+
+.root {
+  border-radius: 10px;
+}
+
+.flat {
+  background-color: var(--nuBackground);
+  z-index: 1;
+}
+
+.floating {
+  background-color: var(--nuBackgroundDark);
+  box-shadow: 7px 7px 6px #00000029;
+  z-index: 2;
+}
+
+

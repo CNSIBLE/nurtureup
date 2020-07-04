@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { string } from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
-import { NamedLink } from '../../components';
+import { IconSearchCareJob, IconSearchCareGiver, Button } from '../../components';
+import { lazyLoadWithDimensions } from '../../util/contextHelpers'
+import nuLogo from '../../assets/nurtureup_logo/nurtureup_logo.png'
 
 import css from './SectionHero.css';
+
+class LocationImage extends Component {
+  render() {
+    const { alt, ...rest } = this.props;
+    return <img alt={alt} {...rest} />;
+  }
+}
+const LazyImage = lazyLoadWithDimensions(LocationImage);
 
 const SectionHero = props => {
   const { rootClassName, className } = props;
@@ -14,22 +23,16 @@ const SectionHero = props => {
   return (
     <div className={classes}>
       <div className={css.heroContent}>
-        <h1 className={css.heroMainTitle}>
-          <FormattedMessage id="SectionHero.title" />
-        </h1>
-        <h2 className={css.heroSubTitle}>
-          <FormattedMessage id="SectionHero.subTitle" />
-        </h2>
-        <NamedLink
-          name="SearchPage"
-          to={{
-            search:
-              'address=United%20States%20of%20America&bounds=71.540724%2C-66.885444%2C18.765563%2C-179.9',
-          }}
-          className={css.heroButton}
-        >
-          <FormattedMessage id="SectionHero.browseButton" />
-        </NamedLink>
+        <LazyImage src={nuLogo} alt='Logo' className={css.logo} />
+         <Button rootClassName={css.searchButton}>
+           <span>I want a Care Giver</span>
+           <IconSearchCareGiver />
+         </Button>
+
+        <Button rootClassName={css.searchButton}>
+          <span>I want a Care Job</span>
+          <IconSearchCareJob />
+        </Button>
       </div>
     </div>
   );

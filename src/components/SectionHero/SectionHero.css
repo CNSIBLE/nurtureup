@@ -50,61 +50,40 @@
 }
 
 .heroContent {
-  margin: 0 24px 0 24px;
+  margin: 0 auto;
 
   @media (--viewportMedium) {
-    margin: 0 7.5vw 0 7.5vw;
+    margin: 0 auto;
   }
 
   /* Special viewport for adjusting the heroContent's placement */
 
   @media only screen and (min-width: 1025px) and (max-width: 1366px) {
-    padding: 0 36px 0 36px;
+    padding: 0 auto;
   }
 
   @media only screen and (min-width: 1367px) {
     margin: 0 auto;
     max-width: calc(1052px + 36px + 36px);
-    width: 100%;
     padding: 0 36px 0 36px;
   }
 }
 
-.heroMainTitle {
-  @apply --marketplaceHeroTitleFontStyles;
-  color: var(--matterColorLight);
-
-  @apply --SectionHero_animation;
-  animation-delay: 0.5s;
-
-  @media (--viewportMedium) {
-    max-width: var(--SectionHero_desktopTitleMaxWidth);
-  }
+.logo {
+  margin: 0 auto;
 }
 
-.heroSubTitle {
-  @apply --marketplaceBodyFontStyles;
+.searchButton {
+  color: var(--nuPink);
 
-  color: var(--matterColorLight);
-  margin: 0 0 32px 0;
+  top: 448px;
+  left: 1016px;
+  width: 292px;
+  height: 186px;
 
-  @apply --SectionHero_animation;
-  animation-delay: 0.65s;
-
-  @media (--viewportMedium) {
-    max-width: var(--SectionHero_desktopTitleMaxWidth);
-    margin: 0 0 63px 0;
-  }
-}
-
-.heroButton {
-  @apply --nuButtonStyles;
-  /*@apply --SectionHero_animation;*/
-
-  /*animation-delay: 0.8s;*/
-
-  /*@media (--viewportMedium) {*/
-  /*  display: block;*/
-  /*  width: 260px;*/
-  /*}*/
+  border: 3px solid var(--nuPink);
+  box-shadow: 4px 4px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+  flex-direction: column;
 }
