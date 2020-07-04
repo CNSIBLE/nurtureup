@@ -26,7 +26,7 @@
     background: url('../../assets/midwife/midwife.png');
 
     /* Add loading color for the div */
-    background-color: var(--matterColor);
+    background-color: var(--nuBackground);
 
     /* Cover the whole screen with the background image */
     background-size: cover;
@@ -138,8 +138,7 @@
   }
 
   /* ================ Links ================ */
-
-  --marketplaceLinkStyles: {
+  --buttonLinkStyles: {
     /* Position and dimensions */
     display: inline;
     margin: 0;
@@ -149,10 +148,14 @@
     border: none;
 
     /* Colors */
-    color: var(--marketplaceColor);
+    color: var(--nuPink);
 
     /* Text size should be inherited */
     text-decoration: none;
+  }
+
+  --marketplaceLinkStyles: {
+    @apply --buttonLinkStyles;
 
     &:hover {
       text-decoration: underline;

@@ -33,6 +33,11 @@ export { default as IconSocialMediaTwitter } from './IconSocialMediaTwitter/Icon
 export { default as IconSpinner } from './IconSpinner/IconSpinner';
 export { default as IconSuccess } from './IconSuccess/IconSuccess';
 
+export { default as IconSearchCareGiver } from './IconSearchCareGiver/IconSearchCareGiver';
+export { default as IconSearchCareJob } from './IconSearchCareJob/IconSearchCareJob';
+export { default as IconSleepConsultant } from './IconSleepConsultant/IconSleepConsultant';
+export { default as IconLaborDoula } from './IconLaborDoula/IconLaborDoula';
+
 // Other independent components
 export { default as ExternalLink } from './ExternalLink/ExternalLink';
 export { default as ExpandingTextarea } from './ExpandingTextarea/ExpandingTextarea';
@@ -50,6 +55,7 @@ export { default as ResponsiveImage } from './ResponsiveImage/ResponsiveImage';
 export { default as TimeRange } from './TimeRange/TimeRange';
 export { default as UserDisplayName } from './UserDisplayName/UserDisplayName';
 export { default as ValidationError } from './ValidationError/ValidationError';
+export { default as Card } from './Card/Card';
 
 /**
  * Composite components
@@ -169,8 +175,7 @@ export { default as EditListingPricingPanel } from './EditListingPricingPanel/Ed
 export { default as EditListingWizard } from './EditListingWizard/EditListingWizard';
 export { default as Footer } from './Footer/Footer';
 export { default as SectionHero } from './SectionHero/SectionHero';
-export { default as SectionHowItWorks } from './SectionHowItWorks/SectionHowItWorks';
-export { default as SectionLocations } from './SectionLocations/SectionLocations';
+export { default as SectionServices } from './SectionServices/SectionServices';
 export { default as SectionThumbnailLinks } from './SectionThumbnailLinks/SectionThumbnailLinks';
 export { default as Topbar } from './Topbar/Topbar';
 export { default as TopbarDesktop } from './TopbarDesktop/TopbarDesktop';
