@@ -5,11 +5,13 @@ const IconLaborDoula = () => {
     <svg xmlns="http://www.w3.org/2000/svg"
          width="73.588"
          height="64.254" viewBox="0 0 73.588 64.254">
+      <style>
+        {`.a{fill:url(#a)}`}
+      </style>
       <defs>
-        <style>.a{"fill:url(#a);"}</style>
         <linearGradient id="a" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
-          <stop offset="0" stop-color="#d6277f"/>
-          <stop offset="1" stop-color="#f6ca3a"/>
+          <stop offset="0" stopColor="#d6277f"/>
+          <stop offset="1" stopColor="#f6ca3a"/>
         </linearGradient>
       </defs>
       <g transform="translate(0 0)">

@@ -6,10 +6,10 @@ const IconSleepConsultant = () => {
          width="64.543"
          height="64.507" viewBox="0 0 64.543 64.507">
       <defs>
-        <style>.a{"fill:url(#a);"}</style>
+        <style>{`.a{fill:url(#a);}`}</style>
         <linearGradient id="a" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
-          <stop offset="0" stop-color="#d6277f"/>
-          <stop offset="1" stop-color="#f6ca3a"/>
+          <stop offset="0" stopColor="#d6277f"/>
+          <stop offset="1" stopColor="#f6ca3a"/>
         </linearGradient>
       </defs>
       <path className="a"

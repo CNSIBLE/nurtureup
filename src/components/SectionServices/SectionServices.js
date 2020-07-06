@@ -1,17 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from "react-intl";
 import classNames from 'classnames';
+import nuLogo from '../../assets/nurtureup_logo/nurtureup_logo.png'
 import {
   Card,
   IconSleepConsultant,
-  IconLaborDoula
+  IconLaborDoula,
+  IconPostDoula,
+  IconPhotographer,
+  IconNursery,
+  IconNewbornCare,
+  IconMidwife,
+  IconMealPrep,
+  IconChildbirthEd,
+  IconCarSeatTech,
+  IconLactation
 } from '../../components';
 
 import css from './SectionServices.css';
 
 const SectionServices = props => {
-  const { rootClassName, className } = props;
+  const {rootClassName, className} = props;
   const classes = classNames(rootClassName || css.root, className);
 
   return (
@@ -19,42 +28,65 @@ const SectionServices = props => {
       <ul>
         <li className={css.row}>
           <Card className={css.card} flat={true}>
-            <IconSleepConsultant />
-            flat
+            <IconSleepConsultant/>
+            <FormattedMessage id="Services.sleepConsultant" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.sleepConsultant" /></p>
           </Card>
           <Card className={css.card} flat={false}>
-            <IconLaborDoula />
-            not flat
+            <IconLaborDoula/>
+            <FormattedMessage id="Services.laborDoula" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.laborDoula" /> </p>
           </Card>
           <Card className={css.card} flat={true}>
-            flat
+            <IconNursery/>
+            <FormattedMessage id="Services.nurseryConsultant" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.nurseryConsultant" /></p>
           </Card>
           <Card className={css.card} flat={false}>
-            not flat
+            <IconPostDoula/>
+            <FormattedMessage id="Services.postDoula" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.postDoula" /></p>
           </Card>
           <Card className={css.card} flat={true}>
-            flat
+            <IconCarSeatTech/>
+            <FormattedMessage id="Services.carSeatTech" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.carSeatTech" /></p>
           </Card>
           <Card className={css.card} flat={false}>
-            not flat
+            <IconLactation/>
+            <FormattedMessage id="Services.lactationConsultant" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.lactationConsultant" /></p>
           </Card>
         </li>
         <li className={css.row}>
           <Card className={css.card} flat={false}>
-            not flat
+            <IconMidwife/>
+            <FormattedMessage id="Services.midwife" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.midwife" /></p>
           </Card>
           <Card className={css.card} flat={true}>
-            flat
+            <IconNewbornCare/>
+            <FormattedMessage id="Services.newbornSpecialist" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.newbornSpecialist" /></p>
           </Card>
           <Card className={css.card} flat={false}>
-            not flat
+            <IconPhotographer/>
+            Infant & Pregnancy Photography
           </Card>
           <Card className={css.card} flat={true}>
-            flat
+            <IconChildbirthEd/>
+            <FormattedMessage id="Services.childbirthEducation" />
           </Card>
           <Card className={css.card} flat={false}>
-            not flat
+            <IconMealPrep/>
+            <FormattedMessage id="Services.mealPrep" />
           </Card>
+        </li>
+        <li className={css.mission}>
+          <img src={nuLogo} className={css.logo} alt="Logo" />
+          <h1 className={css.missionText}>
+            <FormattedMessage id="LandingPage.missionStatement" />
+          </h1>
         </li>
       </ul>
 
