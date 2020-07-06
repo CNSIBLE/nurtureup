@@ -37,6 +37,16 @@ export { default as IconSearchCareGiver } from './IconSearchCareGiver/IconSearch
 export { default as IconSearchCareJob } from './IconSearchCareJob/IconSearchCareJob';
 export { default as IconSleepConsultant } from './IconSleepConsultant/IconSleepConsultant';
 export { default as IconLaborDoula } from './IconLaborDoula/IconLaborDoula';
+export { default as IconCarSeatTech } from './IconCarSeatTech/IconCarSeatTech';
+export { default as IconChildbirthEd } from './IconChildbirthEd/IconChildbirthEd';
+export { default as IconLactation } from './IconLactation/IconLactation';
+export { default as IconMealPrep } from './IconMealPrep/IconMealPrep';
+export { default as IconMidwife } from './IconMidwife/IconMidwife';
+export { default as IconNewbornCare } from './IconNewbornCare/IconNewbornCare';
+export { default as IconNursery } from './IconNursery/IconNursery';
+export { default as IconPhotographer } from './IconPhotographer/IconPhotographer';
+export { default as IconPostDoula } from './IconPostDoula/IconPostDoula';
+
 
 // Other independent components
 export { default as ExternalLink } from './ExternalLink/ExternalLink';

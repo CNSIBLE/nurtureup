@@ -13,6 +13,42 @@
   flex-direction: column;
 }
 
+.centered {
+  margin: auto;
+}
+
+.cardContent {
+
+}
+
 .row {
   display: flex;
+}
+
+.text {
+  font-family: 'Poppins', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0px;
+  line-height: normal;
+  text-align: center;
+  color: black;
+}
+
+.missionText {
+  color: var(--nuPink);
+  text-align: center;
+  font-size: 42px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.mission {
+  display:flex;
+  flex-direction: row;
+}
+
+.logo {
+  margin: 0 auto;
+  width: 374px;
+  height: 374px;
 }

@@ -10,7 +10,7 @@ const IconSearchCareGiver = props => {
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="104.406" height="94.314"
-         viewBox="0 0 104.406 94.314" className={classes}>
+         viewBox="0 0 104.406 94.314">
       <g transform="translate(0 -24.745)">
         <path className="a"
               d="M456.242,134.05H446.56a2.039,2.039,0,1,0,0,4.078h9.682a2.039,2.039,0,1,0,0-4.078Z"
