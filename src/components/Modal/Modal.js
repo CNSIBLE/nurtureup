@@ -137,8 +137,6 @@ ModalComponent.propTypes = {
   isClosedClassName: string,
   isOpen: bool,
   onClose: func.isRequired,
-
-  // eslint-disable-next-line react/no-unused-prop-types
   onManageDisableScrolling: func.isRequired,
 };
 

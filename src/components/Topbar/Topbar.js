@@ -219,6 +219,7 @@ class TopbarComponent extends Component {
             notificationCount={notificationCount}
             onLogout={this.handleLogout}
             onSearchSubmit={this.handleSubmit}
+            onManageDisableScrolling={onManageDisableScrolling}
           />
         </div>
         <Modal

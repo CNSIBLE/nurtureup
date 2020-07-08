@@ -229,6 +229,10 @@
   margin-top: auto;
   margin-bottom: auto;
   margin-left: auto;
+
+  &:active {
+    box-shadow: none;
+   }
 }
 
 .loginLink {

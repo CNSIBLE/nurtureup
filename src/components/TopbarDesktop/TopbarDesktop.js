@@ -7,14 +7,15 @@ import { propTypes } from '../../util/types';
 import {
   Avatar,
   InlineTextButton,
-  Logo,
   Menu,
   MenuLabel,
   MenuContent,
   MenuItem,
   NamedLink,
-  ListingLink,
   OwnListingLink,
+  Modal,
+  Logo,
+  ListingLink
 } from '../../components';
 
 import css from './TopbarDesktop.css';
@@ -32,6 +33,7 @@ const TopbarDesktop = props => {
     intl,
     isAuthenticated,
     onLogout,
+    onManageDisableScrolling
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -116,19 +118,32 @@ const TopbarDesktop = props => {
   ) : null;
 
   const signupButton = isAuthenticatedOrJustHydrated ? null : (
-    <NamedLink name="SignupPage" className={css.signupButton}>
+    <NamedLink name="SignupPage" className={css.signupButton} >
       <span className={css.signup}>
         <FormattedMessage id="TopbarDesktop.signup" />
       </span>
     </NamedLink>
   );
 
+  let loginModalIsOpen = false;
+  const handleOpenClose = () => {
+    loginModalIsOpen = !loginModalIsOpen;
+    console.log("flag is set to " + loginModalIsOpen);
+  }
+
+  const loginModal = (
+    <Modal id="loginModal" isOpen={loginModalIsOpen} onClose={handleOpenClose}
+           onManageDisableScrolling={onManageDisableScrolling}>
+      This is a test
+    </Modal>
+  );
+
   const loginLink = isAuthenticatedOrJustHydrated ? null : (
-    <NamedLink name="LoginPage" className={css.loginLink}>
+    <div className={css.loginLink} onClick={handleOpenClose}>
       <span className={css.login}>
         <FormattedMessage id="TopbarDesktop.login" />
       </span>
-    </NamedLink>
+    </div>
   );
 
   const listingLink =
@@ -162,6 +177,10 @@ const TopbarDesktop = props => {
       {profileMenu}
       {signupButton}
       {loginLink}
+      <Modal id="loginModal" isOpen={loginModalIsOpen} onClose={handleOpenClose}
+             onManageDisableScrolling={onManageDisableScrolling}>
+        This is a test
+      </Modal>
     </nav>
   );
 };
@@ -191,6 +210,7 @@ TopbarDesktop.propTypes = {
   onSearchSubmit: func.isRequired,
   initialSearchFormValues: object,
   intl: intlShape.isRequired,
+  onManageDisableScrolling: func.isRequired,
 };
 
 export default TopbarDesktop;
