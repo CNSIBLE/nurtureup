@@ -319,24 +319,13 @@
 
     /* Borders */
     border: none;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: var(--marketplaceColor);
-    border-radius: 0;
 
     &::placeholder {
       color: var(--matterColorAnti);
     }
 
     /* Effects */
-
     transition: border-bottom-color var(--transitionStyle);
-
-    &:hover,
-    &:focus {
-      border-bottom-color: var(--matterColor);
-      outline: none;
-    }
 
     @media (--viewportMedium) {
       padding: 4px 0 10px 0;
@@ -366,15 +355,8 @@
     background-position: center right;
 
     /* Effects */
-
     cursor: pointer;
     transition: border-bottom-color var(--transitionStyle);
-
-    &:hover,
-    &:focus {
-      border-bottom-color: var(--matterColor);
-      outline: none;
-    }
 
     @media (--viewportMedium) {
       padding: 4px 0 10px 0;
