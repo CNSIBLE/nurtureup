@@ -12,32 +12,28 @@
   @apply --marketplaceModalRootStyles;
 
   @media (--viewportMedium) {
-    @apply --backgroundImage;
+    /* Gradient direction and overlaying the black color on top of the image for better readability */
+    /*linear-gradient(-45deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6))*/
+    background: url('../../assets/father-and-baby/father-and-baby.png');
+
+    /* Add loading color for the div */
+    background-color: var(--nuBackground);
+
+    /* Cover the whole screen with the background image */
+    background-size: cover;
+
+    /* Align the image within the container */
+    background-position: center center;
   }
 }
 
 .content {
   @apply --marketplaceModalBaseStyles;
+  background-color: transparent;
   padding-top: 29px;
 }
 
-/* ================ Tabs & Form ================ */
-
-.tabs {
-  @media (--viewportMedium) {
-    margin-top: 6px;
-  }
-}
-
-.tab {
-  @apply --marketplaceModalTitleStyles;
-  margin-top: 0;
-  margin-bottom: 0;
-
-  @media (--viewportMedium) {
-    margin-top: 0;
-  }
-}
+/* ================ Form ================ */
 
 .form {
   margin-top: 24px;
