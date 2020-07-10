@@ -10,7 +10,6 @@ const CONTENT_MAX_LENGTH = 5000;
 
 class FieldTextInputComponent extends Component {
   render() {
-    /* eslint-disable no-unused-vars */
     const {
       rootClassName,
       className,
@@ -25,7 +24,6 @@ class FieldTextInputComponent extends Component {
       inputRef,
       ...rest
     } = this.props;
-    /* eslint-enable no-unused-vars */
 
     if (label && !id) {
       throw new Error('id required when a label is given');
@@ -49,17 +47,10 @@ class FieldTextInputComponent extends Component {
     // Use inputRef if it is passed as prop.
     const refMaybe = inputRef ? { ref: inputRef } : {};
 
-    const inputClasses =
-      inputRootClass ||
-      classNames(css.input, {
-        [css.inputSuccess]: valid,
-        [css.inputError]: hasError,
-        [css.textarea]: isTextarea,
-      });
     const maxLength = CONTENT_MAX_LENGTH;
     const inputProps = isTextarea
       ? {
-          className: inputClasses,
+          className: inputRootClass,
           id,
           rows: 1,
           maxLength,
@@ -69,7 +60,7 @@ class FieldTextInputComponent extends Component {
         }
       : isUncontrolled
       ? {
-          className: inputClasses,
+          className: inputRootClass,
           id,
           type,
           defaultValue,
@@ -77,13 +68,20 @@ class FieldTextInputComponent extends Component {
           ...inputWithoutValue,
           ...rest,
         }
-      : { className: inputClasses, id, type, ...refMaybe, ...input, ...rest };
+      : { className: inputRootClass, id, type, ...refMaybe, ...input, ...rest };
 
+    const inputDivClasses = classNames(css.inputDiv, css.input, {
+      [css.inputSuccess]: valid,
+      [css.inputError]: hasError,
+      [css.textarea]: isTextarea,});
     const classes = classNames(rootClassName || css.root, className);
+
     return (
       <div className={classes}>
         {label ? <label htmlFor={id}>{label}</label> : null}
-        {isTextarea ? <ExpandingTextarea {...inputProps} /> : <input {...inputProps} />}
+        <div className={inputDivClasses}>
+          {isTextarea ? <ExpandingTextarea {...inputProps} /> : <input {...inputProps} />}
+        </div>
         <ValidationError fieldMeta={fieldMeta} />
       </div>
     );
