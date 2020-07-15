@@ -1,0 +1,87 @@
+@import '../../marketplace.css';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+}
+
+.heroContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  min-height: 500px;
+  height: 400px;
+  max-height: none;
+  min-height: 300px;
+  height: 400px;
+}
+
+.heroContent {
+  background-size: auto;
+  background-repeat: no-repeat;
+  background: var(--nuBackground) url('../../assets/dashboard-hero/dashboard-hero.png') center center;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.avatar {
+  position: absolute;
+  z-index: 10;
+  margin-top: 271px;
+}
+
+.row {
+  display: flex;
+  padding-bottom: 70px;
+}
+
+.cards {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 247px;
+}
+
+.cardHeader {
+  color: var(--nuPink);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin-right: 45px;
+  padding: 0px 32px 10px 32px;
+}
+
+.aboutCard {
+
+}
+
+.apptCard {
+
+}
+
+.actionsCard {
+
+}
+
+.msgsCard {
+
+}
+
+.upcomingCard {
+
+}
+
+.calendarCard {
+
+}

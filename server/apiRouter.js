@@ -149,7 +149,7 @@ router.get('/login-as', (req, res) => {
       redirect_uri: loginAsRedirectUri,
       code_verifier: codeVerifier,
     })
-    .then(() => res.redirect('/'))
+    .then(() => res.redirect('/dashboard'))
     .catch(() => res.status(401).send('Unable to authenticate as a user'));
 });
 

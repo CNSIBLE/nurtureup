@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { any, array, arrayOf, bool, func, number, object, oneOfType, shape, string } from 'prop-types';
 import { Helmet } from 'react-helmet-async';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from '../../util/reactIntl';
@@ -215,8 +215,6 @@ class PageComponent extends Component {
     );
   }
 }
-
-const { any, array, arrayOf, bool, func, number, object, oneOfType, shape, string } = PropTypes;
 
 PageComponent.defaultProps = {
   className: null,

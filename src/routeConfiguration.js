@@ -22,6 +22,7 @@ import {
   StyleguidePage,
   TermsOfServicePage,
   TransactionPage,
+  DashboardPage,
 } from './containers';
 
 // routeConfiguration needs to initialize containers first
@@ -43,7 +44,7 @@ const draftSlug = 'draft';
 const RedirectToLandingPage = () => <NamedRedirect name="LandingPage" />;
 
 // NOTE: Most server-side endpoints are prefixed with /api. Requests to those
-// endpoints are indended to be handled in the server instead of the browser and
+// endpoints are intended to be handled in the server instead of the browser and
 // they will not render the application. So remember to avoid routes starting
 // with /api and if you encounter clashing routes see server/index.js if there's
 // a conflicting route defined there.
@@ -56,6 +57,11 @@ const routeConfiguration = () => {
       path: '/',
       name: 'LandingPage',
       component: props => <LandingPage {...props} />,
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: props => <DashboardPage {...props} />
     },
     {
       path: '/about',

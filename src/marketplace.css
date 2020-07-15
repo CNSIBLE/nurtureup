@@ -21,18 +21,8 @@
 
   /* Full screen Background image located in root-folder/src/assets */
   --backgroundImage: {
-    /* Gradient direction and overlaying the black color on top of the image for better readability */
-    /*linear-gradient(-45deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6))*/
-    background: url('../../assets/midwife/midwife.png');
-
-    /* Add loading color for the div */
-    background-color: var(--nuBackground);
-
-    /* Cover the whole screen with the background image */
     background-size: cover;
-
-    /* Align the image within the container */
-    background-position: center center;
+    background: var(--nuBackground) url('../../assets/midwife/midwife.png') center center;
   };
 
   /* ================ Colors ================ */
@@ -152,7 +142,7 @@
 
     /* Text size should be inherited */
     text-decoration: none;
-  }
+  };
 
   --marketplaceLinkStyles: {
     @apply --buttonLinkStyles;
@@ -161,7 +151,7 @@
       text-decoration: underline;
       cursor: pointer;
     }
-  }
+  };
 
   /* ================ Buttons ================ */
 
@@ -175,7 +165,7 @@
     @media (--viewportMedium) {
       /* TODO: Make sure button text aligns with the baseline */
     }
-  }
+  };
   --nuButtonStyles {
     @apply --marketplaceButtonFontStyles;
 
@@ -330,7 +320,7 @@
     @media (--viewportMedium) {
       padding: 4px 0 10px 0;
     }
-  }
+  };
 
   --marketplaceSelectStyles: {
     /* Dimensions */
@@ -361,7 +351,7 @@
     @media (--viewportMedium) {
       padding: 4px 0 10px 0;
     }
-  }
+  };
 
   /* ================ Modals ================ */
 

@@ -2,10 +2,13 @@
 
 export const DISABLE_SCROLLING = 'app/UI/DISABLE_SCROLLING';
 
+export const SET_LOGIN_MODAL = 'app/UI/SET_LOGIN_MODAL';
+
 // ================ Reducer ================ //
 
 const initialState = {
   disableScrollRequests: [],
+  loginModalOpen: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +35,8 @@ export default function reducer(state = initialState, action = {}) {
         disableScrollRequests: disableScrollRequestArray,
       };
     }
+    case SET_LOGIN_MODAL:
+      return {...state, loginModalOpen: payload};
 
     default:
       return state;
@@ -45,9 +50,19 @@ export const manageDisableScrolling = (componentId, disableScrolling) => ({
   payload: { componentId, disableScrolling },
 });
 
+export const setIsLoginModalOpen = (value) => ({
+  type: SET_LOGIN_MODAL,
+  payload: {value}
+})
+
 // ================ Selectors ================ //
 
 export const isScrollingDisabled = state => {
   const { disableScrollRequests } = state.UI;
   return disableScrollRequests.some(r => r.disableScrolling);
+};
+
+export const isLoginModalOpen = state => {
+  const {loginModalOpen} = state.UI;
+  return loginModalOpen;
 };

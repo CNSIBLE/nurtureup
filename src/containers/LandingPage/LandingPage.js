@@ -1,5 +1,5 @@
 import React from 'react';
-import { bool, object } from 'prop-types';
+import { bool, object, func } from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -16,12 +16,15 @@ import {
   LayoutWrapperMain,
   LayoutWrapperFooter,
   Footer,
+  LoginModal,
 } from '../../components';
 import { TopbarContainer } from '../../containers';
 
 import facebookImage from '../../assets/yogatimeFacebook-1200x630.jpg';
 import twitterImage from '../../assets/yogatimeTwitter-600x314.jpg';
 import css from './LandingPage.css';
+import {logout} from "../../ducks/Auth.duck";
+import {sendVerificationEmail} from "../../ducks/user.duck";
 
 export const LandingPageComponent = props => {
   const {
@@ -75,6 +78,7 @@ export const LandingPageComponent = props => {
               </div>
             </li>
           </ul>
+          <LoginModal />
         </LayoutWrapperMain>
         <LayoutWrapperFooter>
           <Footer />
@@ -120,7 +124,9 @@ const mapStateToProps = state => {
 // See: https://github.com/ReactTraining/react-router/issues/4671
 const LandingPage = compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+  ),
   injectIntl
 )(LandingPageComponent);
 

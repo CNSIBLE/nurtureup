@@ -186,7 +186,7 @@ export class AuthenticationPageComponent extends Component {
           </LayoutWrapperTopbar>
           <LayoutWrapperMain className={css.layoutWrapperMain}>
             <div className={css.root}>
-              {formContent}
+              {showEmailVerification ? emailVerificationContent : formContent}
             </div>
             <Modal
               id="AuthenticationPage.tos"

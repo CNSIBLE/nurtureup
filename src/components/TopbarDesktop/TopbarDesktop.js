@@ -7,17 +7,18 @@ import { propTypes } from '../../util/types';
 import {
   Avatar,
   InlineTextButton,
-  Logo,
   Menu,
   MenuLabel,
   MenuContent,
   MenuItem,
   NamedLink,
-  ListingLink,
   OwnListingLink,
+  Logo,
+  ListingLink
 } from '../../components';
 
 import css from './TopbarDesktop.css';
+import MenuIcon from "../Topbar/MenuIcon";
 
 const TopbarDesktop = props => {
   const {
@@ -32,6 +33,7 @@ const TopbarDesktop = props => {
     intl,
     isAuthenticated,
     onLogout,
+    setIsLoginModalOpen
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -68,7 +70,7 @@ const TopbarDesktop = props => {
   const profileMenu = authenticatedOnClientSide ? (
     <Menu>
       <MenuLabel className={css.profileMenuLabel} isOpenClassName={css.profileMenuIsOpen}>
-        <Avatar className={css.avatar} user={currentUser} disableProfileLink />
+        <MenuIcon className={css.menuIcon}/>
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
         <MenuItem key="EditListingPage">
@@ -116,19 +118,23 @@ const TopbarDesktop = props => {
   ) : null;
 
   const signupButton = isAuthenticatedOrJustHydrated ? null : (
-    <NamedLink name="SignupPage" className={css.signupButton}>
+    <NamedLink name="SignupPage" className={css.signupButton} >
       <span className={css.signup}>
         <FormattedMessage id="TopbarDesktop.signup" />
       </span>
     </NamedLink>
   );
 
+  const handleOnClick = () => {
+    setIsLoginModalOpen(true);
+  }
+
   const loginLink = isAuthenticatedOrJustHydrated ? null : (
-    <NamedLink name="LoginPage" className={css.loginLink}>
+    <div className={css.loginLink} onClick={handleOnClick}>
       <span className={css.login}>
         <FormattedMessage id="TopbarDesktop.login" />
       </span>
-    </NamedLink>
+    </div>
   );
 
   const listingLink =
@@ -157,8 +163,6 @@ const TopbarDesktop = props => {
   return (
     <nav className={classes}>
       {logoLink}
-      {listingLink}
-      {inboxLink}
       {profileMenu}
       {signupButton}
       {loginLink}
@@ -191,6 +195,7 @@ TopbarDesktop.propTypes = {
   onSearchSubmit: func.isRequired,
   initialSearchFormValues: object,
   intl: intlShape.isRequired,
+  setIsLoginModalOpen: func.isRequired,
 };
 
 export default TopbarDesktop;

@@ -101,6 +101,7 @@ export { default as Menu } from './Menu/Menu';
 // Modal
 export { default as Modal } from './Modal/Modal';
 export { default as ModalInMobile } from './ModalInMobile/ModalInMobile';
+export { default as LoginModal } from './LoginModal/LoginModal';
 
 // Fields (for Final Form)
 export { default as FieldBirthdayInput } from './FieldBirthdayInput/FieldBirthdayInput';
@@ -134,7 +135,7 @@ export { default as UserNav } from './UserNav/UserNav';
 
 export { default as ActivityFeed } from './ActivityFeed/ActivityFeed';
 export { default as AddImages } from './AddImages/AddImages';
-export { default as Avatar, AvatarMedium, AvatarLarge } from './Avatar/Avatar';
+export { default as Avatar, AvatarMedium, AvatarLarge, AvatarDashboard } from './Avatar/Avatar';
 export { default as BookingBreakdown } from './BookingBreakdown/BookingBreakdown';
 export { default as BookingDateRangeFilter } from './BookingDateRangeFilter/BookingDateRangeFilter';
 export { default as BookingTimeInfo } from './BookingTimeInfo/BookingTimeInfo';
