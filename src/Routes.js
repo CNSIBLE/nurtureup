@@ -19,6 +19,12 @@ const canShowComponent = props => {
   return !auth || isAuthenticated;
 };
 
+const goToDashboard = props => {
+  const { isAuthenticated, route } = props;
+
+  return isAuthenticated && route.path === '/';
+}
+
 const callLoadData = props => {
   const { match, location, route, dispatch, logoutInProgress } = props;
   const { loadData, name } = route;
@@ -93,14 +99,34 @@ class RouteComponentRenderer extends Component {
     if (!canShow) {
       staticContext.unauthorized = true;
     }
-    return canShow ? (
-      <RouteComponent params={match.params} location={location} />
-    ) : (
-      <NamedRedirect
-        name={authPage}
-        state={{ from: `${location.pathname}${location.search}${location.hash}` }}
-      />
-    );
+
+    if(canShow) {
+      if(goToDashboard(this.props)){
+        return(
+          <NamedRedirect
+            name={'Dashboard'}
+            state={{ from: `${location.pathname}${location.search}${location.hash}` }}
+          />
+        );
+      }
+      return (<RouteComponent params={match.params} location={location} />);
+    } else {
+      return (
+        <NamedRedirect
+          name={authPage}
+          state={{ from: `${location.pathname}${location.search}${location.hash}` }}
+        />
+      );
+    }
+
+    // return canShow ? (
+    //   <RouteComponent params={match.params} location={location} />
+    // ) : (
+    //   <NamedRedirect
+    //     name={authPage}
+    //     state={{ from: `${location.pathname}${location.search}${location.hash}` }}
+    //   />
+    // );
   }
 }
 
@@ -152,7 +178,7 @@ const Routes = (props, context) => {
   };
 
   // N.B. routes prop within React Router needs to stay the same,
-  // so that React is is not rerendering page component.
+  // so that React is is not re-rendering page component.
   // That's why we pass-in props.routes instead of calling routeConfiguration here.
   return (
     <Switch>

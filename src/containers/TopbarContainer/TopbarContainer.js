@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { propTypes } from '../../util/types';
 import { sendVerificationEmail, hasCurrentUserErrors } from '../../ducks/user.duck';
 import { logout, authenticationInProgress } from '../../ducks/Auth.duck';
-import { manageDisableScrolling } from '../../ducks/UI.duck';
+import {manageDisableScrolling, setIsLoginModalOpen} from '../../ducks/UI.duck';
 import { Topbar } from '../../components';
 
 export const TopbarContainerComponent = props => {
@@ -30,6 +30,7 @@ export const TopbarContainerComponent = props => {
     sendVerificationEmailInProgress,
     sendVerificationEmailError,
     onResendVerificationEmail,
+    setIsLoginModalOpen,
     ...rest
   } = props;
 
@@ -54,6 +55,7 @@ export const TopbarContainerComponent = props => {
       sendVerificationEmailInProgress={sendVerificationEmailInProgress}
       sendVerificationEmailError={sendVerificationEmailError}
       showGenericError={hasGenericError}
+      setIsLoginModalOpen={setIsLoginModalOpen}
       {...rest}
     />
   );
@@ -88,6 +90,7 @@ TopbarContainerComponent.propTypes = {
   sendVerificationEmailError: propTypes.error,
   onResendVerificationEmail: func.isRequired,
   hasGenericError: bool.isRequired,
+  setIsLoginModalOpen: func.isRequired,
 
   // from withRouter
   history: shape({
@@ -111,6 +114,7 @@ const mapStateToProps = state => {
     sendVerificationEmailError,
   } = state.user;
   const hasGenericError = !!(logoutError || hasCurrentUserErrors(state));
+  const { setIsLoginModalOpen } = state.UI;
   return {
     authInProgress: authenticationInProgress(state),
     currentUser,
@@ -124,6 +128,7 @@ const mapStateToProps = state => {
     sendVerificationEmailInProgress,
     sendVerificationEmailError,
     hasGenericError,
+    setIsLoginModalOpen
   };
 };
 
@@ -132,6 +137,7 @@ const mapDispatchToProps = dispatch => ({
   onManageDisableScrolling: (componentId, disableScrolling) =>
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
   onResendVerificationEmail: () => dispatch(sendVerificationEmail()),
+  setIsLoginModalOpen: (value) => dispatch(setIsLoginModalOpen(value))
 });
 
 // Note: it is important that the withRouter HOC is **outside** the

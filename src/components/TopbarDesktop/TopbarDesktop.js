@@ -13,12 +13,12 @@ import {
   MenuItem,
   NamedLink,
   OwnListingLink,
-  Modal,
   Logo,
   ListingLink
 } from '../../components';
 
 import css from './TopbarDesktop.css';
+import MenuIcon from "../Topbar/MenuIcon";
 
 const TopbarDesktop = props => {
   const {
@@ -33,7 +33,7 @@ const TopbarDesktop = props => {
     intl,
     isAuthenticated,
     onLogout,
-    onManageDisableScrolling
+    setIsLoginModalOpen
   } = props;
   const [mounted, setMounted] = useState(false);
 
@@ -70,7 +70,7 @@ const TopbarDesktop = props => {
   const profileMenu = authenticatedOnClientSide ? (
     <Menu>
       <MenuLabel className={css.profileMenuLabel} isOpenClassName={css.profileMenuIsOpen}>
-        <Avatar className={css.avatar} user={currentUser} disableProfileLink />
+        <MenuIcon className={css.menuIcon}/>
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
         <MenuItem key="EditListingPage">
@@ -125,21 +125,12 @@ const TopbarDesktop = props => {
     </NamedLink>
   );
 
-  let loginModalIsOpen = false;
-  const handleOpenClose = () => {
-    loginModalIsOpen = !loginModalIsOpen;
-    console.log("flag is set to " + loginModalIsOpen);
+  const handleOnClick = () => {
+    setIsLoginModalOpen(true);
   }
 
-  const loginModal = (
-    <Modal id="loginModal" isOpen={loginModalIsOpen} onClose={handleOpenClose}
-           onManageDisableScrolling={onManageDisableScrolling}>
-      This is a test
-    </Modal>
-  );
-
   const loginLink = isAuthenticatedOrJustHydrated ? null : (
-    <div className={css.loginLink} onClick={handleOpenClose}>
+    <div className={css.loginLink} onClick={handleOnClick}>
       <span className={css.login}>
         <FormattedMessage id="TopbarDesktop.login" />
       </span>
@@ -172,15 +163,9 @@ const TopbarDesktop = props => {
   return (
     <nav className={classes}>
       {logoLink}
-      {listingLink}
-      {inboxLink}
       {profileMenu}
       {signupButton}
       {loginLink}
-      <Modal id="loginModal" isOpen={loginModalIsOpen} onClose={handleOpenClose}
-             onManageDisableScrolling={onManageDisableScrolling}>
-        This is a test
-      </Modal>
     </nav>
   );
 };
@@ -210,7 +195,7 @@ TopbarDesktop.propTypes = {
   onSearchSubmit: func.isRequired,
   initialSearchFormValues: object,
   intl: intlShape.isRequired,
-  onManageDisableScrolling: func.isRequired,
+  setIsLoginModalOpen: func.isRequired,
 };
 
 export default TopbarDesktop;

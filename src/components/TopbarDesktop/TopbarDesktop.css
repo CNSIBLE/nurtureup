@@ -213,6 +213,12 @@
   }
 }
 
+.menuIcon {
+  fill: var(--nuPink);
+  width: 36px;
+  height: 26px;
+}
+
 .avatar {
   margin: 16px 0;
 }

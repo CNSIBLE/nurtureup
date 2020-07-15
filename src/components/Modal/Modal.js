@@ -9,7 +9,7 @@
  * </Parent>
  */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { bool, func, node, string } from 'prop-types';
 import classNames from 'classnames';
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import { Button, IconClose } from '../../components';
@@ -121,8 +121,6 @@ ModalComponent.defaultProps = {
   isOpen: false,
   onClose: null,
 };
-
-const { bool, func, node, string } = PropTypes;
 
 ModalComponent.propTypes = {
   children: node,

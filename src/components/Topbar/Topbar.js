@@ -138,6 +138,7 @@ class TopbarComponent extends Component {
       sendVerificationEmailInProgress,
       sendVerificationEmailError,
       showGenericError,
+      setIsLoginModalOpen
     } = this.props;
 
     const { mobilemenu, address, origin, bounds } = parse(location.search, {
@@ -220,6 +221,7 @@ class TopbarComponent extends Component {
             onLogout={this.handleLogout}
             onSearchSubmit={this.handleSubmit}
             onManageDisableScrolling={onManageDisableScrolling}
+            setIsLoginModalOpen={setIsLoginModalOpen}
           />
         </div>
         <Modal
@@ -284,6 +286,7 @@ TopbarComponent.propTypes = {
   sendVerificationEmailInProgress: bool.isRequired,
   sendVerificationEmailError: propTypes.error,
   showGenericError: bool.isRequired,
+  setIsLoginModalOpen: func.isRequired,
 
   // These are passed from Page to keep Topbar rendering aware of location changes
   history: shape({
