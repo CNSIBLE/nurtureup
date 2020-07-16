@@ -1,4 +1,5 @@
 {
+
   "ActivityFeed.deletedListing": "deleted listing",
   "ActivityFeed.leaveAReview": "Leave a review for { displayName }.",
   "ActivityFeed.leaveAReviewSecond": "Leave a review for { displayName } to see their review.",
@@ -93,6 +94,11 @@
   "BookingTimeForm.requiredDate": "Oops, make sure your date is correct!",
   "BookingTimeForm.timeSlotsError": "Loading  availability failed. Please refresh the page.",
   "BookingTimeForm.youWontBeChargedInfo": "You won't be charged yet",
+  "CardAboutMe.aboutMeHeader": "About Me",
+  "CardAboutMe.emailLabel": "Email",
+  "CardAboutMe.birthdayLabel": "Birthday",
+  "CardAboutMe.phoneLabel": "Phone",
+  "CardAboutMe.addressLabel": "Address",
   "CheckoutPage.bookingTimeNotAvailableMessage": "Unfortunately, the requested time is already booked.",
   "CheckoutPage.chargeDisabledMessage": "This provider's payout information is incomplete so the session cannot be booked. Please contact the marketplace administrators.",
   "CheckoutPage.errorlistingLinkText": "the teacher profile page",

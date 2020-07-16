@@ -12,17 +12,15 @@
   display: flex;
   justify-content: center;
 
-  min-height: 500px;
-  height: 400px;
   max-height: none;
   min-height: 300px;
   height: 400px;
 }
 
 .heroContent {
-  background-size: auto;
+  background-size: cover !important;
   background-repeat: no-repeat;
-  background: var(--nuBackground) url('../../assets/dashboard-hero/dashboard-hero.png') center center;
+  background: var(--nuBackground) url('../../assets/dashboard-hero/dashboard-hero.png') 0 0;
 
   display: flex;
   flex-direction: column;
@@ -32,6 +30,10 @@
   position: absolute;
   top: 0;
   left: 0;
+
+  @media (--viewportLarge) {
+    background-position: center center;
+  }
 }
 
 .avatar {
@@ -60,10 +62,6 @@
   flex-direction: column;
   margin-right: 45px;
   padding: 0px 32px 10px 32px;
-}
-
-.aboutCard {
-
 }
 
 .apptCard {

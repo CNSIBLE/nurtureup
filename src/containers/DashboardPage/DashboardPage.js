@@ -12,6 +12,7 @@ import {propTypes} from '../../util/types';
 import {
   AvatarDashboard,
   Card,
+  CardAboutMe,
   Footer,
   LayoutSingleColumn,
   LayoutWrapperFooter,
@@ -29,13 +30,6 @@ export const DashboardPageComponent = props => {
 
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({id: 'LandingPage.schemaTitle'}, {siteTitle});
-
-  const aboutCard = (
-
-    <Card className={classNames(css.card, css.aboutCard)} flat={false}>
-      <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.aboutMe"/></h2>
-    </Card>
-  );
 
   const appointmentCard = (
     <Card className={classNames(css.card, css.apptCard)} flat={false}>
@@ -89,7 +83,7 @@ export const DashboardPageComponent = props => {
           <div className={css.cards}>
             <ul>
               <li className={css.row}>
-                {aboutCard}
+                <CardAboutMe className={css.card} />
                 {appointmentCard}
               </li>
               <li className={css.row}>

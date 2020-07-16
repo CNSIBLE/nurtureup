@@ -1,0 +1,33 @@
+@import "../../marketplace.css";
+
+.root {
+
+}
+
+.header {
+  color: var(--nuPink);
+}
+
+.field {
+  color: var(--nuPink);
+}
+
+.label {
+  color: black;
+}
+
+.inputDiv {
+  &:after {
+    content: "";
+    float: left;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+  }
+}
+
+.input {
+  &:after {
+    background: var(--nuPink);
+  }
+}
