@@ -12,7 +12,7 @@ import {propTypes} from '../../util/types';
 import {
   AvatarDashboard,
   Card,
-  CardAboutMe,
+  CardAboutMe, CardQuickActions,
   Footer,
   LayoutSingleColumn,
   LayoutWrapperFooter,
@@ -20,6 +20,7 @@ import {
   LayoutWrapperTopbar,
   Page,
 } from '../../components';
+import {ensureCurrentUser} from "../../util/data";
 
 export const DashboardPageComponent = props => {
   const {
@@ -28,18 +29,13 @@ export const DashboardPageComponent = props => {
     intl,
   } = props;
 
+  const user = ensureCurrentUser(currentUser);
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({id: 'LandingPage.schemaTitle'}, {siteTitle});
 
   const appointmentCard = (
     <Card className={classNames(css.card, css.apptCard)} flat={false}>
       <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.nextAppointment"/></h2>
-    </Card>
-  );
-
-  const actionCard = (
-    <Card className={classNames(css.card, css.actionsCard)} flat={false}>
-      <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.quickActions"/></h2>
     </Card>
   );
 
@@ -61,6 +57,8 @@ export const DashboardPageComponent = props => {
     </Card>
   )
 
+  console.log(user);
+
   return (
     <Page
       className={css.root}
@@ -78,16 +76,16 @@ export const DashboardPageComponent = props => {
             <div className={css.heroContent}>
 
             </div>
-            <AvatarDashboard className={css.avatar} user={currentUser} disableProfileLink/>
+            <AvatarDashboard className={css.avatar} user={user} disableProfileLink/>
           </div>
           <div className={css.cards}>
             <ul>
               <li className={css.row}>
-                <CardAboutMe className={css.card} />
+                <CardAboutMe className={css.card} user={user}/>
                 {appointmentCard}
               </li>
               <li className={css.row}>
-                {actionCard}
+                <CardQuickActions className={css.card} />
                 {messagesCard}
                 {upcomingCard}
               </li>
