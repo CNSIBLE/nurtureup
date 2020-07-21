@@ -24,11 +24,14 @@
 
     /* Align the image within the container */
     background-position: center center;
+
+    justify-content: flex-end;
   }
 }
 
 .content {
   @apply --marketplaceModalBaseStyles;
+  flex-basis: 650px;
   background-color: transparent;
   padding-top: 29px;
 }
