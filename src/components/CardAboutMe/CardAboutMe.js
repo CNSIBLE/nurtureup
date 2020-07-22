@@ -52,15 +52,21 @@ export const CardAboutMeComponent = props => {
 
   return (
     <Card className={classes} flat={false}>
-      <div className={css.header} >
+      <div className={css.header}>
         <h2><FormattedMessage id="CardAboutMe.header"/></h2>
-        <IconEdit className={css.editIcon} width="30" height="30" />
+        <IconEdit className={css.editIcon} width="30" height="30"/>
       </div>
 
-      {field(addressLabel, address)}
-      {field(emailLabel, email)}
-      {field(phoneLabel, phone)}
-      {field(birthdayLabel, bday)}
+      <div className={css.form}>
+        <div className={css.formRow}>
+          {field(addressLabel, address)}
+          {field(emailLabel, email)}
+        </div>
+        <div className={css.formRow}>
+          {field(phoneLabel, phone)}
+          {field(birthdayLabel, bday)}
+        </div>
+      </div>
     </Card>
   )
 };

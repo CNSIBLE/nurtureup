@@ -1,11 +1,13 @@
 @import "../../marketplace.css";
 
 .root {
-
+  width: 660px;
 }
 
 .header {
   color: var(--nuPink);
+  display: flex;
+  flex-direction: row;
 }
 
 .field {
@@ -34,7 +36,19 @@
 }
 
 .editIcon {
+  justify-content: flex-end;
 }
 
-.editPencilIcon {
+.form {
+  display:flex;
+  flex-direction: row;
+}
+
+.formRow {
+  margin-right: 20px;
+  width: 50%;
+
+  &:last-of-type {
+    margin-right: 0px
+  }
 }
