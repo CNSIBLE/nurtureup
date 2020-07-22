@@ -1,12 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-import css from './IconSearchCareGiver.css';
-
-const IconSearchCareGiver = props => {
-  const { className, rootClassName } = props;
-  const classes = classNames(rootClassName || css.root, className);
+const IconSearchCareGiver = () => {
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="104.406" height="94.314"
@@ -42,15 +36,6 @@ const IconSearchCareGiver = props => {
       </g>
     </svg>
   );
-};
-
-IconSearchCareGiver.defaultProps = { className: null, rootClassName: null, isFilled: false };
-
-const { string } = PropTypes;
-
-IconSearchCareGiver.propTypes = {
-  className: string,
-  rootClassName: string,
 };
 
 export default IconSearchCareGiver;

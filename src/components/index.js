@@ -66,6 +66,8 @@ export { default as TimeRange } from './TimeRange/TimeRange';
 export { default as UserDisplayName } from './UserDisplayName/UserDisplayName';
 export { default as ValidationError } from './ValidationError/ValidationError';
 export { default as Card } from './Card/Card';
+export { default as CardAboutMe } from './CardAboutMe/CardAboutMe';
+export { default as CardQuickActions } from './CardQuickActions/CardQuickActions'
 
 /**
  * Composite components

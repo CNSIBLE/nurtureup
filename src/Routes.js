@@ -1,33 +1,27 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Switch, Route, withRouter } from 'react-router-dom';
-import { NotFoundPage } from './containers';
-import { NamedRedirect } from './components';
-import { locationChanged } from './ducks/Routing.duck';
-import { propTypes } from './util/types';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import {Switch, Route, withRouter} from 'react-router-dom';
+import {NotFoundPage} from './containers';
+import {NamedRedirect} from './components';
+import {locationChanged} from './ducks/Routing.duck';
+import {propTypes} from './util/types';
 import * as log from './util/log';
-import { canonicalRoutePath } from './util/routes';
+import {canonicalRoutePath, findRouteByRouteName} from './util/routes';
 import routeConfiguration from './routeConfiguration';
 
-const { arrayOf, bool, object, func, shape, string } = PropTypes;
+const {arrayOf, bool, object, func, shape, string} = PropTypes;
 
 const canShowComponent = props => {
-  const { isAuthenticated, route } = props;
-  const { auth } = route;
+  const {isAuthenticated, route} = props;
+  const {auth} = route;
   return !auth || isAuthenticated;
 };
 
-const goToDashboard = props => {
-  const { isAuthenticated, route } = props;
-
-  return isAuthenticated && route.path === '/';
-}
-
 const callLoadData = props => {
-  const { match, location, route, dispatch, logoutInProgress } = props;
-  const { loadData, name } = route;
+  const {match, location, route, dispatch, logoutInProgress} = props;
+  const {loadData, name} = route;
   const shouldLoadData =
     typeof loadData === 'function' && canShowComponent(props) && !logoutInProgress;
 
@@ -38,7 +32,7 @@ const callLoadData = props => {
         console.log(`loadData success for ${name} route`);
       })
       .catch(e => {
-        log.error(e, 'load-data-failed', { routeName: name });
+        log.error(e, 'load-data-failed', {routeName: name});
       });
   }
 };
@@ -77,6 +71,11 @@ const handleLocationChanged = (dispatch, location) => {
   dispatch(locationChanged(location, url));
 };
 
+const goToDashboard = props => {
+  const {isAuthenticated, route} = props;
+  return isAuthenticated && route.path === '/';
+}
+
 class RouteComponentRenderer extends Component {
   componentDidMount() {
     // Calling loadData on initial rendering (on client side).
@@ -93,28 +92,23 @@ class RouteComponentRenderer extends Component {
   }
 
   render() {
-    const { route, match, location, staticContext } = this.props;
-    const { component: RouteComponent, authPage = 'SignupPage' } = route;
-    const canShow = canShowComponent(this.props);
-    if (!canShow) {
-      staticContext.unauthorized = true;
-    }
+    const {route, match, location, staticContext} = this.props;
+    const {component: RouteComponent, authPage = 'SignupPage'} = route;
+    console.log(this.props);
 
-    if(canShow) {
-      if(goToDashboard(this.props)){
-        return(
-          <NamedRedirect
-            name={'Dashboard'}
-            state={{ from: `${location.pathname}${location.search}${location.hash}` }}
-          />
-        );
-      }
-      return (<RouteComponent params={match.params} location={location} />);
+    if (canShowComponent(this.props)) {
+      // if (goToDashboard(this.props)) {
+      //    return (<NamedRedirect name="Dashboard" />);
+      // }
+
+      return (<RouteComponent params={match.params} location={location}/>);
     } else {
+      staticContext.unauthorized = true;
+
       return (
         <NamedRedirect
           name={authPage}
-          state={{ from: `${location.pathname}${location.search}${location.hash}` }}
+          state={{from: `${location.pathname}${location.search}${location.hash}`}}
         />
       );
     }
@@ -147,7 +141,7 @@ RouteComponentRenderer.propTypes = {
 };
 
 const Routes = (props, context) => {
-  const { isAuthenticated, logoutInProgress, staticContext, dispatch, routes } = props;
+  const {isAuthenticated, logoutInProgress, staticContext, dispatch, routes} = props;
 
   const toRouteComponent = route => {
     const renderProps = {
@@ -183,12 +177,12 @@ const Routes = (props, context) => {
   return (
     <Switch>
       {routes.map(toRouteComponent)}
-      <Route component={NotFoundPage} />
+      <Route component={NotFoundPage}/>
     </Switch>
   );
 };
 
-Routes.defaultProps = { staticContext: {} };
+Routes.defaultProps = {staticContext: {}};
 
 Routes.propTypes = {
   isAuthenticated: bool.isRequired,
@@ -203,8 +197,8 @@ Routes.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { isAuthenticated, logoutInProgress } = state.Auth;
-  return { isAuthenticated, logoutInProgress };
+  const {isAuthenticated, logoutInProgress} = state.Auth;
+  return {isAuthenticated, logoutInProgress};
 };
 
 // Note: it is important that the withRouter HOC is **outside** the

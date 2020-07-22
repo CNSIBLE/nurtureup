@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { bool, func, object, number, string } from 'prop-types';
-import { FormattedMessage, intlShape } from '../../util/reactIntl';
+import React, {useEffect, useState} from 'react';
+import {bool, func, object, string} from 'prop-types';
+import {FormattedMessage, intlShape} from '../../util/reactIntl';
 import classNames from 'classnames';
-import { ACCOUNT_SETTINGS_PAGES } from '../../routeConfiguration';
-import { propTypes } from '../../util/types';
+import {ACCOUNT_SETTINGS_PAGES} from '../../routeConfiguration';
+import {propTypes} from '../../util/types';
 import {
-  Avatar,
   InlineTextButton,
+  Logo,
   Menu,
-  MenuLabel,
   MenuContent,
   MenuItem,
+  MenuLabel,
   NamedLink,
   OwnListingLink,
-  Logo,
-  ListingLink
 } from '../../components';
 
 import css from './TopbarDesktop.css';
@@ -23,13 +21,10 @@ import MenuIcon from "../Topbar/MenuIcon";
 const TopbarDesktop = props => {
   const {
     className,
-    currentUser,
     currentPage,
     rootClassName,
-    currentUserHasListings,
     currentUserListing,
     currentUserListingFetched,
-    notificationCount,
     intl,
     isAuthenticated,
     onLogout,
@@ -45,21 +40,6 @@ const TopbarDesktop = props => {
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
 
   const classes = classNames(rootClassName || css.root, className);
-
-  const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
-
-  const inboxLink = authenticatedOnClientSide ? (
-    <NamedLink
-      className={css.inboxLink}
-      name="InboxPage"
-      params={{ tab: currentUserHasListings ? 'sales' : 'orders' }}
-    >
-      <span className={css.inbox}>
-        <FormattedMessage id="TopbarDesktop.inbox" />
-        {notificationDot}
-      </span>
-    </NamedLink>
-  ) : null;
 
   const currentPageClass = page => {
     const isAccountSettingsPage =
@@ -107,6 +87,17 @@ const TopbarDesktop = props => {
             <FormattedMessage id="TopbarDesktop.accountSettingsLink" />
           </NamedLink>
         </MenuItem>
+
+        <MenuItem key="Dashboard">
+          <NamedLink
+            className={classNames(css.yourListingsLink, currentPageClass('Dashboard'))}
+            name="Dashboard"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.dashboardLink" />
+          </NamedLink>
+        </MenuItem>
+
         <MenuItem key="logout">
           <InlineTextButton rootClassName={css.logoutButton} onClick={onLogout}>
             <span className={css.menuItemBorder} />
@@ -137,19 +128,6 @@ const TopbarDesktop = props => {
     </div>
   );
 
-  const listingLink =
-    authenticatedOnClientSide && currentUserListingFetched && currentUserListing ? (
-      <ListingLink
-        className={css.createListingLink}
-        listing={currentUserListing}
-        children={
-          <span className={css.createListing}>
-            <FormattedMessage id="TopbarDesktop.viewListing" />
-          </span>
-        }
-      />
-    ) : null;
-
   const logoLink = isAuthenticated ? (
     <NamedLink className={css.logoLink} name="LandingPage">
       <Logo
@@ -175,7 +153,6 @@ TopbarDesktop.defaultProps = {
   className: null,
   currentUser: null,
   currentPage: null,
-  notificationCount: 0,
   initialSearchFormValues: {},
   currentUserListing: null,
   currentUserListingFetched: false,
@@ -184,14 +161,12 @@ TopbarDesktop.defaultProps = {
 TopbarDesktop.propTypes = {
   rootClassName: string,
   className: string,
-  currentUserHasListings: bool.isRequired,
   currentUserListing: propTypes.ownListing,
   currentUserListingFetched: bool,
   currentUser: propTypes.currentUser,
   currentPage: string,
   isAuthenticated: bool.isRequired,
   onLogout: func.isRequired,
-  notificationCount: number,
   onSearchSubmit: func.isRequired,
   initialSearchFormValues: object,
   intl: intlShape.isRequired,

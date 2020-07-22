@@ -37,6 +37,7 @@ export const AvatarComponent = props => {
     disableProfileLink,
     intl,
   } = props;
+
   const classes = classNames(rootClassName || css.root, className);
 
   const userIsCurrentUser = user && user.type === 'currentUser';
