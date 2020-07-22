@@ -5,10 +5,17 @@ import classNames from 'classnames';
 import css from './IconEdit.css';
 
 const IconEdit = props => {
-  const { rootClassName, className, pencilClassName } = props;
+  const {
+    rootClassName,
+    className,
+    pencilClassName,
+    width,
+    height,
+  } = props;
   const classes = classNames(rootClassName || css.root, className);
+
   return (
-    <svg className={classes} width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+    <svg className={classes} width={width} height={height} xmlns="http://www.w3.org/2000/svg">
       <g
         className={pencilClassName || css.pencil}
         fill="none"
@@ -26,6 +33,8 @@ IconEdit.defaultProps = {
   rootClassName: null,
   className: null,
   pencilClassName: null,
+  width: "14",
+  height: "14"
 };
 
 const { string } = PropTypes;
@@ -34,6 +43,8 @@ IconEdit.propTypes = {
   rootClassName: string,
   className: string,
   pencilClassName: string,
+  width: string,
+  height: string,
 };
 
 export default IconEdit;

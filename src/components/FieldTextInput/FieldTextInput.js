@@ -22,6 +22,7 @@ class FieldTextInputComponent extends Component {
       onUnmount,
       isUncontrolled,
       inputRef,
+      isReadOnly,
       ...rest
     } = this.props;
 
@@ -80,7 +81,7 @@ class FieldTextInputComponent extends Component {
       <div className={classes}>
         {label ? <label htmlFor={id}>{label}</label> : null}
         <div className={inputDivClasses}>
-          {isTextarea ? <ExpandingTextarea {...inputProps} /> : <input {...inputProps} />}
+          {isTextarea ? <ExpandingTextarea {...inputProps} readOnly={isReadOnly}/> : <input {...inputProps} readOnly={isReadOnly}/>}
         </div>
         <ValidationError fieldMeta={fieldMeta} />
       </div>
@@ -98,6 +99,7 @@ FieldTextInputComponent.defaultProps = {
   label: null,
   isUncontrolled: false,
   inputRef: null,
+  isReadOnly: false,
 };
 
 FieldTextInputComponent.propTypes = {
@@ -106,6 +108,8 @@ FieldTextInputComponent.propTypes = {
   inputRootClass: string,
 
   onUnmount: func,
+
+  isReadOnly: bool,
 
   // Error message that can be manually passed to input field,
   // overrides default validation message
