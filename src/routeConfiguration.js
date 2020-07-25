@@ -61,7 +61,9 @@ const routeConfiguration = () => {
     {
       path: '/dashboard',
       name: 'Dashboard',
-      component: props => <DashboardPage {...props} />
+      auth: true,
+      component: props => <DashboardPage {...props} />,
+      loadData: DashboardPage.loadData,
     },
     {
       path: '/about',

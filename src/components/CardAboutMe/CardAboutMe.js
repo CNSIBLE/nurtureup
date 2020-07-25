@@ -16,10 +16,10 @@ export const CardAboutMeComponent = props => {
     intl,
   } = props;
 
-  const {email, profile} = user.attributes;
-  const {phone, city, state, streetAddress1, zip, birthday} = profile.protectedData;
-  const address = streetAddress1 + " " + city + ", " + state + " " + zip;
-  const bday = (birthday == null ? "N/A" : birthday);
+    const {email, profile} = user.attributes || {'email': '', 'profile':{}};
+    const {phone, city, state, streetAddress1, zip, birthday} = profile.protectedData ||
+    {'phone':'', 'city':'', 'state':'', 'streetAddress1':'', 'zip':'', 'birthday':''};
+    const address = streetAddress1 + " " + city + ", " + state + " " + zip;
 
   const classes = classNames(css.root, className);
 
@@ -64,7 +64,7 @@ export const CardAboutMeComponent = props => {
         </div>
         <div className={css.formRow}>
           {field(phoneLabel, phone)}
-          {field(birthdayLabel, bday)}
+          {field(birthdayLabel, birthday)}
         </div>
       </div>
     </Card>

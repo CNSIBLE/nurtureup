@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import {compose} from 'redux';
 import css from './DashboardPage.css';
 import classNames from 'classnames';
@@ -9,6 +9,7 @@ import config from "../../config";
 import {FormattedMessage, injectIntl} from "react-intl";
 import {bool} from 'prop-types';
 import {propTypes} from '../../util/types';
+import {ensureCurrentUser} from "../../util/data";
 import {
   AvatarDashboard,
   Card,
@@ -20,7 +21,7 @@ import {
   LayoutWrapperTopbar,
   Page,
 } from '../../components';
-import {ensureCurrentUser} from "../../util/data";
+import {fetchCurrentUser} from "../../ducks/user.duck";
 
 export const DashboardPageComponent = props => {
   const {
@@ -85,7 +86,7 @@ export const DashboardPageComponent = props => {
                 {appointmentCard}
               </li>
               <li className={css.row}>
-                <CardQuickActions className={css.card} />
+                <CardQuickActions className={css.card}/>
                 {messagesCard}
                 {upcomingCard}
               </li>
@@ -104,7 +105,6 @@ export const DashboardPageComponent = props => {
       </LayoutSingleColumn>
     </Page>
   )
-
 };
 
 DashboardPageComponent.propTypes = {
@@ -129,5 +129,9 @@ const DashboardPage = compose(
   ),
   injectIntl
 )(DashboardPageComponent);
+
+DashboardPage.loadData = () => {
+  return fetchCurrentUser();
+}
 
 export default DashboardPage;
