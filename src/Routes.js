@@ -97,9 +97,9 @@ class RouteComponentRenderer extends Component {
     console.log(this.props);
 
     if (canShowComponent(this.props)) {
-      // if (goToDashboard(this.props)) {
-      //    return (<NamedRedirect name="Dashboard" />);
-      // }
+      if (goToDashboard(this.props)) {
+        return (<NamedRedirect name="Dashboard"/>);
+      }
 
       return (<RouteComponent params={match.params} location={location}/>);
     } else {
@@ -112,15 +112,6 @@ class RouteComponentRenderer extends Component {
         />
       );
     }
-
-    // return canShow ? (
-    //   <RouteComponent params={match.params} location={location} />
-    // ) : (
-    //   <NamedRedirect
-    //     name={authPage}
-    //     state={{ from: `${location.pathname}${location.search}${location.hash}` }}
-    //   />
-    // );
   }
 }
 
