@@ -7,16 +7,17 @@
 
   @media (--viewportMedium) {
     justify-content: space-between;
+    flex-basis: 650px;
   }
 }
 
 .name {
   display: flex;
   justify-content: space-between;
-  margin-top: 24px;
+  margin-top: 18px;
 
   @media (--viewportMedium) {
-    margin-top: 32px;
+    margin-top: 24px;
   }
 }
 
@@ -27,6 +28,34 @@
 .lastNameRoot {
   width: calc(66% - 9px);
 }
+
+.firstNameBackground {
+  width: calc(33% - 9px);
+}
+.middleNameBackground {
+  width: calc(33% - 9px);
+}
+.lastNameBackground {
+  width: calc(33% - 9px);
+}
+
+.dobBackground {
+  width: calc(33% - 9px);
+}
+.ssnBackground {
+  width: calc(33% - 9px);
+}
+.zipBackground {
+  width: calc(33% - 9px);
+}
+
+.licenseNumberBackground {
+  width: calc(33% - 9px);
+}
+.licenseStateBackground {
+  width: calc(33% - 9px);
+}
+
 
 .password {
   @apply --marketplaceModalPasswordMargins;
@@ -58,4 +87,108 @@
   margin-top: 24px;
 }
 
+.phoneEmail {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+
+@media (--viewportMedium) {
+  margin-top: 24px;
+}
+}
+
+.phone {
+  width: calc(40% - 9px);
+}
+
+.email {
+  width: calc(60% - 9px);
+}
+
+
+.cityStateZip {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+
+@media (--viewportMedium) {
+  margin-top: 24px;
+}
+}
+
+
+
+.state {
+  width: calc(20% - 9px);
+}
+.city {
+  width: calc(60% - 9px);
+}
+
+.zip {
+  width: calc(20% - 9px);
+}
+
+.paymentAddressField {
+  padding-top: 24px;
+}
+
+.formRow {
+  /* This container uses flexbox layout */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  /* parent aka root is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+@media (--viewportSmall) {
+  flex-wrap: no-wrap;
+}
+}
+
+.field {
+  width: 100%;
+  margin-top: 24px;
+
+@media (--viewportSmall) {
+  width: calc(50% - 12px);
+}
+}
+
+.caregiverSeekerButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+
+@media (--viewportMedium) {
+  margin-top: 24px;
+}
+}
+
+.caregiver {
+  width: calc(50% - 9px);
+}
+.seeker {
+  width: calc(50% - 9px);
+}
+
+.nextButton {
+  /* This container uses flexbox layout */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  width: 50%;
+
+  /* parent aka root is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @media (--viewportSmall) {
+    flex-wrap: no-wrap;
+  }
+}
 

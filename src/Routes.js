@@ -8,7 +8,7 @@ import {NamedRedirect} from './components';
 import {locationChanged} from './ducks/Routing.duck';
 import {propTypes} from './util/types';
 import * as log from './util/log';
-import {canonicalRoutePath} from './util/routes';
+import {canonicalRoutePath, findRouteByRouteName} from './util/routes';
 import routeConfiguration from './routeConfiguration';
 
 const {arrayOf, bool, object, func, shape, string} = PropTypes;
@@ -98,7 +98,7 @@ class RouteComponentRenderer extends Component {
 
     if (canShowComponent(this.props)) {
       if (goToDashboard(this.props)) {
-         return (<NamedRedirect name="Dashboard" />);
+        return (<NamedRedirect name="Dashboard"/>);
       }
 
       return (<RouteComponent params={match.params} location={location}/>);

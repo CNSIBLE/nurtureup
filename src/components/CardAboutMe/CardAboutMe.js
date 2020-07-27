@@ -16,10 +16,10 @@ export const CardAboutMeComponent = props => {
     intl,
   } = props;
 
-    const {email, profile} = user.attributes || {'email': '', 'profile':{}};
-    const {phone, city, state, streetAddress1, zip, birthday} = profile.protectedData ||
-    {'phone':'', 'city':'', 'state':'', 'streetAddress1':'', 'zip':'', 'birthday':''};
-    const address = streetAddress1 + " " + city + ", " + state + " " + zip;
+  const {email, profile} = user.attributes || {'email': '', 'profile': {}};
+  const {phone, city, state, streetAddress1, zip, birthday} = profile.protectedData ||
+  {'phone': '', 'city': '', 'state': '', 'streetAddress1': '', 'zip': '', 'birthday': ''};
+  const address = streetAddress1 + " " + city + ", " + state + " " + zip;
 
   const classes = classNames(css.root, className);
 
