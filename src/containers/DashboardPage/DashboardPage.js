@@ -13,7 +13,7 @@ import {ensureCurrentUser} from "../../util/data";
 import {
   AvatarDashboard,
   Card,
-  CardAboutMe, CardQuickActions,
+  CardAboutMe, CardNextAppointment, CardQuickActions,
   Footer,
   LayoutSingleColumn,
   LayoutWrapperFooter,
@@ -34,12 +34,6 @@ export const DashboardPageComponent = props => {
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({id: 'LandingPage.schemaTitle'}, {siteTitle});
 
-  const appointmentCard = (
-    <Card className={classNames(css.card, css.apptCard)} flat={false}>
-      <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.nextAppointment"/></h2>
-    </Card>
-  );
-
   const messagesCard = (
     <Card className={classNames(css.card, css.msgsCard)} flat={false}>
       <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.messages"/></h2>
@@ -57,8 +51,6 @@ export const DashboardPageComponent = props => {
       <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.appointments"/></h2>
     </Card>
   )
-
-  console.log(user);
 
   return (
     <Page
@@ -82,8 +74,8 @@ export const DashboardPageComponent = props => {
           <div className={css.cards}>
             <ul>
               <li className={css.row}>
-                <CardAboutMe className={css.card} user={user}/>
-                {appointmentCard}
+                <CardAboutMe className={css.card}/>
+                <CardNextAppointment className={css.card} />
               </li>
               <li className={css.row}>
                 <CardQuickActions className={css.card}/>
