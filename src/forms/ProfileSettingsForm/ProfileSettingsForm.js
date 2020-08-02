@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { bool, string } from 'prop-types';
+import {bool, func, string} from 'prop-types';
 import { compose } from 'redux';
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import { Field, Form as FinalForm } from 'react-final-form';
-import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import { ensureCurrentUser } from '../../util/data';
 import { propTypes } from '../../util/types';
-import * as validators from '../../util/validators';
 import { isUploadImageOverLimitError } from '../../util/errors';
-import { Form, Avatar, Button, ImageFromFile, IconSpinner, FieldTextInput } from '../../components';
-
+import { Form, Avatar, ImageFromFile, IconSpinner } from '../../components';
 import css from './ProfileSettingsForm.css';
+import ReactTooltip from "react-tooltip";
 
 const ACCEPT_IMAGES = 'image/*';
 const UPLOAD_CHANGE_DELAY = 2000; // Show spinner so that browser has time to load img srcset
@@ -33,6 +31,8 @@ class ProfileSettingsFormComponent extends Component {
       this.uploadDelayTimeoutId = window.setTimeout(() => {
         this.setState({ uploadDelay: false });
       }, UPLOAD_CHANGE_DELAY);
+      document.getElementById('imageForm')
+        .dispatchEvent(new Event('submit', { cancelable: true }))
     }
   }
 
@@ -49,53 +49,16 @@ class ProfileSettingsFormComponent extends Component {
             className,
             currentUser,
             handleSubmit,
-            intl,
-            invalid,
             onImageUpload,
-            pristine,
             profileImage,
             rootClassName,
-            updateInProgress,
             updateProfileError,
             uploadImageError,
             uploadInProgress,
             form,
-            values,
           } = fieldRenderProps;
 
           const user = ensureCurrentUser(currentUser);
-
-          // First name
-          const firstNameLabel = intl.formatMessage({
-            id: 'ProfileSettingsForm.firstNameLabel',
-          });
-          const firstNamePlaceholder = intl.formatMessage({
-            id: 'ProfileSettingsForm.firstNamePlaceholder',
-          });
-          const firstNameRequiredMessage = intl.formatMessage({
-            id: 'ProfileSettingsForm.firstNameRequired',
-          });
-          const firstNameRequired = validators.required(firstNameRequiredMessage);
-
-          // Last name
-          const lastNameLabel = intl.formatMessage({
-            id: 'ProfileSettingsForm.lastNameLabel',
-          });
-          const lastNamePlaceholder = intl.formatMessage({
-            id: 'ProfileSettingsForm.lastNamePlaceholder',
-          });
-          const lastNameRequiredMessage = intl.formatMessage({
-            id: 'ProfileSettingsForm.lastNameRequired',
-          });
-          const lastNameRequired = validators.required(lastNameRequiredMessage);
-
-          // Bio
-          const bioLabel = intl.formatMessage({
-            id: 'ProfileSettingsForm.bioLabel',
-          });
-          const bioPlaceholder = intl.formatMessage({
-            id: 'ProfileSettingsForm.bioPlaceholder',
-          });
 
           const uploadingOverlay =
             uploadInProgress || this.state.uploadDelay ? (
@@ -152,7 +115,7 @@ class ProfileSettingsFormComponent extends Component {
                 </div>
               </div>
             ) : (
-              <div className={css.avatarPlaceholder}>
+              <div className={css.avatarPlaceholder} data-tip data-for="profilePicTip">
                 <div className={css.avatarPlaceholderText}>
                   <FormattedMessage id="ProfileSettingsForm.addYourProfilePicture" />
                 </div>
@@ -169,24 +132,20 @@ class ProfileSettingsFormComponent extends Component {
           ) : null;
 
           const classes = classNames(rootClassName || css.root, className);
-          const submitInProgress = updateInProgress;
-          const submittedOnce = Object.keys(this.submittedValues).length > 0;
-          const pristineSinceLastSubmit = submittedOnce && isEqual(values, this.submittedValues);
-          const submitDisabled =
-            invalid || pristine || pristineSinceLastSubmit || uploadInProgress || submitInProgress;
 
           return (
             <Form
+              id="imageForm"
               className={classes}
-              onSubmit={e => {
-                this.submittedValues = values;
-                handleSubmit(e);
-              }}
+              onSubmit={handleSubmit}
             >
-              <div className={css.sectionContainer}>
-                <h3 className={css.sectionTitle}>
-                  <FormattedMessage id="ProfileSettingsForm.yourProfilePicture" />
-                </h3>
+              <div className={css.sectionContainer} >
+                <ReactTooltip id="profilePicTip" place="bottom" type="info" effect="solid" delayShow={1000} >
+                  <div className={css.tip}>
+                    <FormattedMessage id="ProfileSettingsForm.tip" />
+                    <FormattedMessage id="ProfileSettingsForm.fileInfo" />
+                  </div>
+                </ReactTooltip>
                 <Field
                   accept={ACCEPT_IMAGES}
                   id="profileImage"
@@ -227,7 +186,7 @@ class ProfileSettingsFormComponent extends Component {
                     }
 
                     return (
-                      <div className={css.uploadAvatarWrapper}>
+                      <div className={css.uploadAvatarWrapper } >
                         <label className={css.label} htmlFor={id}>
                           {label}
                         </label>
@@ -245,63 +204,8 @@ class ProfileSettingsFormComponent extends Component {
                     );
                   }}
                 </Field>
-                <div className={css.tip}>
-                  <FormattedMessage id="ProfileSettingsForm.tip" />
-                </div>
-                <div className={css.fileInfo}>
-                  <FormattedMessage id="ProfileSettingsForm.fileInfo" />
-                </div>
-              </div>
-              <div className={css.sectionContainer}>
-                <h3 className={css.sectionTitle}>
-                  <FormattedMessage id="ProfileSettingsForm.yourName" />
-                </h3>
-                <div className={css.nameContainer}>
-                  <FieldTextInput
-                    className={css.firstName}
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    label={firstNameLabel}
-                    placeholder={firstNamePlaceholder}
-                    validate={firstNameRequired}
-                  />
-                  <FieldTextInput
-                    className={css.lastName}
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    label={lastNameLabel}
-                    placeholder={lastNamePlaceholder}
-                    validate={lastNameRequired}
-                  />
-                </div>
-              </div>
-              <div className={classNames(css.sectionContainer, css.lastSection)}>
-                <h3 className={css.sectionTitle}>
-                  <FormattedMessage id="ProfileSettingsForm.bioHeading" />
-                </h3>
-                <FieldTextInput
-                  type="textarea"
-                  id="bio"
-                  name="bio"
-                  label={bioLabel}
-                  placeholder={bioPlaceholder}
-                />
-                <p className={css.bioInfo}>
-                  <FormattedMessage id="ProfileSettingsForm.bioInfo" />
-                </p>
               </div>
               {submitError}
-              <Button
-                className={css.submitButton}
-                type="submit"
-                inProgress={submitInProgress}
-                disabled={submitDisabled}
-                ready={pristineSinceLastSubmit}
-              >
-                <FormattedMessage id="ProfileSettingsForm.saveChanges" />
-              </Button>
             </Form>
           );
         }}
@@ -324,7 +228,6 @@ ProfileSettingsFormComponent.propTypes = {
 
   uploadImageError: propTypes.error,
   uploadInProgress: bool.isRequired,
-  updateInProgress: bool.isRequired,
   updateProfileError: propTypes.error,
   updateProfileReady: bool,
 

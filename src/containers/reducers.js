@@ -5,7 +5,6 @@
  */
 import CheckoutPage from './CheckoutPage/CheckoutPage.duck';
 import ContactDetailsPage from './ContactDetailsPage/ContactDetailsPage.duck';
-//mport DashboardPage from "./DashboardPage/DashboardPage.duck";
 import EditListingPage from './EditListingPage/EditListingPage.duck';
 import InboxPage from './InboxPage/InboxPage.duck';
 import ListingPage from './ListingPage/ListingPage.duck';
@@ -16,6 +15,7 @@ import PasswordResetPage from './PasswordResetPage/PasswordResetPage.duck';
 import PaymentMethodsPage from './PaymentMethodsPage/PaymentMethodsPage.duck';
 import ProfilePage from './ProfilePage/ProfilePage.duck';
 import ProfileSettingsPage from './ProfileSettingsPage/ProfileSettingsPage.duck';
+import ProfileSettings from '../ducks/ProfileSettings.duck';
 import SearchPage from './SearchPage/SearchPage.duck';
 import StripePayoutPage from './StripePayoutPage/StripePayoutPage.duck';
 import TransactionPage from './TransactionPage/TransactionPage.duck';
@@ -23,7 +23,6 @@ import TransactionPage from './TransactionPage/TransactionPage.duck';
 export {
   CheckoutPage,
   ContactDetailsPage,
-  //DashboardPage,
   EditListingPage,
   InboxPage,
   ListingPage,
@@ -34,6 +33,7 @@ export {
   PaymentMethodsPage,
   ProfilePage,
   ProfileSettingsPage,
+  ProfileSettings,
   SearchPage,
   StripePayoutPage,
   TransactionPage,

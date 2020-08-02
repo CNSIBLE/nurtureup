@@ -16,7 +16,7 @@ import {
   Page,
   UserNav,
 } from '../../components';
-import { ContactDetailsForm } from '../../forms';
+import { AboutMeForm } from '../../forms';
 import { TopbarContainer } from '../../containers';
 
 import { isScrollingDisabled } from '../../ducks/UI.duck';
@@ -45,7 +45,7 @@ export const ContactDetailsPageComponent = props => {
   const protectedData = user.attributes.profile.protectedData || {};
   const currentPhoneNumber = protectedData.phoneNumber || '';
   const contactInfoForm = user.id ? (
-    <ContactDetailsForm
+    <AboutMeForm
       className={css.form}
       initialValues={{ email: currentEmail, phoneNumber: currentPhoneNumber }}
       saveEmailError={saveEmailError}
@@ -65,16 +65,22 @@ export const ContactDetailsPageComponent = props => {
 
   return (
     <Page title={title} scrollingDisabled={scrollingDisabled}>
+
       <LayoutSideNavigation>
+
         <LayoutWrapperTopbar>
           <TopbarContainer
             currentPage="ContactDetailsPage"
             desktopClassName={css.desktopTopbar}
             mobileClassName={css.mobileTopbar}
           />
-          <UserNav selectedPageName="ContactDetailsPage" listing={currentUserListing} />
+          <div className={css.heroContainer}>
+            <div className={css.heroContent} />
+          </div>
         </LayoutWrapperTopbar>
+
         <LayoutWrapperAccountSettingsSideNav currentTab="ContactDetailsPage" />
+
         <LayoutWrapperMain>
           <div className={css.content}>
             <h1 className={css.title}>
@@ -83,6 +89,7 @@ export const ContactDetailsPageComponent = props => {
             {contactInfoForm}
           </div>
         </LayoutWrapperMain>
+
         <LayoutWrapperFooter>
           <Footer />
         </LayoutWrapperFooter>
