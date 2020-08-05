@@ -41,18 +41,32 @@ export const ContactDetailsPageComponent = props => {
   } = props;
 
   const user = ensureCurrentUser(currentUser);
-  const currentEmail = user.attributes.email || '';
-  const protectedData = user.attributes.profile.protectedData || {};
-  const currentPhoneNumber = protectedData.phoneNumber || '';
+  const profile = user.attributes.profile || {};
+  const protectedData = profile.protectedData || {};
+
+  const currentValues = {
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: user.attributes.email,
+    phone: protectedData.phone,
+    birthday: protectedData.birthday,
+    address1: protectedData.streetAddress1,
+    address2: protectedData.streetAddress2,
+    city: protectedData.city,
+    state: protectedData.state,
+    zip: protectedData.zip,
+  };
+
+
   const contactInfoForm = user.id ? (
     <AboutMeForm
       className={css.form}
-      initialValues={{ email: currentEmail, phoneNumber: currentPhoneNumber }}
+      initialValues={currentValues}
       saveEmailError={saveEmailError}
       savePhoneNumberError={savePhoneNumberError}
       currentUser={currentUser}
       onResendVerificationEmail={onResendVerificationEmail}
-      onSubmit={values => onSubmitContactDetails({ ...values, currentEmail, currentPhoneNumber })}
+      onSubmit={values => onSubmitContactDetails({ ...values, ...currentValues })}
       onChange={onChange}
       inProgress={saveContactDetailsInProgress}
       ready={contactDetailsChanged}
@@ -83,9 +97,6 @@ export const ContactDetailsPageComponent = props => {
 
         <LayoutWrapperMain>
           <div className={css.content}>
-            <h1 className={css.title}>
-              <FormattedMessage id="ContactDetailsPage.heading" />
-            </h1>
             {contactInfoForm}
           </div>
         </LayoutWrapperMain>

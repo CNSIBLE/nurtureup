@@ -71,7 +71,7 @@ export class LayoutWrapperAccountSettingsSideNavComponent extends Component {
 
     const tabs = [
       {
-        text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.contactDetailsTabTitle"/>,
+        text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.aboutMeTabTitle"/>,
         selected: currentTab === 'ContactDetailsPage',
         id: 'ContactDetailsPageTab',
         linkProps: {

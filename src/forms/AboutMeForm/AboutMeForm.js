@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
-import { Form as FinalForm } from 'react-final-form';
+import {compose} from 'redux';
+import {FormattedMessage, injectIntl, intlShape} from '../../util/reactIntl';
+import {Form as FinalForm} from 'react-final-form';
 import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
-import { propTypes } from '../../util/types';
+import {propTypes} from '../../util/types';
 import * as validators from '../../util/validators';
-import { ensureCurrentUser } from '../../util/data';
+import {ensureCurrentUser} from '../../util/data';
 import {
   isChangeEmailTakenError,
   isChangeEmailWrongPassword,
   isTooManyEmailVerificationRequestsError,
 } from '../../util/errors';
-import { FieldPhoneNumberInput, Form, PrimaryButton, FieldTextInput } from '../../components';
+import {FieldPhoneNumberInput, Form, PrimaryButton, FieldTextInput} from '../../components';
 
 import css from './AboutMeForm.css';
 
@@ -22,7 +22,7 @@ const SHOW_EMAIL_SENT_TIMEOUT = 2000;
 class AboutMeFormComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { showVerificationEmailSentMessage: false };
+    this.state = {showVerificationEmailSentMessage: false};
     this.emailSentTimeoutId = null;
     this.handleResendVerificationEmail = this.handleResendVerificationEmail.bind(this);
     this.submittedValues = {};
@@ -33,12 +33,12 @@ class AboutMeFormComponent extends Component {
   }
 
   handleResendVerificationEmail() {
-    this.setState({ showVerificationEmailSentMessage: true });
+    this.setState({showVerificationEmailSentMessage: true});
 
     this.props.onResendVerificationEmail().then(() => {
       // show "verification email sent" text for a bit longer.
       this.emailSentTimeoutId = window.setTimeout(() => {
-        this.setState({ showVerificationEmailSentMessage: false });
+        this.setState({showVerificationEmailSentMessage: false});
       }, SHOW_EMAIL_SENT_TIMEOUT);
     });
   }
@@ -63,15 +63,50 @@ class AboutMeFormComponent extends Component {
             sendVerificationEmailInProgress,
             values,
           } = fieldRenderProps;
-          const { email, phoneNumber } = values;
 
+          const {email, phone, firstName, lastName, city, state, zip, address1, address2, birthday} = values;
           const user = ensureCurrentUser(currentUser);
-
           if (!user.id) {
             return null;
           }
 
-          const { email: currentEmail, emailVerified, pendingEmail, profile } = user.attributes;
+          const {email: currentEmail, emailVerified, pendingEmail, profile} = user.attributes;
+          const {firstName: currentFirstName, lastName: currentLastName, protectedData} = profile || {};
+          const {
+            birthday: currentBirthday,
+            city: currentCity,
+            state: currentState,
+            phone: currentPhone,
+            streetAddress1: currentAddress1,
+            streetAddress2: currentAddress2,
+            zip: currentZip
+          } = protectedData || {};
+
+          // firstName
+          const hasFirstNameChanged = currentFirstName !== firstName;
+          const firstNameLabel = intl.formatMessage({
+            id: 'SignupForm.firstNameLabel',
+          });
+          const firstNamePlaceholder = intl.formatMessage({
+            id: 'SignupForm.firstNamePlaceholder',
+          });
+          const firstNameRequiredMessage = intl.formatMessage({
+            id: 'SignupForm.firstNameRequired',
+          });
+          const firstNameRequired = validators.required(firstNameRequiredMessage);
+
+          // lastName
+          const hasLastNameChanged = currentLastName !== lastName;
+          const lastNameLabel = intl.formatMessage({
+            id: 'SignupForm.lastNameLabel',
+          });
+          const lastNamePlaceholder = intl.formatMessage({
+            id: 'SignupForm.lastNamePlaceholder',
+          });
+          const lastNameRequiredMessage = intl.formatMessage({
+            id: 'SignupForm.lastNameRequired',
+          });
+          const lastNameRequired = validators.required(lastNameRequiredMessage);
 
           // email
 
@@ -79,17 +114,17 @@ class AboutMeFormComponent extends Component {
           const emailChanged = currentEmail !== email;
 
           const emailLabel = intl.formatMessage({
-            id: 'ContactDetailsForm.emailLabel',
+            id: 'AboutMeForm.emailLabel',
           });
 
           const emailPlaceholder = currentEmail || '';
 
           const emailRequiredMessage = intl.formatMessage({
-            id: 'ContactDetailsForm.emailRequired',
+            id: 'AboutMeForm.emailRequired',
           });
           const emailRequired = validators.required(emailRequiredMessage);
           const emailInvalidMessage = intl.formatMessage({
-            id: 'ContactDetailsForm.emailInvalid',
+            id: 'AboutMeForm.emailInvalid',
           });
           const emailValid = validators.emailFormatValid(emailInvalidMessage);
 
@@ -99,14 +134,14 @@ class AboutMeFormComponent extends Component {
 
           const emailTouched = this.submittedValues.email !== values.email;
           const emailTakenErrorText = isChangeEmailTakenError(saveEmailError)
-            ? intl.formatMessage({ id: 'ContactDetailsForm.emailTakenError' })
+            ? intl.formatMessage({id: 'AboutMeForm.emailTakenError'})
             : null;
 
           let resendEmailMessage = null;
           if (tooManyVerificationRequests) {
             resendEmailMessage = (
               <span className={css.tooMany}>
-                <FormattedMessage id="ContactDetailsForm.tooManyVerificationRequests" />
+                <FormattedMessage id="AboutMeForm.tooManyVerificationRequests"/>
               </span>
             );
           } else if (
@@ -115,7 +150,7 @@ class AboutMeFormComponent extends Component {
           ) {
             resendEmailMessage = (
               <span className={css.emailSent}>
-                <FormattedMessage id="ContactDetailsForm.emailSent" />
+                <FormattedMessage id="AboutMeForm.emailSent"/>
               </span>
             );
           } else {
@@ -126,7 +161,7 @@ class AboutMeFormComponent extends Component {
                 onClick={this.handleResendVerificationEmail}
                 role="button"
               >
-                <FormattedMessage id="ContactDetailsForm.resendEmailVerificationText" />
+                <FormattedMessage id="AboutMeForm.resendEmailVerificationText"/>
               </span>
             );
             /* eslint-enable jsx-a11y/no-static-element-interactions */
@@ -139,7 +174,7 @@ class AboutMeFormComponent extends Component {
             // Current email is verified and there's no pending unverified email
             emailVerifiedInfo = (
               <span className={css.emailVerified}>
-                <FormattedMessage id="ContactDetailsForm.emailVerified" />
+                <FormattedMessage id="AboutMeForm.emailVerified"/>
               </span>
             );
           } else if (!emailVerified && !pendingEmail) {
@@ -148,8 +183,8 @@ class AboutMeFormComponent extends Component {
             emailVerifiedInfo = (
               <span className={css.emailUnverified}>
                 <FormattedMessage
-                  id="ContactDetailsForm.emailUnverified"
-                  values={{ resendEmailMessage }}
+                  id="AboutMeForm.emailUnverified"
+                  values={{resendEmailMessage}}
                 />
               </span>
             );
@@ -160,8 +195,8 @@ class AboutMeFormComponent extends Component {
             const pendingEmailCheckInbox = (
               <span className={css.checkInbox}>
                 <FormattedMessage
-                  id="ContactDetailsForm.pendingEmailCheckInbox"
-                  values={{ pendingEmail: pendingEmailStyled }}
+                  id="AboutMeForm.pendingEmailCheckInbox"
+                  values={{pendingEmail: pendingEmailStyled}}
                 />
               </span>
             );
@@ -169,41 +204,101 @@ class AboutMeFormComponent extends Component {
             emailVerifiedInfo = (
               <span className={css.pendingEmailUnverified}>
                 <FormattedMessage
-                  id="ContactDetailsForm.pendingEmailUnverified"
-                  values={{ pendingEmailCheckInbox, resendEmailMessage }}
+                  id="AboutMeForm.pendingEmailUnverified"
+                  values={{pendingEmailCheckInbox, resendEmailMessage}}
                 />
               </span>
             );
           }
 
           // phone
-          const protectedData = profile.protectedData || {};
-          const currentPhoneNumber = protectedData.phoneNumber;
-
           // has the phone number changed
-          const phoneNumberChanged = currentPhoneNumber !== phoneNumber;
+          const phoneNumberChanged = currentPhone !== phone;
 
           const phonePlaceholder = intl.formatMessage({
-            id: 'ContactDetailsForm.phonePlaceholder',
+            id: 'AboutMeForm.phonePlaceholder',
           });
-          const phoneLabel = intl.formatMessage({ id: 'ContactDetailsForm.phoneLabel' });
+          const phoneLabel = intl.formatMessage({id: 'AboutMeForm.phoneLabel'});
+
+          // street address 1
+          const hasAddress1Changed = currentAddress1 !== address1;
+
+          const streetAddress1Label = intl.formatMessage({
+            id: 'SignupForm.streetAddress1Label',
+          });
+          const streetAddress1Placeholder = intl.formatMessage({
+            id: 'SignupForm.streetAddress1Placeholder',
+          });
+          const streetAddress1RequiredMessage = intl.formatMessage({
+            id: 'SignupForm.streetAddress1Required',
+          });
+          const streetAddress1Required = validators.required(streetAddress1RequiredMessage);
+
+          // street address 2
+          const hasAddress2Changed = currentAddress2 !== address2;
+          const streetAddress2Label = intl.formatMessage({
+            id: 'SignupForm.streetAddress2Label',
+          });
+          const streetAddress2Placeholder = intl.formatMessage({
+            id: 'SignupForm.streetAddress2Placeholder',
+          });
+
+          // state
+          const hasStateChanged = currentState !== state;
+          const stateLabel = intl.formatMessage({
+            id: 'SignupForm.stateLabel',
+          });
+          const statePlaceholder = intl.formatMessage({
+            id: 'SignupForm.statePlaceholder',
+          });
+
+          // city
+          const hasCityChanged = currentCity !== city;
+          const addressCityLabel = intl.formatMessage({
+            id: 'SignupForm.addressCityLabel',
+          });
+          const addressCityPlaceholder = intl.formatMessage({
+            id: 'SignupForm.addressCityPlaceholder',
+          });
+          const addressCityRequiredMessage = intl.formatMessage({
+            id: 'SignupForm.addressCityRequired',
+          });
+          const addressCityRequired = validators.required(addressCityRequiredMessage);
+
+          // zip
+          const hasZipChanged = currentZip !== zip;
+          const addressZipLabel = intl.formatMessage({
+            id: 'SignupForm.addressZipLabel',
+          });
+          const addressZipPlaceholder = intl.formatMessage({
+            id: 'SignupForm.addressZipPlaceholder',
+          });
+          const addressZipRequiredMessage = intl.formatMessage({
+            id: 'SignupForm.addressCityRequired',
+          });
+          const addressZipRequired = validators.required(addressZipRequiredMessage);
+
+          const addressZipInvalidMessage = intl.formatMessage({
+            id: 'SignupForm.addressZipInvalid',
+          });
+          const addressZipValid = validators.addressZipFormatValid(addressZipInvalidMessage);
 
           // password
           const passwordLabel = intl.formatMessage({
-            id: 'ContactDetailsForm.passwordLabel',
+            id: 'AboutMeForm.passwordLabel',
           });
           const passwordPlaceholder = intl.formatMessage({
-            id: 'ContactDetailsForm.passwordPlaceholder',
+            id: 'AboutMeForm.passwordPlaceholder',
           });
           const passwordRequiredMessage = intl.formatMessage({
-            id: 'ContactDetailsForm.passwordRequired',
+            id: 'AboutMeForm.passwordRequired',
           });
 
           const passwordRequired = validators.requiredStringNoTrim(passwordRequiredMessage);
 
           const passwordMinLengthMessage = intl.formatMessage(
             {
-              id: 'ContactDetailsForm.passwordTooShort',
+              id: 'AboutMeForm.passwordTooShort',
             },
             {
               minLength: validators.PASSWORD_MIN_LENGTH,
@@ -220,7 +315,7 @@ class AboutMeFormComponent extends Component {
             : null;
 
           const passwordFailedMessage = intl.formatMessage({
-            id: 'ContactDetailsForm.passwordFailed',
+            id: 'AboutMeForm.passwordFailed',
           });
           const passwordTouched = this.submittedValues.currentPassword !== values.currentPassword;
           const passwordErrorText = isChangeEmailWrongPassword(saveEmailError)
@@ -239,19 +334,19 @@ class AboutMeFormComponent extends Component {
           if (isGenericEmailError && savePhoneNumberError) {
             genericError = (
               <span className={css.error}>
-                <FormattedMessage id="ContactDetailsForm.genericFailure" />
+                <FormattedMessage id="AboutMeForm.genericFailure"/>
               </span>
             );
           } else if (isGenericEmailError) {
             genericError = (
               <span className={css.error}>
-                <FormattedMessage id="ContactDetailsForm.genericEmailFailure" />
+                <FormattedMessage id="AboutMeForm.genericEmailFailure"/>
               </span>
             );
           } else if (savePhoneNumberError) {
             genericError = (
               <span className={css.error}>
-                <FormattedMessage id="ContactDetailsForm.genericPhoneNumberFailure" />
+                <FormattedMessage id="AboutMeForm.genericPhoneNumberFailure"/>
               </span>
             );
           }
@@ -263,7 +358,9 @@ class AboutMeFormComponent extends Component {
             invalid ||
             pristineSinceLastSubmit ||
             inProgress ||
-            !(emailChanged || phoneNumberChanged);
+            !(emailChanged || phoneNumberChanged || hasAddress1Changed || hasAddress2Changed ||
+              hasLastNameChanged || hasFirstNameChanged || hasZipChanged || hasCityChanged ||
+              hasStateChanged);
 
           return (
             <Form
@@ -274,31 +371,110 @@ class AboutMeFormComponent extends Component {
               }}
             >
               <div className={css.contactDetailsSection}>
+                <div className={css.nameDiv}>
+                  <FieldTextInput
+                    className={css.firstNameRoot}
+                    type="text"
+                    id={formId ? `${formId}.firstName` : 'firstName'}
+                    name="firstName"
+                    autoComplete="given-name"
+                    label={firstNameLabel}
+                    placeholder={firstNamePlaceholder}
+                    validate={firstNameRequired}
+                  />
+                  <FieldTextInput
+                    className={css.lastNameRoot}
+                    type="text"
+                    id={formId ? `${formId}.lastName` : 'lastName'}
+                    name="lastName"
+                    autoComplete="family-name"
+                    label={lastNameLabel}
+                    placeholder={lastNamePlaceholder}
+                    validate={lastNameRequired}
+                  />
+                </div>
+                <div className={css.phoneEmailDiv}>
+                  <div className={css.email}>
+                    <FieldTextInput
+                      type="email"
+                      name="email"
+                      id={formId ? `${formId}.email` : 'email'}
+                      label={emailLabel}
+                      placeholder={emailPlaceholder}
+                      validate={validators.composeValidators(emailRequired, emailValid)}
+                      customErrorText={emailTouched ? null : emailTakenErrorText}
+                    />
+                    {emailVerifiedInfo}
+                  </div>
+                  <FieldPhoneNumberInput
+                    className={css.phone}
+                    name="phone"
+                    id={formId ? `${formId}.phone` : 'phone'}
+                    label={phoneLabel}
+                    placeholder={phonePlaceholder}
+                  />
+                </div>
+
                 <FieldTextInput
-                  type="email"
-                  name="email"
-                  id={formId ? `${formId}.email` : 'email'}
-                  label={emailLabel}
-                  placeholder={emailPlaceholder}
-                  validate={validators.composeValidators(emailRequired, emailValid)}
-                  customErrorText={emailTouched ? null : emailTakenErrorText}
+                  className={css.addressField1}
+                  type="text"
+                  id={formId ? `${formId}.address1` : 'address1'}
+                  name="address1"
+                  autoComplete="address-line1"
+                  label={streetAddress1Label}
+                  placeholder={streetAddress1Placeholder}
+                  validate={validators.composeValidators(streetAddress1Required)}
                 />
-                {emailVerifiedInfo}
-                <FieldPhoneNumberInput
-                  className={css.phone}
-                  name="phoneNumber"
-                  id={formId ? `${formId}.phoneNumber` : 'phoneNumber'}
-                  label={phoneLabel}
-                  placeholder={phonePlaceholder}
+                <FieldTextInput
+                  className={css.addressField2}
+                  type="text"
+                  id={formId ? `${formId}.address2` : 'address2'}
+                  name="address2"
+                  autoComplete="address-line2"
+                  label={streetAddress2Label}
+                  value={currentAddress2}
+                  placeholder={streetAddress2Placeholder}
+                />
+
+                <div className={css.cityState}>
+                  <FieldTextInput
+                    className={css.city}
+                    type="text"
+                    id={formId ? `${formId}.city` : 'city'}
+                    name="city"
+                    autoComplete="address-level2"
+                    label={addressCityLabel}
+                    placeholder={addressCityPlaceholder}
+                    validate={validators.composeValidators(addressCityRequired)}
+                  />
+                  <FieldTextInput
+                    id={formId ? `${formId}.state` : 'state'}
+                    name="state"
+                    className={css.state}
+                    type="text"
+                    autoComplete="address-level1"
+                    label={stateLabel}
+                    placeholder={statePlaceholder}
+                  />
+                </div>
+                <FieldTextInput
+                  className={css.zip}
+                  type="text"
+                  id={formId ? `${formId}.zip` : 'zip'}
+                  name="zip"
+                  autoComplete="postal-code"
+                  label={addressZipLabel}
+                  placeholder={addressZipPlaceholder}
+                  validate={validators.composeValidators(addressZipRequired, addressZipValid)}
                 />
               </div>
 
               <div className={confirmClasses}>
                 <h3 className={css.confirmChangesTitle}>
-                  <FormattedMessage id="ContactDetailsForm.confirmChangesTitle" />
+                  <FormattedMessage id="AboutMeForm.confirmChangesTitle"/>
                 </h3>
                 <p className={css.confirmChangesInfo}>
-                  <FormattedMessage id="ContactDetailsForm.confirmChangesInfo" />
+                  <FormattedMessage id="AboutMeForm.confirmChangesInfo"/>
                 </p>
 
                 <FieldTextInput
@@ -321,7 +497,7 @@ class AboutMeFormComponent extends Component {
                   ready={pristineSinceLastSubmit}
                   disabled={submitDisabled}
                 >
-                  <FormattedMessage id="ContactDetailsForm.saveChanges" />
+                  <FormattedMessage id="AboutMeForm.saveChanges"/>
                 </PrimaryButton>
               </div>
             </Form>
@@ -345,7 +521,7 @@ AboutMeFormComponent.defaultProps = {
   phoneNumber: null,
 };
 
-const { bool, func, string } = PropTypes;
+const {bool, func, string} = PropTypes;
 
 AboutMeFormComponent.propTypes = {
   rootClassName: string,

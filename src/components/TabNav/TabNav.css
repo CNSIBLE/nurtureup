@@ -39,7 +39,7 @@
   /* Font */
   @apply --marketplaceTabNavFontStyles;
 
-  color: var(--matterColor);
+  color: #979797;
   padding-bottom: 10px;
   padding-top: 10px;
 
@@ -56,7 +56,7 @@
 
   &:hover {
     text-decoration: none;
-    color: var(--matterColorDark);
+    color: var(--nuYellow);
   }
 
   @media (--viewportLarge) {
@@ -76,8 +76,8 @@
 }
 
 .selectedLink {
-  border-bottom-color: var(--matterColorDark);
-  color: var(--matterColorDark);
+  border-bottom-color: var(--nuPink);
+  color: var(--nuPink);
 
   @media (--viewportLarge) {
     width: var(--TabNav_linkWidth);
