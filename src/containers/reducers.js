@@ -6,6 +6,7 @@
 import BioPage from './BioPage/BioPage.duck';
 import CheckoutPage from './CheckoutPage/CheckoutPage.duck';
 import ContactDetailsPage from './ContactDetailsPage/ContactDetailsPage.duck';
+//mport DashboardPage from "./DashboardPage/DashboardPage.duck";
 import EditListingPage from './EditListingPage/EditListingPage.duck';
 import InboxPage from './InboxPage/InboxPage.duck';
 import ListingPage from './ListingPage/ListingPage.duck';
@@ -25,6 +26,7 @@ export {
   BioPage,
   CheckoutPage,
   ContactDetailsPage,
+  //DashboardPage,
   EditListingPage,
   InboxPage,
   ListingPage,
