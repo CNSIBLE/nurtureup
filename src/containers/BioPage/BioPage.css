@@ -16,16 +16,6 @@
   box-shadow: none;
 }
 
-.title {
-  hyphens: auto;
-  margin-top: 8px;
-  margin-bottom: 19px;
-
-  @media (--viewportMedium) {
-    margin-bottom: 47px;
-  }
-}
-
 .heroContainer {
   position: relative;
   display: flex;

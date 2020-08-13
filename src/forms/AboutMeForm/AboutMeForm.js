@@ -51,9 +51,9 @@ class AboutMeFormComponent extends Component {
           const {
             rootClassName,
             className,
-            saveEmailError,
-            savePhoneNumberError,
             currentUser,
+            saveUserError,
+            saveEmailError,
             formId,
             handleSubmit,
             inProgress,
@@ -70,7 +70,8 @@ class AboutMeFormComponent extends Component {
             return null;
           }
 
-          const {email: currentEmail, emailVerified, pendingEmail, profile} = user.attributes;
+          const attributes = user.attributes || {}
+          const {email: currentEmail, emailVerified, pendingEmail, profile} = attributes;
           const {firstName: currentFirstName, lastName: currentLastName, protectedData} = profile || {};
           const {
             birthday: currentBirthday,
@@ -137,7 +138,7 @@ class AboutMeFormComponent extends Component {
             ? intl.formatMessage({id: 'AboutMeForm.emailTakenError'})
             : null;
 
-          let resendEmailMessage = null;
+          let resendEmailMessage;
           if (tooManyVerificationRequests) {
             resendEmailMessage = (
               <span className={css.tooMany}>
@@ -331,7 +332,7 @@ class AboutMeFormComponent extends Component {
 
           let genericError = null;
 
-          if (isGenericEmailError && savePhoneNumberError) {
+          if (isGenericEmailError && saveUserError) {
             genericError = (
               <span className={css.error}>
                 <FormattedMessage id="AboutMeForm.genericFailure"/>
@@ -343,10 +344,10 @@ class AboutMeFormComponent extends Component {
                 <FormattedMessage id="AboutMeForm.genericEmailFailure"/>
               </span>
             );
-          } else if (savePhoneNumberError) {
+          } else if (saveUserError) {
             genericError = (
               <span className={css.error}>
-                <FormattedMessage id="AboutMeForm.genericPhoneNumberFailure"/>
+                <FormattedMessage id="AboutMeForm.genericUserFailure"/>
               </span>
             );
           }
@@ -512,13 +513,11 @@ AboutMeFormComponent.defaultProps = {
   rootClassName: null,
   className: null,
   formId: null,
+  saveUserError: null,
   saveEmailError: null,
-  savePhoneNumberError: null,
   inProgress: false,
   sendVerificationEmailError: null,
   sendVerificationEmailInProgress: false,
-  email: null,
-  phoneNumber: null,
 };
 
 const {bool, func, string} = PropTypes;
@@ -527,12 +526,11 @@ AboutMeFormComponent.propTypes = {
   rootClassName: string,
   className: string,
   formId: string,
+  saveUserError: propTypes.error,
   saveEmailError: propTypes.error,
-  savePhoneNumberError: propTypes.error,
   inProgress: bool,
   intl: intlShape.isRequired,
   onResendVerificationEmail: func.isRequired,
-  ready: bool.isRequired,
   sendVerificationEmailError: propTypes.error,
   sendVerificationEmailInProgress: bool,
 };

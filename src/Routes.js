@@ -94,7 +94,6 @@ class RouteComponentRenderer extends Component {
   render() {
     const {route, match, location, staticContext} = this.props;
     const {component: RouteComponent, authPage = 'SignupPage'} = route;
-    console.log(this.props);
 
     if (canShowComponent(this.props)) {
       if (goToDashboard(this.props)) {

@@ -8,7 +8,7 @@ import {compose} from 'redux';
 import {FormattedMessage} from 'react-intl';
 import {withViewport} from '../../util/contextHelpers';
 import {LayoutWrapperSideNav} from '../../components';
-import {ProfileSettingsForm} from "../../forms";
+import {ImageForm} from "../../forms";
 import css from "./LayoutWrapperAccountSettingsSideNav.css";
 import {ensureCurrentUser} from "../../util/data";
 import {
@@ -79,6 +79,14 @@ export class LayoutWrapperAccountSettingsSideNavComponent extends Component {
         },
       },
       {
+        text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.bioTabTitle"/>,
+        selected: currentTab === 'BioPage',
+        id: 'BioPageTab',
+        linkProps: {
+          name: 'BioPage',
+        },
+      },
+      {
         text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.passwordTabTitle"/>,
         selected: currentTab === 'PasswordChangePage',
         id: 'PasswordChangePageTab',
@@ -118,7 +126,7 @@ export class LayoutWrapperAccountSettingsSideNavComponent extends Component {
     const profileImage = image || {imageId: profileImageId};
 
     const profileImageForm = user.id ? (
-      <ProfileSettingsForm
+      <ImageForm
         className={css.form}
         currentUser={currentUser}
         initialValues={{profileImage: user.profileImage}}

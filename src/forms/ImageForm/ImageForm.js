@@ -8,13 +8,13 @@ import { ensureCurrentUser } from '../../util/data';
 import { propTypes } from '../../util/types';
 import { isUploadImageOverLimitError } from '../../util/errors';
 import { Form, Avatar, ImageFromFile, IconSpinner } from '../../components';
-import css from './ProfileSettingsForm.css';
+import css from './ImageForm.css';
 import ReactTooltip from "react-tooltip";
 
 const ACCEPT_IMAGES = 'image/*';
 const UPLOAD_CHANGE_DELAY = 2000; // Show spinner so that browser has time to load img srcset
 
-class ProfileSettingsFormComponent extends Component {
+class ImageFormComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -111,23 +111,23 @@ class ProfileSettingsFormComponent extends Component {
                 {imageFromFile}
                 {avatarComponent}
                 <div className={css.changeAvatar}>
-                  <FormattedMessage id="ProfileSettingsForm.changeAvatar" />
+                  <FormattedMessage id="ImageForm.changeAvatar" />
                 </div>
               </div>
             ) : (
               <div className={css.avatarPlaceholder} data-tip data-for="profilePicTip">
                 <div className={css.avatarPlaceholderText}>
-                  <FormattedMessage id="ProfileSettingsForm.addYourProfilePicture" />
+                  <FormattedMessage id="ImageForm.addYourProfilePicture" />
                 </div>
                 <div className={css.avatarPlaceholderTextMobile}>
-                  <FormattedMessage id="ProfileSettingsForm.addYourProfilePictureMobile" />
+                  <FormattedMessage id="ImageForm.addYourProfilePictureMobile" />
                 </div>
               </div>
             );
 
           const submitError = updateProfileError ? (
             <div className={css.error}>
-              <FormattedMessage id="ProfileSettingsForm.updateProfileFailed" />
+              <FormattedMessage id="ImageForm.updateProfileFailed" />
             </div>
           ) : null;
 
@@ -142,8 +142,8 @@ class ProfileSettingsFormComponent extends Component {
               <div className={css.sectionContainer} >
                 <ReactTooltip id="profilePicTip" place="bottom" type="info" effect="solid" delayShow={1000} >
                   <div className={css.tip}>
-                    <FormattedMessage id="ProfileSettingsForm.tip" />
-                    <FormattedMessage id="ProfileSettingsForm.fileInfo" />
+                    <FormattedMessage id="ImageForm.tip" />
+                    <FormattedMessage id="ImageForm.fileInfo" />
                   </div>
                 </ReactTooltip>
                 <Field
@@ -174,13 +174,13 @@ class ProfileSettingsFormComponent extends Component {
                     if (isUploadImageOverLimitError(uploadImageError)) {
                       error = (
                         <div className={css.error}>
-                          <FormattedMessage id="ProfileSettingsForm.imageUploadFailedFileTooLarge" />
+                          <FormattedMessage id="ImageForm.imageUploadFailedFileTooLarge" />
                         </div>
                       );
                     } else if (uploadImageError) {
                       error = (
                         <div className={css.error}>
-                          <FormattedMessage id="ProfileSettingsForm.imageUploadFailed" />
+                          <FormattedMessage id="ImageForm.imageUploadFailed" />
                         </div>
                       );
                     }
@@ -214,7 +214,7 @@ class ProfileSettingsFormComponent extends Component {
   }
 }
 
-ProfileSettingsFormComponent.defaultProps = {
+ImageFormComponent.defaultProps = {
   rootClassName: null,
   className: null,
   uploadImageError: null,
@@ -222,7 +222,7 @@ ProfileSettingsFormComponent.defaultProps = {
   updateProfileReady: false,
 };
 
-ProfileSettingsFormComponent.propTypes = {
+ImageFormComponent.propTypes = {
   rootClassName: string,
   className: string,
 
@@ -235,8 +235,8 @@ ProfileSettingsFormComponent.propTypes = {
   intl: intlShape.isRequired,
 };
 
-const ProfileSettingsForm = compose(injectIntl)(ProfileSettingsFormComponent);
+const ImageForm = compose(injectIntl)(ImageFormComponent);
 
-ProfileSettingsForm.displayName = 'ProfileSettingsForm';
+ImageForm.displayName = 'ImageForm';
 
-export default ProfileSettingsForm;
+export default ImageForm;
