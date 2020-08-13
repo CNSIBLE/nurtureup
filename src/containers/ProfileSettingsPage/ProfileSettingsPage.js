@@ -14,9 +14,9 @@ import {
   LayoutWrapperMain,
   LayoutWrapperFooter,
   Footer,
-  NamedLink,
+  NamedLink, AvatarDashboard,
 } from '../../components';
-import { ProfileSettingsForm } from '../../forms';
+import { ImageForm } from '../../forms';
 import { TopbarContainer } from '../../containers';
 
 import { updateProfile, uploadImage } from './ProfileSettingsPage.duck';
@@ -45,42 +45,27 @@ export class ProfileSettingsPageComponent extends Component {
       intl,
     } = this.props;
 
-    const handleSubmit = values => {
-      const { firstName, lastName, bio: rawBio } = values;
+    const handleSubmit = () => {
+       const img = this.props.image;
 
-      // Ensure that the optional bio is a string
-      const bio = rawBio || '';
-
-      const profile = {
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        bio,
-      };
-      const uploadedImage = this.props.image;
-
-      // Update profileImage only if file system has been accessed
-      const updatedValues =
-        uploadedImage && uploadedImage.imageId && uploadedImage.file
-          ? { ...profile, profileImageId: uploadedImage.imageId }
-          : profile;
-
-      onUpdateProfile(updatedValues);
+      if(img && img.imageId && img.file) {
+        // Update profileImage only if file system has been accessed
+        onUpdateProfile({profileImageId: img.imageId})
+      }
     };
 
     const user = ensureCurrentUser(currentUser);
-    const { firstName, lastName, bio } = user.attributes.profile;
     const profileImageId = user.profileImage ? user.profileImage.id : null;
     const profileImage = image || { imageId: profileImageId };
 
     const profileSettingsForm = user.id ? (
-      <ProfileSettingsForm
+      <ImageForm
         className={css.form}
         currentUser={currentUser}
-        initialValues={{ firstName, lastName, bio, profileImage: user.profileImage }}
+        initialValues={{profileImage: user.profileImage }}
         profileImage={profileImage}
         onImageUpload={e => onImageUploadHandler(e, onImageUpload)}
         uploadInProgress={uploadInProgress}
-        updateInProgress={updateInProgress}
         uploadImageError={uploadImageError}
         updateProfileError={updateProfileError}
         onSubmit={handleSubmit}
@@ -94,14 +79,15 @@ export class ProfileSettingsPageComponent extends Component {
         <LayoutSingleColumn>
           <LayoutWrapperTopbar>
             <TopbarContainer currentPage="ProfileSettingsPage" />
-            <UserNav selectedPageName="ProfileSettingsPage" listing={currentUserListing} />
           </LayoutWrapperTopbar>
+
           <LayoutWrapperMain>
+            <div className={css.heroContainer}>
+              <div className={css.heroContent} />
+            </div>
+
             <div className={css.content}>
               <div className={css.headingContainer}>
-                <h1 className={css.heading}>
-                  <FormattedMessage id="ProfileSettingsPage.heading" />
-                </h1>
                 {user.id ? (
                   <NamedLink
                     className={css.profileLink}

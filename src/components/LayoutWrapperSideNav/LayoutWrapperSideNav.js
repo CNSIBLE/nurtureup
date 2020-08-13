@@ -14,8 +14,8 @@ const LayoutWrapperSideNav = props => {
   const classes = classNames(rootClassName || css.root, className);
   return (
     <aside className={classes}>
-      {tabs ? <TabNav rootClassName={css.tabs} tabRootClassName={css.tab} tabs={tabs} /> : null}
       {children}
+      {tabs ? <TabNav rootClassName={css.tabs} tabRootClassName={css.tab} tabs={tabs} /> : null}
     </aside>
   );
 };

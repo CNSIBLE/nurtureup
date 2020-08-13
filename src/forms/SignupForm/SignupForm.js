@@ -354,18 +354,7 @@ export class SignupFormComponent extends Component {
 
 
           const handleSubmitSignup = values => {
-
-            //window.alert(JSON.stringify(values));
-
-            //const name = this.input.current.value;
-            //window.alert(name);
             this.setState({showPaymentDiv: true});
-
-            //const { fname} = values;
-            //window.alert(JSON.stringify(this.state.fname));
-            //const params = { firstName: fname.trim(), lastName: lname.trim(), ...rest };
-            //window.alert(JSON.stringify(params));
-            //submitSignup(params);
 
             const params = {
               firstName: this.state.firstName.trim(),
@@ -374,24 +363,10 @@ export class SignupFormComponent extends Component {
               password: this.state.password.trim()
             }
             submitSignup(params);
-            //window.alert(this.state.testName);
-            //window.alert(this.state.lastName);
-            //window.alert(this.state.phone);
           };
 
           const handleGiverSignup = values => {
-
-            //window.alert(JSON.stringify(values));
-
-            //const name = this.input.current.value;
-            //window.alert(name);
             this.setState({showBackgroundDiv: true});
-
-            //const { fname} = values;
-            //window.alert(JSON.stringify(this.state.fname));
-            //const params = { firstName: fname.trim(), lastName: lname.trim(), ...rest };
-            //window.alert(JSON.stringify(params));
-            //submitSignup(params);
 
             const params = {
               firstName: this.state.firstName.trim(),
@@ -400,21 +375,14 @@ export class SignupFormComponent extends Component {
               password: this.state.password.trim()
             }
             submitSignup(params);
-            //window.alert(this.state.testName);
-            //window.alert(this.state.lastName);
-            //window.alert(this.state.phone);
           };
 
           const handlePaymentSubmit = params => {
-            //setIsSubmitting = true;
             const ensuredCurrentUser = ensureCurrentUser(currentUser);
             const stripeCustomer = ensuredCurrentUser.stripeCustomer;
             const {stripe, card, formValues} = params;
             window.alert("stripe = " + JSON.stringify(stripe));
-            //window.alert("card = " + JSON.stringify(card));
             window.alert("user = " + JSON.stringify(currentUser));
-            //window.alert("form = " + JSON.stringify(formValues));
-            //window.alert("params = " + JSON.stringify(params));
 
 
             onCreateSetupIntent()
@@ -437,12 +405,9 @@ export class SignupFormComponent extends Component {
               .then(() => {
                 // Update currentUser entity and its sub entities: stripeCustomer and defaultPaymentMethod
                 fetchStripeCustomer();
-                //setIsSubmitting(false);
-                //setCardState('default');
               })
               .catch(error => {
                 console.error(error);
-                //setIsSubmitting(false);
               });
           };
 
@@ -468,7 +433,7 @@ export class SignupFormComponent extends Component {
             window.alert('I made it');
             this.setState({showDisclosures: true});
             this.setState({showPaymentDiv: false});
-            this.setState({showBackgroundDiv:false});
+            this.setState({showBackgroundDiv: false});
 
           };
 
