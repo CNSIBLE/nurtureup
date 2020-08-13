@@ -1,5 +1,6 @@
 export { default as BookingTimeForm } from './BookingTimeForm/BookingTimeForm';
-export { default as ContactDetailsForm } from './ContactDetailsForm/ContactDetailsForm';
+export { default as AboutMeForm } from './AboutMeForm/AboutMeForm';
+export { default as BioForm } from './BioForm/BioForm';
 export { default as EditListingAvailabilityExceptionForm } from './EditListingAvailabilityExceptionForm/EditListingAvailabilityExceptionForm';
 export { default as EditListingAvailabilityPlanForm } from './EditListingAvailabilityPlanForm/EditListingAvailabilityPlanForm';
 export { default as EditListingDescriptionForm } from './EditListingDescriptionForm/EditListingDescriptionForm';
@@ -18,7 +19,7 @@ export { default as PasswordRecoveryForm } from './PasswordRecoveryForm/Password
 export { default as PasswordResetForm } from './PasswordResetForm/PasswordResetForm';
 export { default as PaymentMethodsForm } from './PaymentMethodsForm/PaymentMethodsForm';
 export { default as PriceFilterForm } from './PriceFilterForm/PriceFilterForm';
-export { default as ProfileSettingsForm } from './ProfileSettingsForm/ProfileSettingsForm';
+export { default as ImageForm } from './ImageForm/ImageForm';
 export { default as ReviewForm } from './ReviewForm/ReviewForm';
 export { default as SendMessageForm } from './SendMessageForm/SendMessageForm';
 export { default as SignupForm } from './SignupForm/SignupForm';

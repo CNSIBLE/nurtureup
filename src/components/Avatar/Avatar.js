@@ -43,8 +43,9 @@ export const AvatarComponent = props => {
   const userIsCurrentUser = user && user.type === 'currentUser';
   const avatarUser = userIsCurrentUser ? ensureCurrentUser(user) : ensureUser(user);
 
-  const isBannedUser = avatarUser.attributes.banned;
-  const isDeletedUser = avatarUser.attributes.deleted;
+  const attributes = avatarUser.attributes || {}
+  const isBannedUser = attributes.banned || false;
+  const isDeletedUser = attributes.deleted || false;
 
   const bannedUserDisplayName = intl.formatMessage({
     id: 'Avatar.bannedUserDisplayName',

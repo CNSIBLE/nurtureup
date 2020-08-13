@@ -144,7 +144,10 @@ export const StripePayoutPageComponent = props => {
             desktopClassName={css.desktopTopbar}
             mobileClassName={css.mobileTopbar}
           />
-          <UserNav selectedPageName="StripePayoutPage" />
+
+          <div className={css.heroContainer}>
+            <div className={css.heroContent} />
+          </div>
         </LayoutWrapperTopbar>
         <LayoutWrapperAccountSettingsSideNav currentTab="StripePayoutPage" />
         <LayoutWrapperMain>

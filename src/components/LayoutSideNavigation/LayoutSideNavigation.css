@@ -40,10 +40,7 @@
      * and left padding together with border should be 60px.
      */
     padding: 112px 36px 82px 59px;
-    background-color: var(--matterColorLight);
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: var(--matterColorNegative);
+    background-color: var(--nuBackground);
   }
 
   @media (--viewportLargeWithPaddings) {

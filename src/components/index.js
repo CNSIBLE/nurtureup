@@ -67,7 +67,8 @@ export { default as UserDisplayName } from './UserDisplayName/UserDisplayName';
 export { default as ValidationError } from './ValidationError/ValidationError';
 export { default as Card } from './Card/Card';
 export { default as CardAboutMe } from './CardAboutMe/CardAboutMe';
-export { default as CardQuickActions } from './CardQuickActions/CardQuickActions'
+export { default as CardQuickActions } from './CardQuickActions/CardQuickActions';
+export { default as CardNextAppointment} from './CardNextAppointment/CardNextAppointment';
 
 /**
  * Composite components
@@ -113,6 +114,7 @@ export { default as FieldDateInput } from './FieldDateInput/FieldDateInput';
 export { default as FieldDateRangeController } from './FieldDateRangeController/FieldDateRangeController';
 export { default as FieldDateRangeInput } from './FieldDateRangeInput/FieldDateRangeInput';
 export { default as FieldRadioButton } from './FieldRadioButton/FieldRadioButton';
+export { default as FieldRangeSlider } from './FieldRangeSlider/FieldRangeSlider';
 export { default as FieldReviewRating } from './FieldReviewRating/FieldReviewRating';
 export { default as FieldSelect } from './FieldSelect/FieldSelect';
 export { default as FieldTextInput } from './FieldTextInput/FieldTextInput';

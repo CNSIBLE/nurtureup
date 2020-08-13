@@ -57,7 +57,9 @@ export const PasswordChangePageComponent = props => {
             desktopClassName={css.desktopTopbar}
             mobileClassName={css.mobileTopbar}
           />
-          <UserNav selectedPageName="PasswordChangePage" />
+          <div className={css.heroContainer}>
+            <div className={css.heroContent} />
+          </div>
         </LayoutWrapperTopbar>
         <LayoutWrapperAccountSettingsSideNav currentTab="PasswordChangePage" />
         <LayoutWrapperMain>
