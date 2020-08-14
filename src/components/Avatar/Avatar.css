@@ -104,6 +104,8 @@
   /* Fixed dimensions */
   width: var(--Avatar_sizeDashboard);
   height: var(--Avatar_sizeDashboard);
+
+  box-shadow: 4px 4px 6px #00000029;
 }
 
 .dashboardAvatar .initials {

@@ -31,6 +31,10 @@ export const DashboardPageComponent = props => {
   } = props;
 
   const user = ensureCurrentUser(currentUser);
+  const attributes = user.attributes || {};
+  const profile = attributes.profile || {};
+  const {isGiver} = profile.metadata || false;
+
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({id: 'LandingPage.schemaTitle'}, {siteTitle});
 
@@ -42,7 +46,10 @@ export const DashboardPageComponent = props => {
 
   const upcomingCard = (
     <Card className={classNames(css.card, css.upcomingCard)} flat={false}>
-      <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.hireRequests"/></h2>
+      {isGiver ?
+        <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.hireRequests"/></h2>
+        : <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.myJobListings"/></h2>
+      }
     </Card>
   );
 
@@ -76,7 +83,7 @@ export const DashboardPageComponent = props => {
                 <CardNextAppointment className={css.card} />
               </li>
               <li className={css.row}>
-                <CardQuickActions className={css.card}/>
+                <CardQuickActions className={css.card} isGiver={isGiver}/>
                 {messagesCard}
                 {upcomingCard}
               </li>
