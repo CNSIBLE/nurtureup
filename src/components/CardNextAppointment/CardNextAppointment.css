@@ -1,7 +1,9 @@
+@import '../../marketplace.css';
+
 .root {
 
 }
 
-.cardHeader {
+.header {
   color: var(--nuPink);
 }
