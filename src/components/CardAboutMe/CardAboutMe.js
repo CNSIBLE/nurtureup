@@ -44,7 +44,7 @@ export const CardAboutMeComponent = props => {
     id: 'CardAboutMe.addressLabel',
   });
 
-  const field = (label, val) => {
+  const field = (label, val = '') => {
     return (
       <div className={css.field}>
         <label className={css.label}>{label}</label>
