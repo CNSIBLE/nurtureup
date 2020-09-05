@@ -13,7 +13,7 @@ import {ensureCurrentUser} from "../../util/data";
 import {
   AvatarDashboard,
   Card,
-  CardAboutMe, CardQuickActions,
+  CardAboutMe, CardNextAppointment, CardQuickActions,
   Footer,
   LayoutSingleColumn,
   LayoutWrapperFooter,
@@ -31,14 +31,12 @@ export const DashboardPageComponent = props => {
   } = props;
 
   const user = ensureCurrentUser(currentUser);
+  const attributes = user.attributes || {};
+  const profile = attributes.profile || {};
+  const {isGiver} = profile.metadata || false;
+
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({id: 'LandingPage.schemaTitle'}, {siteTitle});
-
-  const appointmentCard = (
-    <Card className={classNames(css.card, css.apptCard)} flat={false}>
-      <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.nextAppointment"/></h2>
-    </Card>
-  );
 
   const messagesCard = (
     <Card className={classNames(css.card, css.msgsCard)} flat={false}>
@@ -48,7 +46,10 @@ export const DashboardPageComponent = props => {
 
   const upcomingCard = (
     <Card className={classNames(css.card, css.upcomingCard)} flat={false}>
-      <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.hireRequests"/></h2>
+      {isGiver ?
+        <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.hireRequests"/></h2>
+        : <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.myJobListings"/></h2>
+      }
     </Card>
   );
 
@@ -57,8 +58,6 @@ export const DashboardPageComponent = props => {
       <h2 className={css.cardHeader}><FormattedMessage id="Dashboard.appointments"/></h2>
     </Card>
   )
-
-  console.log(user);
 
   return (
     <Page
@@ -74,19 +73,17 @@ export const DashboardPageComponent = props => {
 
         <LayoutWrapperMain>
           <div className={css.heroContainer}>
-            <div className={css.heroContent}>
-
-            </div>
+            <div className={css.heroContent} />
             <AvatarDashboard className={css.avatar} user={user} disableProfileLink/>
           </div>
           <div className={css.cards}>
             <ul>
               <li className={css.row}>
-                <CardAboutMe className={css.card} user={user}/>
-                {appointmentCard}
+                <CardAboutMe className={css.card}/>
+                <CardNextAppointment className={css.card} />
               </li>
               <li className={css.row}>
-                <CardQuickActions className={css.card}/>
+                <CardQuickActions className={css.card} isGiver={isGiver}/>
                 {messagesCard}
                 {upcomingCard}
               </li>

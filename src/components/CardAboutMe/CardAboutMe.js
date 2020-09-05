@@ -8,14 +8,19 @@ import {injectIntl, intlShape} from "../../util/reactIntl";
 import {
   Card, IconEdit,
 } from '../../components';
+import {isScrollingDisabled} from "../../ducks/UI.duck";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {ensureCurrentUser} from "../../util/data";
 
 export const CardAboutMeComponent = props => {
   const {
     className,
-    user,
+    currentUser,
     intl,
   } = props;
 
+  const user = ensureCurrentUser(currentUser);
   const {email, profile} = user.attributes || {'email': '', 'profile': {}};
   const {phone, city, state, streetAddress1, zip, birthday} = profile.protectedData ||
   {'phone': '', 'city': '', 'state': '', 'streetAddress1': '', 'zip': '', 'birthday': ''};
@@ -39,7 +44,7 @@ export const CardAboutMeComponent = props => {
     id: 'CardAboutMe.addressLabel',
   });
 
-  const field = (label, val) => {
+  const field = (label, val = '') => {
     return (
       <div className={css.field}>
         <label className={css.label}>{label}</label>
@@ -72,7 +77,7 @@ export const CardAboutMeComponent = props => {
 };
 
 CardAboutMeComponent.defaultProps = {
-  currentUser: null,
+  currentUser: {},
 }
 
 CardAboutMeComponent.propTypes = {
@@ -81,6 +86,22 @@ CardAboutMeComponent.propTypes = {
   intl: intlShape.isRequired,
 };
 
-const CardAboutMe = injectIntl(CardAboutMeComponent);
+const mapStateToProps = state => {
+  const {
+    currentUser,
+  } = state.user;
+
+  return {
+    scrollingDisabled: isScrollingDisabled(state),
+    currentUser,
+  }
+}
+
+const CardAboutMe = compose(
+  connect(
+    mapStateToProps,
+  ),
+  injectIntl
+)(CardAboutMeComponent);
 
 export default CardAboutMe;

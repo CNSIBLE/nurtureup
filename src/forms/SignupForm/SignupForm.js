@@ -367,8 +367,8 @@ export class SignupFormComponent extends Component {
           };
 
           const handleGiverSignup = values => {
+            this.setState({showBackgroundDiv: true});
 
-            this.setState({showDisclosures: true});
 
             const params = {
               firstName: this.state.firstName.trim(),
@@ -380,12 +380,10 @@ export class SignupFormComponent extends Component {
           };
 
           const handlePaymentSubmit = params => {
-            //setIsSubmitting = true;
             const ensuredCurrentUser = ensureCurrentUser(currentUser);
             const stripeCustomer = ensuredCurrentUser.stripeCustomer;
             const {stripe, card, formValues} = params;
-            //window.alert("stripe = " + JSON.stringify(stripe));
-            //window.alert("user = " + JSON.stringify(currentUser));
+
 
             onCreateSetupIntent()
               .then(setupIntent => {
@@ -407,12 +405,9 @@ export class SignupFormComponent extends Component {
               .then(() => {
                 // Update currentUser entity and its sub entities: stripeCustomer and defaultPaymentMethod
                 fetchStripeCustomer();
-                //setIsSubmitting(false);
-                //setCardState('default');
               })
               .catch(error => {
                 console.error(error);
-                //setIsSubmitting(false);
               });
           };
 
@@ -435,9 +430,9 @@ export class SignupFormComponent extends Component {
           );
 
           const showBackgroundDisclosures = values => {
-            //window.alert('I made it');
             this.setState({showDisclosures: true});
             this.setState({showPaymentDiv: false});
+            this.setState({showBackgroundDiv: false});
           };
 
 

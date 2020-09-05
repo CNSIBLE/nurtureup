@@ -74,7 +74,8 @@ class FieldTextInputComponent extends Component {
     const inputDivClasses = classNames(css.inputDiv, css.input, {
       [css.inputSuccess]: valid,
       [css.inputError]: hasError,
-      [css.textarea]: isTextarea,});
+      [css.textarea]: isTextarea,
+      [css.textBottomBorder]: !isTextarea});
     const classes = classNames(rootClassName || css.root, className);
 
     return (
