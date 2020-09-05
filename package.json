@@ -48,6 +48,8 @@
     "react-helmet-async": "^1.0.2",
     "react-intl": "^3.1.13",
     "react-moment-proptypes": "^1.6.0",
+    "react-pdf": "^4.2.0",
+    "react-recaptcha-google": "^1.1.1",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.1",
