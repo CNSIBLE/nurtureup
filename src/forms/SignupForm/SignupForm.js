@@ -32,7 +32,6 @@ export class SignupFormComponent extends Component {
     super(props);
     this.state = {
       showPaymentDiv: false,
-      showBackgroundDiv: false,
       showDisclosures: false,
       lastName: 'tempLast',
       firstName: 'tempFirst',
@@ -354,6 +353,7 @@ export class SignupFormComponent extends Component {
 
 
           const handleSubmitSignup = values => {
+
             this.setState({showPaymentDiv: true});
 
             const params = {
@@ -363,10 +363,12 @@ export class SignupFormComponent extends Component {
               password: this.state.password.trim()
             }
             submitSignup(params);
+
           };
 
           const handleGiverSignup = values => {
             this.setState({showBackgroundDiv: true});
+
 
             const params = {
               firstName: this.state.firstName.trim(),
@@ -381,8 +383,6 @@ export class SignupFormComponent extends Component {
             const ensuredCurrentUser = ensureCurrentUser(currentUser);
             const stripeCustomer = ensuredCurrentUser.stripeCustomer;
             const {stripe, card, formValues} = params;
-            window.alert("stripe = " + JSON.stringify(stripe));
-            window.alert("user = " + JSON.stringify(currentUser));
 
 
             onCreateSetupIntent()
@@ -430,11 +430,9 @@ export class SignupFormComponent extends Component {
           );
 
           const showBackgroundDisclosures = values => {
-            window.alert('I made it');
             this.setState({showDisclosures: true});
             this.setState({showPaymentDiv: false});
             this.setState({showBackgroundDiv: false});
-
           };
 
 
@@ -515,123 +513,13 @@ export class SignupFormComponent extends Component {
             console.log(event.target.value)
             this.setState({licenseNumber: event.target.value});
           };
+          const handleNoMiddleNameChange = (event) => {
+            console.log(event)
+            console.log(event.target.value)
+            this.setState({licenseNumber: event.target.value});
+          };
 
 
-          const backgroundInfoDiv = (
-            <div>
-              <div className={css.name}>
-                <FieldTextInput
-                  className={css.firstNameBackground}
-                  type="text"
-                  id={formId ? `${formId}.fname` : 'fname'}
-                  name="fname"
-                  autoComplete="given-name"
-                  label={firstNameLabel}
-                  placeholder={firstNamePlaceholder}
-                  ref={this.input}
-                  value={this.state.firstName}
-                  onBlur={handleFirstNameChange}
-                  validate={firstNameRequired}
-                />
-                <FieldTextInput
-                  className={css.middleNameBackground}
-                  type="text"
-                  id={formId ? `${formId}.mname` : 'mname'}
-                  name="mname"
-                  autoComplete="additional-name"
-                  label={middleNameLabel}
-                  placeholder={middleNamePlaceholder}
-                  ref={this.input}
-                  value={this.state.middleName}
-                  onBlur={handleMiddleNameChange}
-                  //validate={firstNameRequired}
-                />
-                <FieldTextInput
-                  className={css.lastNameBackground}
-                  type="text"
-                  id={formId ? `${formId}.lname` : 'lname'}
-                  name="lname"
-                  autoComplete="family-name"
-                  label={lastNameLabel}
-                  placeholder={lastNamePlaceholder}
-                  value={this.state.lastName}
-                  onBlur={handleLastNameChange}
-                  validate={lastNameRequired}
-                />
-              </div>
-              <div className={css.name}>
-                <FieldTextInput
-                  className={css.dobBackground}
-                  type="text"
-                  id={formId ? `${formId}.dob` : 'dob'}
-                  name="dob"
-                  //autoComplete="family-name"
-                  label="DOB"
-                  placeholder="12/01/1984"
-                  value={this.state.dob}
-                  //onBlur={handleDOBChange}
-                  //validate={ssnRequired}
-                />
-                <FieldTextInput
-                  className={css.ssnBackground}
-                  type="text"
-                  id={formId ? `${formId}.ssn` : 'ssn'}
-                  name="ssn"
-                  //autoComplete="family-name"
-                  label={ssnLabel}
-                  placeholder={ssnPlaceholder}
-                  value={this.state.ssn}
-                  //onBlur={handleSSNChange}
-                  //validate={ssnRequired}
-                />
-                <FieldTextInput
-                  className={css.zipBackground}
-                  type="text"
-                  id={formId ? `${formId}.zip` : 'zip'}
-                  name="zip"
-                  autoComplete="postal-code"
-                  label={addressZipLabel}
-                  placeholder={addressZipPlaceholder}
-                  value={this.state.zip}
-                  onBlur={handleZipChange}
-                  validate={validators.composeValidators(addressZipRequired, addressZipValid)}
-                />
-              </div>
-              <div className={css.name}>
-                <FieldTextInput
-                  className={css.licenseNumberBackground}
-                  type="text"
-                  id={formId ? `${formId}.licenseNumber` : 'licenseNumber'}
-                  name="licenseNumber"
-                  autoComplete="licenseNumber"
-                  label={licenseNumberLabel}
-                  placeholder={licenseNumberPlaceholder}
-                  value={this.state.licenseNumber}
-                  onBlur={handleLicenseNumberChange}
-                  //validate={validators.composeValidators(licenseNumberRequired, licenseNumberValid)}
-                />
-                <FieldTextInput
-                  className={css.licenseStateBackground}
-                  type="text"
-                  id={formId ? `${formId}.licenseState` : 'licenseState'}
-                  name="licenseState"
-                  autoComplete="licenseState"
-                  label={licenseStateLabel}
-                  placeholder={licenseStatePlaceholder}
-                  value={this.state.licenseState}
-                  onBlur={handleLicenseStateChange}
-                  //validate={validators.composeValidators(licenseStateRequired, licenseStateValid)}
-                />
-              </div>
-              <div className={css.nextButton}>
-                <PrimaryButton inProgress={false} disabled={submitDisabled}
-                               onClick={showBackgroundDisclosures}>
-                  Next
-                </PrimaryButton>
-              </div>
-            </div>
-
-          );
           const generalInfoDiv = (
             <div>
               <div className={css.name}>
@@ -645,7 +533,6 @@ export class SignupFormComponent extends Component {
                   placeholder={firstNamePlaceholder}
                   ref={this.input}
                   value={this.state.lastName}
-                  //onChange={this.handleNameChange}
                   onBlur={handleFirstNameChange}
                   validate={firstNameRequired}
                 />
@@ -673,7 +560,7 @@ export class SignupFormComponent extends Component {
                   placeholder={phonePlaceholder}
                   value={this.state.phone}
                   onBlur={handlePhoneChange}
-                  //validate={validators.composeValidators(phoneRequired, phoneValid)}
+                  validate={validators.composeValidators(phoneRequired, phoneValid)}
                 />
                 <FieldTextInput
                   className={css.email}
@@ -797,7 +684,7 @@ export class SignupFormComponent extends Component {
 
           return (
             <div className={css.content}>
-              {this.state.showPaymentDiv ? paymentFormDiv : this.state.showBackgroundDiv ? backgroundInfoDiv : this.state.showDisclosures ? backgroundDisclosuresDiv : generalInfoDiv}
+              {this.state.showPaymentDiv ? paymentFormDiv : this.state.showDisclosures ? backgroundDisclosuresDiv : generalInfoDiv}
             </div>
 
           );
