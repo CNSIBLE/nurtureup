@@ -1,5 +1,7 @@
 import { updatedEntities, denormalisedEntities } from '../util/data';
 
+//TODO delete this file (marketplaceData.duck.js)
+
 // ================ Action types ================ //
 
 export const ADD_MARKETPLACE_ENTITIES = 'app/marketplaceData/ADD_MARKETPLACE_ENTITIES';

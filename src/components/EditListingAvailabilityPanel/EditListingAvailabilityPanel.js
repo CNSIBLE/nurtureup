@@ -7,7 +7,6 @@ import { ensureOwnListing } from '../../util/data';
 import { getDefaultTimeZoneOnBrowser, timestampToDate } from '../../util/dates';
 import { LISTING_STATE_DRAFT, DATE_TYPE_DATETIME, propTypes } from '../../util/types';
 import {
-  Button,
   IconClose,
   IconEdit,
   IconSpinner,
@@ -68,8 +67,10 @@ class Portal extends React.Component {
 /////////////
 // Weekday //
 /////////////
-const findEntry = (availabilityPlan, dayOfWeek) =>
-  availabilityPlan.entries.find(d => d.dayOfWeek === dayOfWeek);
+const findEntry = (availabilityPlan, dayOfWeek) => {
+  const entries = availabilityPlan.entries || [];
+  return entries.find(d => d.dayOfWeek === dayOfWeek)
+};
 
 const getEntries = (availabilityPlan, dayOfWeek) =>
   availabilityPlan.entries.filter(d => d.dayOfWeek === dayOfWeek);
@@ -182,20 +183,18 @@ const EditListingAvailabilityPanel = props => {
     fetchExceptionsInProgress,
     onAddAvailabilityException,
     onDeleteAvailabilityException,
-    disabled,
     ready,
     onSubmit,
     onManageDisableScrolling,
-    onNextTab,
-    submitButtonText,
     updateInProgress,
     errors,
+    availPlan
   } = props;
+
   // Hooks
   const [isEditPlanModalOpen, setIsEditPlanModalOpen] = useState(false);
   const [isEditExceptionsModalOpen, setIsEditExceptionsModalOpen] = useState(false);
   const [portalRoot, setPortalRoot] = useState(null);
-  const [valuesFromLastSubmit, setValuesFromLastSubmit] = useState(null);
 
   const setPortalRootAfterInitialRender = () => {
     setPortalRoot(document.getElementById('portal-root'));
@@ -203,8 +202,7 @@ const EditListingAvailabilityPanel = props => {
 
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureOwnListing(listing);
-  const isNextButtonDisabled = !currentListing.attributes.availabilityPlan;
-  const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
+  const isPublished = currentListing.id;
   const defaultAvailabilityPlan = {
     type: 'availability-plan/time',
     timezone: defaultTimeZone(),
@@ -218,22 +216,14 @@ const EditListingAvailabilityPanel = props => {
       // { dayOfWeek: 'sun', startTime: '09:00', endTime: '17:00', seats: 1 },
     ],
   };
-  const availabilityPlan = currentListing.attributes.availabilityPlan || defaultAvailabilityPlan;
-  const initialValues = valuesFromLastSubmit
-    ? valuesFromLastSubmit
-    : createInitialValues(availabilityPlan);
+
+  const availabilityPlan = Object.entries(availPlan).length === 0
+    ? createInitialValues(defaultAvailabilityPlan)
+    : availPlan;
 
   const handleSubmit = values => {
-    setValuesFromLastSubmit(values);
-
-    // Final Form can wait for Promises to return.
-    return onSubmit(createAvailabilityPlan(values))
-      .then(() => {
-        setIsEditPlanModalOpen(false);
-      })
-      .catch(e => {
-        // Don't close modal if there was an error
-      });
+    onSubmit(createAvailabilityPlan(values));
+    setIsEditPlanModalOpen(false);
   };
 
   const exceptionCount = availabilityExceptions ? availabilityExceptions.length : 0;
@@ -370,7 +360,6 @@ const EditListingAvailabilityPanel = props => {
           <InlineTextButton
             className={css.addExceptionButton}
             onClick={() => setIsEditExceptionsModalOpen(true)}
-            disabled={disabled}
             ready={ready}
           >
             <FormattedMessage id="EditListingAvailabilityPanel.addException" />
@@ -384,15 +373,6 @@ const EditListingAvailabilityPanel = props => {
         </p>
       ) : null}
 
-      {!isPublished ? (
-        <Button
-          className={css.goToNextTabButton}
-          onClick={onNextTab}
-          disabled={isNextButtonDisabled}
-        >
-          {submitButtonText}
-        </Button>
-      ) : null}
       {portalRoot && onManageDisableScrolling ? (
         <Portal portalRoot={portalRoot}>
           <Modal
@@ -404,11 +384,9 @@ const EditListingAvailabilityPanel = props => {
           >
             <EditListingAvailabilityPlanForm
               formId="EditListingAvailabilityPlanForm"
-              listingTitle={currentListing.attributes.title}
               availabilityPlan={availabilityPlan}
               weekdays={WEEKDAYS}
               onSubmit={handleSubmit}
-              initialValues={initialValues}
               inProgress={updateInProgress}
               fetchErrors={errors}
             />
@@ -444,6 +422,7 @@ EditListingAvailabilityPanel.defaultProps = {
   rootClassName: null,
   listing: null,
   availabilityExceptions: [],
+  availPlan: {},
 };
 
 EditListingAvailabilityPanel.propTypes = {
@@ -452,7 +431,6 @@ EditListingAvailabilityPanel.propTypes = {
 
   // We cannot use propTypes.listing since the listing might be a draft.
   listing: object,
-  disabled: bool.isRequired,
   ready: bool.isRequired,
   availabilityExceptions: arrayOf(propTypes.availabilityException),
   fetchExceptionsInProgress: bool.isRequired,
@@ -460,10 +438,9 @@ EditListingAvailabilityPanel.propTypes = {
   onDeleteAvailabilityException: func.isRequired,
   onSubmit: func.isRequired,
   onManageDisableScrolling: func.isRequired,
-  onNextTab: func.isRequired,
-  submitButtonText: string.isRequired,
   updateInProgress: bool.isRequired,
   errors: object.isRequired,
+  availPlan: propTypes.availabilityPlan
 };
 
 export default EditListingAvailabilityPanel;

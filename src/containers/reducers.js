@@ -9,6 +9,7 @@ import ContactDetailsPage from './ContactDetailsPage/ContactDetailsPage.duck';
 //mport DashboardPage from "./DashboardPage/DashboardPage.duck";
 import EditListingPage from './EditListingPage/EditListingPage.duck';
 import InboxPage from './InboxPage/InboxPage.duck';
+import JobListingPage from "./JobListingPage/JobListingPage.duck";
 import ListingPage from './ListingPage/ListingPage.duck';
 import ManageListingsPage from './ManageListingsPage/ManageListingsPage.duck';
 import PasswordChangePage from './PasswordChangePage/PasswordChangePage.duck';
@@ -29,6 +30,7 @@ export {
   //DashboardPage,
   EditListingPage,
   InboxPage,
+  JobListingPage,
   ListingPage,
   ManageListingsPage,
   PasswordChangePage,
