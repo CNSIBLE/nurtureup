@@ -66,6 +66,7 @@ export { default as TimeRange } from './TimeRange/TimeRange';
 export { default as UserDisplayName } from './UserDisplayName/UserDisplayName';
 export { default as ValidationError } from './ValidationError/ValidationError';
 export { default as Card } from './Card/Card';
+export { default as CardClickable } from './CardClickable/CardClickable';
 export { default as CardAboutMe } from './CardAboutMe/CardAboutMe';
 export { default as CardQuickActions } from './CardQuickActions/CardQuickActions';
 export { default as CardNextAppointment} from './CardNextAppointment/CardNextAppointment';
@@ -196,3 +197,4 @@ export { default as Topbar } from './Topbar/Topbar';
 export { default as TopbarDesktop } from './TopbarDesktop/TopbarDesktop';
 export { default as TopbarMobileMenu } from './TopbarMobileMenu/TopbarMobileMenu';
 export { default as TransactionPanel } from './TransactionPanel/TransactionPanel';
+
