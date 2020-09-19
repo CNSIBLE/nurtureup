@@ -7,6 +7,9 @@
   ],
   "repository": "https://github.com/sharetribe/ftw-hourly/",
   "env": {
+    "REACT_APP_CHECKR_API_KEY": {
+      "description": "CHECKER API key"
+    },
     "REACT_APP_MAPBOX_ACCESS_TOKEN": {
       "description": "See: Integrating to map providers documentation https://github.com/sharetribe/ftw-hourly/blob/master/docs/map-providers.md"
     },

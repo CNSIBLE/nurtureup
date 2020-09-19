@@ -54,6 +54,8 @@ class BackgroundDisclosuresComponent extends Component {
       showCollectBackgroundPii: false,
       showConsumerRights: false,
       showBackgroundInvestigationDisclosure: false,
+      recaptchaVerified: false,
+      fullSignatureEntered: false,
       checked:false,
       biChecked:false,
       authChecked:false,
@@ -113,6 +115,7 @@ class BackgroundDisclosuresComponent extends Component {
     // Here you will get the final recaptchaToken!!!
     window.alert(recaptchaToken);
     console.log(recaptchaToken, "<= your recaptcha token");
+    this.setState({recaptchaVerified: true});
   }
 
   render() {
@@ -512,7 +515,7 @@ class BackgroundDisclosuresComponent extends Component {
           </div>
 
           <div>
-            <PrimaryButton disabled={!this.state.checked}
+            <PrimaryButton disabled={!(this.state.recaptchaVerified && this.state.fullNameSignature)}
               //onClick={values => onSubmitBackgroundDisclosures({ ...values})}>
                            onClick={handleFinalSubmit()}>
               Next

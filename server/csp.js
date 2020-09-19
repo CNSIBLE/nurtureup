@@ -8,6 +8,8 @@ const data = 'data:';
 const blob = 'blob:';
 const devImagesMaybe = dev ? ['*.localhost:8000'] : [];
 const baseUrl = process.env.REACT_APP_SHARETRIBE_SDK_BASE_URL || 'https://flex-api.sharetribe.com';
+const checkrUrl = process.env.REACT_APP_CHECKR_SDK_BASE_URL || 'https://api.checkr.com/v1/candidates';
+
 
 // Default CSP whitelist.
 //
@@ -20,6 +22,7 @@ const defaultDirectives = {
   connectSrc: [
     self,
     baseUrl,
+    checkrUrl,
     'maps.googleapis.com',
     '*.tiles.mapbox.com',
     'api.mapbox.com',
