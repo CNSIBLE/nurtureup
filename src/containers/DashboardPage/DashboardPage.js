@@ -69,13 +69,14 @@ export const DashboardPageComponent = props => {
       <LayoutSingleColumn>
         <LayoutWrapperTopbar>
           <TopbarContainer/>
-        </LayoutWrapperTopbar>
 
-        <LayoutWrapperMain>
           <div className={css.heroContainer}>
             <div className={css.heroContent} />
             <AvatarDashboard className={css.avatar} user={user} disableProfileLink/>
           </div>
+        </LayoutWrapperTopbar>
+
+        <LayoutWrapperMain>
           <div className={css.cards}>
             <ul>
               <li className={css.row}>

@@ -5,8 +5,11 @@ import { FieldSelect } from '../../components';
 
 const FieldTimeZoneSelect = props => {
   // IANA database contains irrelevant time zones too.
+  // const relevantZonesPattern = new RegExp(
+  //   '^(Africa|America|Antarctica|Asia|Atlantic|Australia|Europe|Indian|Pacific)'
+  // );
   const relevantZonesPattern = new RegExp(
-    '^(Africa|America|Antarctica|Asia|Atlantic|Australia|Europe|Indian|Pacific)'
+    '^(America)'
   );
 
   return (

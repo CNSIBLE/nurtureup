@@ -192,10 +192,6 @@ export const EditListingPageComponent = props => {
           desktopClassName={css.desktopTopbar}
           mobileClassName={css.mobileTopbar}
         />
-        <UserNav
-          selectedPageName={listing ? 'EditListingPage' : 'NewListingPage'}
-          listing={listing}
-        />
         <EditListingWizard
           id="EditListingWizard"
           className={css.wizard}

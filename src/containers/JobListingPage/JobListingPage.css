@@ -1,0 +1,48 @@
+@import '../../marketplace.css';
+
+h1 {
+  text-align: center;
+  color: var(--nuPink);
+}
+
+.content {
+  margin: auto;
+}
+
+.form {
+  padding-top: 35px;
+  padding-bottom: 50px;
+
+  @media (--viewportMedium) {
+    width: 685px;
+  }
+}
+
+.heroContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  max-height: none;
+  min-height: 300px;
+  height: 400px;
+}
+
+.hero {
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  background: var(--nuBackground) url('../../assets/nanny-and-baby/nanny-and-baby.png') 0 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @media (--viewportLarge) {
+    background-position: center center;
+  }
+}

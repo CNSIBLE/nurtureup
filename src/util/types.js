@@ -266,8 +266,7 @@ propTypes.timeSlot = shape({
 
 // Denormalised availability exception object
 propTypes.availabilityException = shape({
-  id: propTypes.uuid.isRequired,
-  type: propTypes.value('availabilityException').isRequired,
+  listingId: propTypes.uuid.isRequired,
   attributes: shape({
     end: instanceOf(Date).isRequired,
     seats: number.isRequired,

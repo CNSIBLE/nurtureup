@@ -22,7 +22,7 @@ import {
   StyleguidePage,
   TermsOfServicePage,
   TransactionPage,
-  DashboardPage, BioPage,
+  DashboardPage, BioPage, JobListingPage,
 } from './containers';
 
 // routeConfiguration needs to initialize containers first
@@ -119,6 +119,12 @@ const routeConfiguration = () => {
       authPage: 'LoginPage',
       component: props => <ListingPage {...props} />,
       loadData: ListingPage.loadData,
+    },
+    {
+      path: '/job/new',
+      name: 'NewJobListing',
+      auth: true,
+      component: props => <JobListingPage {...props} />
     },
     {
       path: '/l/new',

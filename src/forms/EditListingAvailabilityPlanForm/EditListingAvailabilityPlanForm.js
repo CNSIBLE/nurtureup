@@ -252,10 +252,10 @@ const EditListingAvailabilityPlanFormComponent = props => {
           handleSubmit,
           inProgress,
           intl,
-          listingTitle,
           weekdays,
           fetchErrors,
           values,
+          availabilityPlan,
         } = fieldRenderProps;
 
         const classes = classNames(rootClassName || css.root, className);
@@ -276,14 +276,13 @@ const EditListingAvailabilityPlanFormComponent = props => {
             <h2 className={css.heading}>
               <FormattedMessage
                 id="EditListingAvailabilityPlanForm.title"
-                values={{ listingTitle }}
               />
             </h2>
             <h3 className={css.subheading}>
               <FormattedMessage id="EditListingAvailabilityPlanForm.timezonePickerTitle" />
             </h3>
             <div className={css.timezonePicker}>
-              <FieldTimeZoneSelect id="timezone" name="timezone" />
+              <FieldTimeZoneSelect id="timezone" name="timezone" value={availabilityPlan.timezone}/>
             </div>
             <h3 className={css.subheading}>
               <FormattedMessage id="EditListingAvailabilityPlanForm.hoursOfOperationTitle" />
@@ -325,8 +324,6 @@ EditListingAvailabilityPlanFormComponent.propTypes = {
 
   inProgress: bool,
   fetchErrors: object.isRequired,
-
-  listingTitle: string.isRequired,
 
   // from injectIntl
   intl: intlShape.isRequired,
