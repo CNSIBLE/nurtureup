@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { FormattedMessage } from '../../util/reactIntl';
 import { ensureOwnListing } from '../../util/data';
 import { getDefaultTimeZoneOnBrowser, timestampToDate } from '../../util/dates';
-import { LISTING_STATE_DRAFT, DATE_TYPE_DATETIME, propTypes } from '../../util/types';
+import { DATE_TYPE_DATETIME, propTypes } from '../../util/types';
 import {
   IconClose,
   IconEdit,
@@ -168,7 +168,7 @@ const createAvailabilityPlan = values => ({
 // Note: if you allow fetching more than 100 exception,
 // pagination kicks in and that makes client-side sorting impossible.
 const sortExceptionsByStartTime = (a, b) => {
-  return a.attributes.start.getTime() - b.attributes.start.getTime();
+  return a.start.getTime() - b.start.getTime();
 };
 
 //////////////////////////////////
@@ -183,12 +183,12 @@ const EditListingAvailabilityPanel = props => {
     fetchExceptionsInProgress,
     onAddAvailabilityException,
     onDeleteAvailabilityException,
-    ready,
     onSubmit,
     onManageDisableScrolling,
     updateInProgress,
     errors,
-    availPlan
+    availPlan,
+    listingId,
   } = props;
 
   // Hooks
@@ -221,7 +221,7 @@ const EditListingAvailabilityPanel = props => {
     ? createInitialValues(defaultAvailabilityPlan)
     : availPlan;
 
-  const handleSubmit = values => {
+  const handleAvailabilitySubmit = values => {
     onSubmit(createAvailabilityPlan(values));
     setIsEditPlanModalOpen(false);
   };
@@ -236,18 +236,13 @@ const EditListingAvailabilityPanel = props => {
     // TODO: add proper seat handling
     const seats = availability === 'available' ? 1 : 0;
 
-    return onAddAvailabilityException({
-      listingId: listing.id,
+    onAddAvailabilityException({
+      listingId: listingId,
       seats,
       start: timestampToDate(exceptionStartTime),
       end: timestampToDate(exceptionEndTime),
-    })
-      .then(() => {
-        setIsEditExceptionsModalOpen(false);
-      })
-      .catch(e => {
-        // Don't close modal if there was an error
-      });
+    });
+    setIsEditExceptionsModalOpen(false);
   };
 
   return (
@@ -317,9 +312,9 @@ const EditListingAvailabilityPanel = props => {
         ) : (
           <div className={css.exceptions}>
             {sortedAvailabilityExceptions.map(availabilityException => {
-              const { start, end, seats } = availabilityException.attributes;
+              const { start, end, seats } = availabilityException;
               return (
-                <div key={availabilityException.id.uuid} className={css.exception}>
+                <div key={availabilityException.listingId.uuid} className={css.exception}>
                   <div className={css.exceptionHeader}>
                     <div className={css.exceptionAvailability}>
                       <div
@@ -338,7 +333,7 @@ const EditListingAvailabilityPanel = props => {
                     <button
                       className={css.removeExceptionButton}
                       onClick={() =>
-                        onDeleteAvailabilityException({ id: availabilityException.id })
+                        onDeleteAvailabilityException({ id: availabilityException.listingId })
                       }
                     >
                       <IconClose size="normal" className={css.removeIcon} />
@@ -359,8 +354,10 @@ const EditListingAvailabilityPanel = props => {
         {exceptionCount <= MAX_EXCEPTIONS_COUNT ? (
           <InlineTextButton
             className={css.addExceptionButton}
-            onClick={() => setIsEditExceptionsModalOpen(true)}
-            ready={ready}
+            onClick={e => {
+              e.preventDefault()
+              setIsEditExceptionsModalOpen(true);
+            }}
           >
             <FormattedMessage id="EditListingAvailabilityPanel.addException" />
           </InlineTextButton>
@@ -386,7 +383,7 @@ const EditListingAvailabilityPanel = props => {
               formId="EditListingAvailabilityPlanForm"
               availabilityPlan={availabilityPlan}
               weekdays={WEEKDAYS}
-              onSubmit={handleSubmit}
+              onSubmit={handleAvailabilitySubmit}
               inProgress={updateInProgress}
               fetchErrors={errors}
             />
@@ -431,7 +428,6 @@ EditListingAvailabilityPanel.propTypes = {
 
   // We cannot use propTypes.listing since the listing might be a draft.
   listing: object,
-  ready: bool.isRequired,
   availabilityExceptions: arrayOf(propTypes.availabilityException),
   fetchExceptionsInProgress: bool.isRequired,
   onAddAvailabilityException: func.isRequired,
@@ -440,7 +436,8 @@ EditListingAvailabilityPanel.propTypes = {
   onManageDisableScrolling: func.isRequired,
   updateInProgress: bool.isRequired,
   errors: object.isRequired,
-  availPlan: propTypes.availabilityPlan
+  availPlan: object,
+  listingId: object.isRequired
 };
 
 export default EditListingAvailabilityPanel;

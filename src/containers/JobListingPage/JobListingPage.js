@@ -22,10 +22,12 @@ import {getJobListingsEntities} from "../../ducks/jobListingsData.duck";
 import {
   createJobListing,
   updateJobListing,
-  requestAddAvailabilityException,
-  requestDeleteAvailabilityException, setAvailabilityPlan
+  addAvailabilityException,
+  deleteAvailabilityException,
+  setAvailabilityPlan
 } from "./JobListingPage.duck";
 import { types as sdkTypes } from '../../util/sdkLoader';
+import uuid from 'react-uuid';
 
 const {UUID} = sdkTypes;
 
@@ -43,10 +45,10 @@ export const JobListingPageComponent = props => {
     id,
     onDeleteAvailabilityException,
     onAddAvailabilityException,
-    newListingPublished,
     onUpdateJobListing,
     onUpdateAvailabilityPlan,
     updatedPlan,
+    availabilityExceptions,
   } = props;
 
   const {
@@ -69,7 +71,7 @@ export const JobListingPageComponent = props => {
   const {profile} = user.attributes || {};
   const {isGiver} = profile.metadata || {};
 
-  const listingId = page.submittedListingId || (id != null ? new UUID(id) : null);
+  const listingId = page.submittedListingId || (id != null ? new UUID(id) : new UUID(uuid()));
   const listing = getOwnListing(listingId);
   const isNewJobListing = (listing == null);
 
@@ -84,7 +86,7 @@ export const JobListingPageComponent = props => {
     description: description,
     zip: zip,
     preferences: preferences,
-    experience: experience || 0,
+    experience: experience,
     educationLevel: educationLevel,
   }
 
@@ -99,7 +101,7 @@ export const JobListingPageComponent = props => {
     currentAvailabilityPlan: availabilityPlan,
   }
 
-  const handleSubmit = values => {
+  const handleFormSubmit = values => {
     if(isNewJobListing) {
       return onSubmitJobListing({...values, ...currentValues});
     } else {
@@ -113,15 +115,15 @@ export const JobListingPageComponent = props => {
       initialValues={initValues}
       updatedPlan={updatedPlan}
       onUpdateAvailabilityPlan={onUpdateAvailabilityPlan}
-      onSubmit={handleSubmit}
+      onSubmit={handleFormSubmit}
       saveJobListingError={saveJobListingError}
       updateInProgress={updateInProgress}
       onManageDisableScrolling={onManageDisableScrolling}
       onDeleteAvailabilityException={onDeleteAvailabilityException}
       onAddAvailabilityException={onAddAvailabilityException}
       fetchExceptionsInProgress={page.fetchExceptionsInProgress}
-      ready={newListingPublished}
-
+      availabilityExceptions={availabilityExceptions}
+      listingId={listingId}
       //errors={errors}
     />
   ) : null;
@@ -171,7 +173,6 @@ JobListingPageComponent.propTypes = {
   onManageDisableScrolling: func.isRequired,
   onDeleteAvailabilityException: func.isRequired,
   onAddAvailabilityException: func.isRequired,
-  newListingPublished: bool.isRequired,
   onUpdateJobListing: func.isRequired,
   id: string,
 }
@@ -186,8 +187,8 @@ const mapStateToProps = state => {
   const {
     saveJobListingError,
     updateInProgress,
-    newListingPublished,
     updatedPlan,
+    availabilityExceptions
   } = state.JobListingPage;
 
   const getOwnListing = id => {
@@ -203,8 +204,8 @@ const mapStateToProps = state => {
     scrollingDisabled: isScrollingDisabled(state),
     saveJobListingError,
     updateInProgress,
-    newListingPublished,
     updatedPlan,
+    availabilityExceptions,
   }
 }
 
@@ -213,8 +214,8 @@ const mapDispatchToProps = dispatch => ({
   onUpdateJobListing: values => dispatch(updateJobListing(values)),
   onManageDisableScrolling: (componentId, disableScrolling) =>
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
-  onDeleteAvailabilityException: params => dispatch(requestDeleteAvailabilityException(params)),
-  onAddAvailabilityException: params => dispatch(requestAddAvailabilityException(params)),
+  onDeleteAvailabilityException: params => dispatch(deleteAvailabilityException(params)),
+  onAddAvailabilityException: params => dispatch(addAvailabilityException(params)),
   onUpdateAvailabilityPlan: plan => dispatch(setAvailabilityPlan(plan)),
 });
 

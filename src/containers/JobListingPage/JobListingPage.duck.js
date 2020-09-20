@@ -19,12 +19,8 @@ export const CREATE_JOB_LISTING_SUCCESS = 'app/JobListingPage/CREATE_JOB_LISTING
 export const UPDATE_LISTING_SUCCESS = 'app/JobListingPage/UPDATE_LISTING_SUCCESS';
 export const UPDATE_LISTING_ERROR = 'app/JobListingPage/UPDATE_LISTING_ERROR';
 export const UPDATE_JOB_LISTING = 'app/JobListingPage/UPDATE_JOB_LISTING';
-export const DELETE_EXCEPTION_REQUEST = 'app/JobListingPage/DELETE_AVAILABILITY_EXCEPTION_REQUEST';
-export const DELETE_EXCEPTION_SUCCESS = 'app/JobListingPage/DELETE_AVAILABILITY_EXCEPTION_SUCCESS';
-export const DELETE_EXCEPTION_ERROR = 'app/JobListingPage/DELETE_AVAILABILITY_EXCEPTION_ERROR';
-export const ADD_EXCEPTION_REQUEST = 'app/JobListingPage/ADD_AVAILABILITY_EXCEPTION_REQUEST';
-export const ADD_EXCEPTION_SUCCESS = 'app/JobListingPage/ADD_AVAILABILITY_EXCEPTION_SUCCESS';
-export const ADD_EXCEPTION_ERROR = 'app/JobListingPage/ADD_AVAILABILITY_EXCEPTION_ERROR';
+export const DELETE_EXCEPTION = 'app/JobListingPage/DELETE_AVAILABILITY_EXCEPTION';
+export const ADD_EXCEPTION = 'app/JobListingPage/ADD_AVAILABILITY_EXCEPTION';
 export const FETCH_EXCEPTIONS_REQUEST = 'app/JobListingPage/FETCH_AVAILABILITY_EXCEPTIONS_REQUEST';
 export const FETCH_EXCEPTIONS_SUCCESS = 'app/JobListingPage/FETCH_AVAILABILITY_EXCEPTIONS_SUCCESS';
 export const FETCH_EXCEPTIONS_ERROR = 'app/JobListingPage/FETCH_AVAILABILITY_EXCEPTIONS_ERROR';
@@ -70,34 +66,16 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, updateInProgress: false };
     case UPDATE_LISTING_ERROR:
       return { ...state, updateInProgress: false, updateListingError: payload };
-    case ADD_EXCEPTION_REQUEST:
-      return {
-        ...state,
-        addExceptionError: null,
-        addExceptionInProgress: true,
-      };
-    case ADD_EXCEPTION_SUCCESS:
+    case ADD_EXCEPTION:
       return {
         ...state,
         availabilityExceptions: [...state.availabilityExceptions, payload],
         addExceptionInProgress: false,
       };
-    case ADD_EXCEPTION_ERROR:
-      return {
-        ...state,
-        addExceptionError: payload.error,
-        addExceptionInProgress: false,
-      };
-    case DELETE_EXCEPTION_REQUEST:
-      return {
-        ...state,
-        deleteExceptionError: null,
-        deleteExceptionInProgress: true,
-      };
-    case DELETE_EXCEPTION_SUCCESS: {
+    case DELETE_EXCEPTION: {
       const deletedExceptionId = payload.id;
       const availabilityExceptions = state.availabilityExceptions.filter(
-        e => e.id.uuid !== deletedExceptionId.uuid
+        e => e.listingId.uuid !== deletedExceptionId.uuid
       );
       return {
         ...state,
@@ -105,12 +83,6 @@ export default function reducer(state = initialState, action = {}) {
         deleteExceptionInProgress: false,
       };
     }
-    case DELETE_EXCEPTION_ERROR:
-      return {
-        ...state,
-        deleteExceptionError: payload.error,
-        deleteExceptionInProgress: false,
-      };
     case FETCH_EXCEPTIONS_REQUEST:
       return {
         ...state,
@@ -164,15 +136,23 @@ export const showJobListingError = e => ({
   payload: e,
 });
 
+export const addAvailabilityException = e => ({
+  type: ADD_EXCEPTION,
+  payload: e,
+});
+
+export const deleteAvailabilityException = e => ({
+  type: DELETE_EXCEPTION,
+  payload: e,
+});
+
 // SDK method: availabilityExceptions.create
-export const addAvailabilityExceptionRequest = requestAction(ADD_EXCEPTION_REQUEST);
-export const addAvailabilityExceptionSuccess = successAction(ADD_EXCEPTION_SUCCESS);
-export const addAvailabilityExceptionError = errorAction(ADD_EXCEPTION_ERROR);
+// export const addAvailabilityExceptionSuccess = successAction(ADD_EXCEPTION_SUCCESS);
+// export const addAvailabilityExceptionError = errorAction(ADD_EXCEPTION_ERROR);
 
 // SDK method: availabilityExceptions.delete
-export const deleteAvailabilityExceptionRequest = requestAction(DELETE_EXCEPTION_REQUEST);
-export const deleteAvailabilityExceptionSuccess = successAction(DELETE_EXCEPTION_SUCCESS);
-export const deleteAvailabilityExceptionError = errorAction(DELETE_EXCEPTION_ERROR);
+// export const deleteAvailabilityExceptionSuccess = successAction(DELETE_EXCEPTION_SUCCESS);
+// export const deleteAvailabilityExceptionError = errorAction(DELETE_EXCEPTION_ERROR);
 
 // SDK method: availabilityExceptions.query
 export const fetchAvailabilityExceptionsRequest = requestAction(FETCH_EXCEPTIONS_REQUEST);
@@ -225,59 +205,59 @@ export const createJobListing = params => (dispatch, getState, sdk) => {
     zip,
     preferences,
     experience,
-    educationLevel,
-    availabilityPlan
+    educationLevel
   } = params;
 
-  sdk.ownListing.create({
-    title: title,
-    description: description,
-    availabilityPlan: availabilityPlan,
-    publicData: {
-      serviceType: serviceType,
-      zip: zip,
-      preferences: preferences,
-      experience: experience,
-      educationLevel: educationLevel,
-    }
-  }, {expand: true}
-  ).then(response => {
-    const entities = denormalisedResponseEntities(response);
-    if(entities.length !== 1) {
-      throw new Error('Expected a response from the sdk');
-    }
-    const jobListing = entities[0];
+  //save exceptions
+  const exceptions = getState().JobListingPage.availabilityExceptions;
+  console.log("after getting state");
 
-    dispatch(addJobListingsEntities(jobListing))
-  });
+  // sdk.ownListing.create({
+  //   title: title,
+  //   description: description,
+  //   publicData: {
+  //     serviceType: serviceType,
+  //     zip: zip,
+  //     preferences: preferences,
+  //     experience: experience,
+  //     educationLevel: educationLevel,
+  //   }
+  // }, {expand: true}
+  // ).then(response => {
+  //   const entities = denormalisedResponseEntities(response);
+  //   if(entities.length !== 1) {
+  //     throw new Error('Expected a response from the sdk');
+  //   }
+  // });
 };
 
-export const requestDeleteAvailabilityException = params => (dispatch, getState, sdk) => {
-  dispatch(deleteAvailabilityExceptionRequest(params));
+//TODO do we need this function?
+export const removeAvailabilityException = params => (dispatch, getState, sdk) => {
+  //dispatch(deleteAvailabilityExceptionRequest(params));
 
   return sdk.availabilityExceptions
     .delete(params, { expand: true })
     .then(response => {
       const availabilityException = response.data.data;
-      return dispatch(deleteAvailabilityExceptionSuccess({ data: availabilityException }));
+      return availabilityException;
+      //return dispatch(deleteAvailabilityExceptionSuccess({ data: availabilityException }));
     })
     .catch(e => {
-      dispatch(deleteAvailabilityExceptionError({ error: storableError(e) }));
+      //dispatch(deleteAvailabilityExceptionError({ error: storableError(e) }));
       throw e;
     });
 };
 
-export const requestAddAvailabilityException = params => (dispatch, getState, sdk) => {
-  dispatch(addAvailabilityExceptionRequest(params));
-
+export const saveAvailabilityException = params => (dispatch, getState, sdk) => {
   return sdk.availabilityExceptions
     .create(params, { expand: true })
     .then(response => {
       const availabilityException = response.data.data;
-      return dispatch(addAvailabilityExceptionSuccess({ data: availabilityException }));
+      return availabilityException;
+      //return dispatch(addAvailabilityExceptionSuccess({ data: availabilityException }));
     })
     .catch(e => {
-      dispatch(addAvailabilityExceptionError({ error: storableError(e) }));
+      //dispatch(addAvailabilityExceptionError({ error: storableError(e) }));
       throw e;
     });
 };

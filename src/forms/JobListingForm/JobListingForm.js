@@ -45,13 +45,13 @@ class JobListingFormComponent extends Component {
             errors,
             updateInProgress,
             onManageDisableScrolling,
-            ready: newListingPublished,
             fetchExceptionsInProgress,
             availabilityExceptions,
             onAddAvailabilityException,
             onDeleteAvailabilityException,
             onUpdateAvailabilityPlan,
-            updatedPlan
+            updatedPlan,
+            listingId
           } = fieldRenderProps;
 
           let {
@@ -69,9 +69,8 @@ class JobListingFormComponent extends Component {
           const {
             title: currentTitle,
             description: currentDescription,
-            availabilityPlan: currentAvailabilityPlan,
             publicData,
-          } = attributes || {};
+          } = attributes;
           const {
             zip: currentZip,
             preferences: currentPreferences,
@@ -79,6 +78,7 @@ class JobListingFormComponent extends Component {
             educationLevel: currentEducationLevel,
             serviceType: currentServiceType,
           } = publicData || {};
+          const currentAvailabilityPlan = attributes.availabilityPlan || {};
 
           //Title
           const titleChanged = currentTitle !== title;
@@ -116,7 +116,7 @@ class JobListingFormComponent extends Component {
           const serviceTypePlaceholder = intl.formatMessage({id: 'JobListingForm.serviceTypePlaceholder'});
 
           // Availability
-          const availabilityChanged = currentAvailabilityPlan !== updatedPlan;
+          const availabilityChanged = JSON.stringify(currentAvailabilityPlan) !== JSON.stringify(updatedPlan);
 
           const handleAvailabilitySubmit = values => {
             onUpdateAvailabilityPlan(values.availabilityPlan);
@@ -128,7 +128,6 @@ class JobListingFormComponent extends Component {
               availPlan={updatedPlan}
               errors={errors}
               updateInProgress={updateInProgress}
-              ready={newListingPublished}
               onManageDisableScrolling={onManageDisableScrolling}
               fetchExceptionsInProgress={fetchExceptionsInProgress}
               availabilityExceptions={availabilityExceptions}
@@ -136,6 +135,7 @@ class JobListingFormComponent extends Component {
               onDeleteAvailabilityException={onDeleteAvailabilityException}
               submitButtonText="Save Availability"
               onSubmit={handleAvailabilitySubmit}
+              listingId={listingId}
             />
           );
 
@@ -232,7 +232,7 @@ class JobListingFormComponent extends Component {
                   name={`${formId}.educationLevel`}
                   label={educationLevelLabel}
                   value={educationLevel}
-                  onChange={value => onSelectFieldChange(value, 'education', fieldRenderProps)}
+                  onChange={value => onSelectFieldChange(value, 'educationLevel', fieldRenderProps)}
                 >
                   <option disabled value="">
                     {educationLevelPlaceholder}
@@ -297,7 +297,7 @@ JobListingFormComponent.propTypes = {
     updateListingError: object,
   }).isRequired,
   updateInProgress: bool.isRequired,
-  ready: bool.isRequired,
+  listingId: object.isRequired,
 };
 
 const JobListingForm = compose(

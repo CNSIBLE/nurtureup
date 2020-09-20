@@ -61,7 +61,7 @@ const endOfAvailabilityExceptionRange = (timeZone, date) => {
 // Ensure that AvailabilityExceptions are in sensible order.
 // NOTE: this sorting can only be used for non-paginated list of exceptions (page size is max 100)
 const sortExceptionsByStartTime = (a, b) => {
-  return a.attributes.start.getTime() - b.attributes.start.getTime();
+  return a.start.getTime() - b.start.getTime();
 };
 
 // Convert exceptions list to inverted array of time-ranges that are available for new exceptions.
@@ -75,9 +75,9 @@ const getAvailableTimeRangesForExceptions = (exceptions, timeZone) => {
   }
 
   const sortedExceptions = exceptions.sort(sortExceptionsByStartTime);
-  const endOfLastException = sortedExceptions[sortedExceptions.length - 1].attributes.end;
+  const endOfLastException = sortedExceptions[sortedExceptions.length - 1].end;
 
-  const initialRangeCollection = dateIsAfter(nextBoundary, sortedExceptions[0].attributes.start)
+  const initialRangeCollection = dateIsAfter(nextBoundary, sortedExceptions[0].start)
     ? { prevEnd: null, ranges: [] }
     : { prevEnd: nextBoundary, ranges: [] };
 
@@ -85,15 +85,15 @@ const getAvailableTimeRangesForExceptions = (exceptions, timeZone) => {
     if (collection.prevEnd) {
       // If previous exception end was the same moment as the current exceptions' start,
       // there's no time-range available.
-      if (isSameDate(collection.prevEnd, ex.attributes.start)) {
+      if (isSameDate(collection.prevEnd, ex.start)) {
         // Update prevEnd
-        return { prevEnd: ex.attributes.end, ranges: collection.ranges };
+        return { prevEnd: ex.end, ranges: collection.ranges };
       }
 
-      const nextRange = { start: collection.prevEnd, end: ex.attributes.start };
-      return { prevEnd: ex.attributes.end, ranges: [...collection.ranges, nextRange] };
+      const nextRange = { start: collection.prevEnd, end: ex.start };
+      return { prevEnd: ex.end, ranges: [...collection.ranges, nextRange] };
     } else {
-      return { prevEnd: ex.attributes.end, ranges: [] };
+      return { prevEnd: ex.end, ranges: [] };
     }
   }, initialRangeCollection).ranges;
 
@@ -505,13 +505,12 @@ const EditListingAvailabilityExceptionForm = props => {
           <Form
             className={classes}
             onSubmit={e => {
-              handleSubmit(e).then(() => {
-                form.initialize({
-                  exceptionStartDate: null,
-                  exceptionStartTime: null,
-                  exceptionEndDate: null,
-                  exceptionEndTime: null,
-                });
+              handleSubmit(e);
+              form.initialize({
+                exceptionStartDate: null,
+                exceptionStartTime: null,
+                exceptionEndDate: null,
+                exceptionEndTime: null,
               });
             }}
           >
