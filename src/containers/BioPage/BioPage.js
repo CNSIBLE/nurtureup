@@ -43,7 +43,7 @@ export const BioPageComponent = props => {
     travelRadius: travelRadius || 25,
     educationLevel: educationLevel,
     preferences: preferences,
-  }
+  };
 
   const currentValues = {
     currentBio: initValues.bio,
@@ -51,7 +51,7 @@ export const BioPageComponent = props => {
     currentTravelRadius: initValues.travelRadius,
     currentEducationLevel: initValues.educationLevel,
     currentPreferences: initValues.preferences,
-  }
+  };
 
   const title = intl.formatMessage({id: 'BioPage.title'});
 

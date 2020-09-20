@@ -7,6 +7,7 @@ export { default as DashboardPage } from './DashboardPage/DashboardPage';
 export { default as EditListingPage } from './EditListingPage/EditListingPage';
 export { default as EmailVerificationPage } from './EmailVerificationPage/EmailVerificationPage';
 export { default as InboxPage } from './InboxPage/InboxPage';
+export { default as JobListingPage } from './JobListingPage/JobListingPage';
 export { default as LandingPage } from './LandingPage/LandingPage';
 export { default as ListingPage } from './ListingPage/ListingPage';
 export { default as NotFoundPage } from './NotFoundPage/NotFoundPage';
