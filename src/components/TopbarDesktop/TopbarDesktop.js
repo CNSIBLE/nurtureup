@@ -90,6 +90,16 @@ const TopbarDesktop = props => {
           </NamedLink>
         </MenuItem>
 
+        <MenuItem key="Search">
+          <NamedLink
+            className={classNames(css.yourListingsLink, currentPageClass('SearchPage'))}
+            name="SearchPage"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.searchLink" />
+          </NamedLink>
+        </MenuItem>
+
         <MenuItem key="logout">
           <InlineTextButton rootClassName={css.logoutButton} onClick={onLogout}>
             <span className={css.menuItemBorder} />

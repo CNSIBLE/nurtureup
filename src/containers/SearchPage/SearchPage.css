@@ -12,6 +12,115 @@
 
   --SearchPage_containerHeight: calc(100vh - var(--topbarHeightDesktop));
 }
+/* heroContainer gives the height for SectionHero */
+/* Safari has a bug with vw padding inside flexbox. Therefore we need an extra div (container) */
+/* If you've lot of content for the hero, multiple lines of text, make sure to adjust min-heights for each media breakpoint accordingly */
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  height: 100vh;
+  padding: 0;
+
+  @media (--viewportMedium) {
+    min-height: 500px;
+    height: 100vh;
+    max-height: none;
+  }
+
+  @media (--viewportLarge) {
+    max-height: 800px;
+    min-height: 600px;
+    height: 100vh;
+  }
+}
+
+.hero {
+  flex-grow: 1;
+  justify-content: flex-end;
+  padding-bottom: 32px;
+
+  @media (--viewportMedium) {
+    padding-bottom: 83px;
+  }
+
+  @media (--viewportLarge) {
+    justify-content: center;
+    padding-top: 60px;
+  }
+}
+
+.heroContent {
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  background: var(--nuBackground) url('../../assets/stroller-mist/stroller-mist.jpg') 0 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @media (--viewportLarge) {
+    background-position: center center;
+  }
+}
+
+.sections {
+  //margin: 0;
+  //padding-top: 1px;
+  width: 100%;
+  height: 100%;
+
+}
+
+.section {
+  //overflow: auto;
+  width: 100%;
+  height: 100%;
+
+}
+
+
+
+.sectionContent {
+  //margin: var(--LandingPage_sectionMarginTop) 24px 51px 24px;
+
+
+  @media (--viewportMedium) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    margin: var(--LandingPage_sectionMarginTopMedium) 24px 60px 24px;
+  }
+
+  @media (--viewportLarge) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    padding: 0 36px 0 36px;
+    margin: var(--LandingPage_sectionMarginTopLarge) auto 93px auto;
+  }
+
+  @media (--viewportXLarge) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    padding: 0;
+  }
+}
+
+.sectionContentFirstChild {
+  composes: sectionContent;
+  margin-top: 3vh;
+
+}
 
 /* Can be given to Topbar when a modal is opened
  * so that the Topbar is not rendered on top of it.*/
@@ -161,3 +270,52 @@
     width: 37.5vw;
   }
 }
+.header {
+  color: var(--nuPink);
+  display: flex;
+  flex-direction: row;
+}
+
+.field {
+  color: var(--nuPink);
+}
+
+.label {
+  color: rgba(0, 0, 0, 0.44);
+  font-size: 16px;
+}
+
+.inputDiv {
+  &:after {
+    content: "";
+    float: left;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--nuPink);
+  }
+}
+
+.inputText {
+  color: black;
+  font-size: 14px;
+}
+
+.editIcon {
+  justify-content: flex-end;
+}
+
+.form {
+  display:flex;
+  flex-direction: row;
+}
+
+.formRow {
+  margin-right: 20px;
+  width: 50%;
+
+  &:last-of-type {
+    margin-right: 0px
+  }
+}
+

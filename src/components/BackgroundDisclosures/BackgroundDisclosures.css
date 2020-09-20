@@ -24,3 +24,135 @@
 }
 }
 }
+
+.acknowledgeReceipt {
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-left: 33%;
+
+
+  @media (--viewportMedium) {
+    margin-top: 10px;
+  }
+}
+
+.nextButton {
+  /* This container uses flexbox layout */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  width: 50%;
+
+  /* parent aka root is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @media (--viewportSmall) {
+    flex-wrap: no-wrap;
+  }
+}
+
+.acknowledgeReceiptText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  margin-top: 3px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+}
+.ackAndAuthCheckText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  margin-top: 3px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.scrolling {
+  background-color: #FFFFFF;
+  margin:4px, 4px;
+  padding:4px;
+
+  max-height: 500px;
+
+  overflow-y: auto;
+  text-align:justify;
+}
+
+
+.fullName {
+  padding-top: 24px;
+}
+
+.noMiddleName {
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-left: 33%;
+
+
+  @media (--viewportMedium) {
+    margin-top: 10px;
+  }
+}
+
+.noMiddleNameText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  margin-top: 3px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+
+.name {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+
+  @media (--viewportMedium) {
+    margin-top: 24px;
+  }
+}
+
+.firstNameRoot {
+  width: calc(34% - 9px);
+}
+
+.lastNameRoot {
+  width: calc(66% - 9px);
+}
+
+.firstNameBackground {
+  width: calc(33% - 9px);
+}
+.middleNameBackground {
+  width: calc(33% - 9px);
+}
+.lastNameBackground {
+  width: calc(33% - 9px);
+}
+
+.dobBackground {
+  width: calc(33% - 9px);
+}
+.ssnBackground {
+  width: calc(33% - 9px);
+}
+.zipBackground {
+  width: calc(33% - 9px);
+}
+
+.licenseNumberBackground {
+  width: calc(33% - 9px);
+}
+.licenseStateBackground {
+  width: calc(33% - 9px);
+}

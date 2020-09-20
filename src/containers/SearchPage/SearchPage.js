@@ -14,7 +14,20 @@ import { parse, stringify } from '../../util/urlHelpers';
 import { propTypes } from '../../util/types';
 import { getListingsById } from '../../ducks/marketplaceData.duck';
 import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/UI.duck';
-import { SearchMap, ModalInMobile, Page } from '../../components';
+import {
+  SearchMap,
+  ModalInMobile,
+  Page,
+  IconEdit,
+  LayoutWrapperTopbar,
+  LayoutWrapperMain,
+  SectionHero,
+  SectionServices,
+  LoginModal,
+  LayoutWrapperFooter,
+  Footer,
+  LayoutSingleColumn
+} from '../../components';
 import { TopbarContainer } from '../../containers';
 
 import { searchListings, searchMapListings, setActiveListing } from './SearchPage.duck';
@@ -26,6 +39,13 @@ import {
 } from './SearchPage.helpers';
 import MainPanel from './MainPanel';
 import css from './SearchPage.css';
+import Card from "../../components/Card/Card";
+import {FormattedMessage} from "react-intl";
+import SearchSectionServices from "../../components/SearchSectionServices/SearchSectionServices";
+import nuLogo from "../../assets/nurtureup_logo/nurtureup_logo.png";
+import SearchLocation from "../../components/SearchLocation/SearchLocation";
+import SearchTimes from "../../components/SearchTimes/SearchTimes";
+import SearchResultsPanel from "../../components/SearchResultsPanel/SearchResultsPanel";
 
 // Pagination page size might need to be dynamic on responsive page layouts
 // Current design has max 3 columns 12 is divisible by 2 and 3
@@ -41,6 +61,9 @@ export class SearchPageComponent extends Component {
     this.state = {
       isSearchMapOpenOnMobile: props.tab === 'map',
       isMobileModalOpen: false,
+      showLocation: false,
+      showTimes: false,
+      showSearchResultsPanel: false,
     };
 
     this.searchMapListingsInProgress = false;
@@ -139,6 +162,7 @@ export class SearchPageComponent extends Component {
 
   render() {
     const {
+      className,
       intl,
       listings,
       location,
@@ -180,6 +204,24 @@ export class SearchPageComponent extends Component {
       this.useLocationSearchBounds = true;
       this.setState({ isSearchMapOpenOnMobile: true });
     };
+    const someHandler = (question, value) => {
+      //alert(question + '' + value);
+      this.setState({ showLocation: true });
+    }
+
+    const handleZip = (zip) => {
+      alert(zip);
+      this.setState({ showLocation: false });
+      this.setState({ showTimes: true });
+    }
+
+    const handleTimeFrame = (question,time) => {
+      alert(time);
+      this.setState({ showLocation: false });
+      this.setState({ showTimes: false });
+      this.setState({ showSearchResultsPanel: true });
+
+    }
 
     const { address, bounds, origin } = searchInURL || {};
     const { title, description, schema } = createSearchResultSchema(listings, address, intl);
@@ -189,7 +231,18 @@ export class SearchPageComponent extends Component {
     const topbarClasses = this.state.isMobileModalOpen
       ? classNames(css.topbarBehindModal, css.topbar)
       : css.topbar;
+    const classes = classNames(css.root, className);
 
+    const field = (label, val = '') => {
+      return (
+        <div className={css.field}>
+          <label className={css.label}>{label}</label>
+          <div className={css.inputDiv}>
+            <input type="text" className={css.inputText} value={val} readOnly/>
+          </div>
+        </div>
+      )
+    }
     // N.B. openMobileMap button is sticky.
     // For some reason, stickyness doesn't work on Safari, if the element is <button>
     /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -200,61 +253,52 @@ export class SearchPageComponent extends Component {
         title={title}
         schema={schema}
       >
-        <TopbarContainer
-          className={topbarClasses}
-          currentPage="SearchPage"
-          currentSearchParams={urlQueryParams}
-        />
-        <div className={css.container}>
-          <MainPanel
-            urlQueryParams={validQueryParams}
-            listings={listings}
-            searchInProgress={searchInProgress}
-            searchListingsError={searchListingsError}
-            searchParamsAreInSync={searchParamsAreInSync}
-            onActivateListing={onActivateListing}
-            onManageDisableScrolling={onManageDisableScrolling}
-            onOpenModal={this.onOpenMobileModal}
-            onCloseModal={this.onCloseMobileModal}
-            onMapIconClick={onMapIconClick}
-            pagination={pagination}
-            searchParamsForPagination={parse(location.search)}
-            showAsModalMaxWidth={MODAL_BREAKPOINT}
-            primaryFilters={{
-              yogaStylesFilter: filters.yogaStylesFilter,
-              certificateFilter: filters.certificateFilter,
-              priceFilter: filters.priceFilter,
-              keywordFilter: filters.keywordFilter,
-            }}
-          />
-          <ModalInMobile
-            className={css.mapPanel}
-            id="SearchPage.map"
-            isModalOpenOnMobile={this.state.isSearchMapOpenOnMobile}
-            onClose={() => this.setState({ isSearchMapOpenOnMobile: false })}
-            showAsModalMaxWidth={MODAL_BREAKPOINT}
-            onManageDisableScrolling={onManageDisableScrolling}
-          >
-            <div className={css.mapWrapper}>
-              {shouldShowSearchMap ? (
-                <SearchMap
-                  reusableContainerClassName={css.map}
-                  activeListingId={activeListingId}
-                  bounds={bounds}
-                  center={origin}
-                  isSearchMapOpenOnMobile={this.state.isSearchMapOpenOnMobile}
-                  location={location}
-                  listings={mapListings || []}
-                  onMapMoveEnd={this.onMapMoveEnd}
-                  onCloseAsModal={() => {
-                    onManageDisableScrolling('SearchPage.map', false);
-                  }}
-                  messages={intl.messages}
-                />
-              ) : null}
+
+
+        <LayoutSingleColumn>
+          <LayoutWrapperTopbar>
+            <TopbarContainer />
+          </LayoutWrapperTopbar>
+          <LayoutWrapperMain>
+            <div className={css.heroContainer}>
+              <div className={css.heroContent} />
+
             </div>
-          </ModalInMobile>
-        </div>
+
+                <div >
+                  {this.state.showLocation ? <SearchLocation clickEvent={handleZip}/> :
+                    this.state.showTimes? <SearchTimes clickEvent={handleTimeFrame}/> :
+                      this.state.showSearchResultsPanel? <div className={css.container}>
+                          <MainPanel
+                            urlQueryParams={validQueryParams}
+                            listings={listings}
+                            searchInProgress={searchInProgress}
+                            searchListingsError={searchListingsError}
+                            searchParamsAreInSync={searchParamsAreInSync}
+                            onActivateListing={onActivateListing}
+                            onManageDisableScrolling={onManageDisableScrolling}
+                            onOpenModal={this.onOpenMobileModal}
+                            onCloseModal={this.onCloseMobileModal}
+                            onMapIconClick={onMapIconClick}
+                            pagination={pagination}
+                            searchParamsForPagination={parse(location.search)}
+                            showAsModalMaxWidth={MODAL_BREAKPOINT}
+                            primaryFilters={{
+                              yogaStylesFilter: filters.yogaStylesFilter,
+                              certificateFilter: filters.certificateFilter,
+                              priceFilter: filters.priceFilter,
+                              keywordFilter: filters.keywordFilter,
+                            }}
+                          /> </div> :
+                        <SearchSectionServices clickEvent={someHandler}/>}
+                </div>
+
+            <LoginModal />
+          </LayoutWrapperMain>
+          <LayoutWrapperFooter>
+            <Footer />
+          </LayoutWrapperFooter>
+        </LayoutSingleColumn>
       </Page>
     );
     /* eslint-enable jsx-a11y/no-static-element-interactions */
