@@ -271,7 +271,10 @@ const EditListingAvailabilityPanel = props => {
           </h2>
           <InlineTextButton
             className={css.editPlanButton}
-            onClick={() => setIsEditPlanModalOpen(true)}
+            onClick={e => {
+              e.preventDefault()
+              setIsEditPlanModalOpen(true)
+            }}
           >
             <IconEdit className={css.editPlanIcon} />{' '}
             <FormattedMessage id="EditListingAvailabilityPanel.edit" />
