@@ -210,25 +210,34 @@ export const createJobListing = params => (dispatch, getState, sdk) => {
 
   //save exceptions
   const exceptions = getState().JobListingPage.availabilityExceptions;
+  const availabilityPlan = getState().JobListingPage.updatedPlan;
   console.log("after getting state");
 
-  // sdk.ownListing.create({
-  //   title: title,
-  //   description: description,
-  //   publicData: {
-  //     serviceType: serviceType,
-  //     zip: zip,
-  //     preferences: preferences,
-  //     experience: experience,
-  //     educationLevel: educationLevel,
-  //   }
-  // }, {expand: true}
-  // ).then(response => {
-  //   const entities = denormalisedResponseEntities(response);
-  //   if(entities.length !== 1) {
-  //     throw new Error('Expected a response from the sdk');
-  //   }
-  // });
+  sdk.ownListings.create({
+    title: title,
+    description: description,
+    availabilityPlan: availabilityPlan,
+    publicData: {
+      serviceType: serviceType,
+      zip: zip,
+      preferences: preferences,
+      experience: experience,
+      educationLevel: educationLevel,
+    }
+  }, {expand: true}
+  ).then(response => {
+    const entities = denormalisedResponseEntities(response);
+    if(entities.length !== 1) {
+      throw new Error('Expected a response from the sdk');
+    }
+
+    const respId = entities[0].id;
+    for(const exception of exceptions) {
+      saveAvailabilityException({...exception, listingId: respId});
+    }
+  });
+
+
 };
 
 //TODO do we need this function?
