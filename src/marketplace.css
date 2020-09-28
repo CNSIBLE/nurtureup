@@ -298,6 +298,36 @@
     }
   }
 
+  --nurtureUpButtonStyles {
+    @apply --marketplaceButtonStyles;
+
+    background-color: var(--nuBackground);
+    color: var(--nuPink);
+
+    /* Padding is only for <a> elements where button styles are applied,
+   buttons elements should have zero padding */
+    padding: 18px 0 0 0;
+
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: var(--nuPink);
+
+    width: auto;
+
+    &:hover,
+    &:focus {
+      background-color: var(--nuPink);
+      border-color: var(--nuPink);
+      color: var(--nuBackground);
+    }
+    &:disabled {
+      background-color: var(--matterColorNegative);
+      color: var(--matterColorLight);
+      border-color: var(--matterColorNegative);
+    }
+  }
+
   /* ================ Inputs ================ */
 
   --marketplaceInputStyles: {

@@ -7,7 +7,7 @@ import css from './JobListingForm.css';
 import {FormattedMessage, injectIntl} from "react-intl";
 import {intlShape} from "../../util/reactIntl";
 import {ensureCurrentUser, ensureListing} from "../../util/data";
-import {EDUCATION_LEVELS, PREFERENCES, SERVICE_TYPES} from './JobListingLists';
+import {EDUCATION_LEVELS, PREFERENCES, SERVICE_TYPES} from '../../util/NurtureUpLists';
 import {
   EditListingAvailabilityPanel,
   FieldCheckboxGroup,

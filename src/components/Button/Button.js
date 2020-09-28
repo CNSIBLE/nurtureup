@@ -100,3 +100,9 @@ export const InlineTextButton = props => {
   return <Button {...props} rootClassName={classes} />;
 };
 InlineTextButton.displayName = 'InlineTextButton';
+
+export const NurtureUpButton = props => {
+  const classes = classNames(props.rootClassName || css.nurtureUpButtonRoot, css.nurtureUpButton);
+  return <Button {...props} rootClassName={classes} />;
+};
+PrimaryButton.displayName = 'NurtureUpButton';
