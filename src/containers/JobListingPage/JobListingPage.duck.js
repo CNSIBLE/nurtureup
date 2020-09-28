@@ -223,7 +223,8 @@ export const createJobListing = params => (dispatch, getState, sdk) => {
       preferences: preferences,
       experience: experience,
       educationLevel: educationLevel,
-    }
+      listingType: "job",
+    },
   }, {expand: true}
   ).then(response => {
     const entities = denormalisedResponseEntities(response);

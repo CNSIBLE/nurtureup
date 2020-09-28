@@ -87,6 +87,14 @@ export class LayoutWrapperAccountSettingsSideNavComponent extends Component {
         },
       },
       {
+        text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.editServicesTabTitle"/>,
+        selected: currentTab === 'EditServicesPage',
+        id: 'EditServicesPageTab',
+        linkProps: {
+          name: 'EditServicesPage',
+        },
+      },
+      {
         text: <FormattedMessage id="LayoutWrapperAccountSettingsSideNav.passwordTabTitle"/>,
         selected: currentTab === 'PasswordChangePage',
         id: 'PasswordChangePageTab',

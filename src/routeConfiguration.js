@@ -22,7 +22,10 @@ import {
   StyleguidePage,
   TermsOfServicePage,
   TransactionPage,
-  DashboardPage, BioPage, JobListingPage,
+  DashboardPage,
+  BioPage,
+  JobListingPage,
+  EditServicesPage,
 } from './containers';
 
 // routeConfiguration needs to initialize containers first
@@ -259,6 +262,13 @@ const routeConfiguration = () => {
       auth: true,
       authPage: 'LoginPage',
       component: props => <BioPage {...props} />
+    },
+    {
+      path:'/services',
+      name:'EditServicesPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: props => <EditServicesPage {...props} />
     },
     {
       path: '/account/change-password',
