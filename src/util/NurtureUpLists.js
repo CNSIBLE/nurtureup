@@ -1,3 +1,12 @@
+import React from "react";
+import {
+  IconCarSeatTech, IconChildbirthEd,
+  IconLaborDoula, IconLactation, IconMealPrep,
+  IconMidwife, IconNewbornCare,
+  IconNursery, IconPhotographer,
+  IconPostDoula, IconSleepConsultant
+} from "../components";
+
 export const EDUCATION_LEVELS = [
   { level: '1', label: 'None' },
   { level: '2', label: 'High School' },
@@ -18,15 +27,15 @@ export const PREFERENCES = [
 ];
 
 export const SERVICE_TYPES = [
-  {key: '1', label: 'Labor Doula'},
-  {key: '2', label: 'Midwife'},
-  {key: '3', label: 'Nursery/Home consultant'},
-  {key: '4', label: 'Postpartum Doula'},
-  {key: '5', label: 'Car Seat Technician'},
-  {key: '6', label: 'Lactation Consultant'},
-  {key: '7', label: 'Sleep Consultant'},
-  {key: '8', label: 'Newborn Care Specialist'},
-  {key: '9', label: 'Infant & Pregnancy Photography'},
-  {key: '10', label: 'Childbirth Education Classes'},
-  {key: '11', label: 'Meal Prep'},
+  {key: '1', label: 'Labor Doula', icon: <IconLaborDoula />},
+  {key: '2', label: 'Midwife', icon: <IconMidwife />},
+  {key: '3', label: 'Nursery/Home consultant', icon: <IconNursery />},
+  {key: '4', label: 'Postpartum Doula', icon: <IconPostDoula />},
+  {key: '5', label: 'Car Seat Technician', icon: <IconCarSeatTech />},
+  {key: '6', label: 'Lactation Consultant', icon: <IconLactation />},
+  {key: '7', label: 'Sleep Consultant', icon: <IconSleepConsultant />},
+  {key: '8', label: 'Newborn Care Specialist', icon: <IconNewbornCare />},
+  {key: '9', label: 'Infant & Pregnancy Photography', icon: <IconPhotographer />},
+  {key: '10', label: 'Childbirth Education Classes', icon: <IconChildbirthEd />},
+  {key: '11', label: 'Meal Prep', icon: <IconMealPrep />},
 ];

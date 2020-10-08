@@ -49,6 +49,12 @@
 
 }
 
+.service {
+  border-radius: 10px;
+  background-color: var(--nuBackgroundDark);
+  box-shadow: 7px 7px 6px #00000029;
+}
+
 .serviceFormSection {
 
 }

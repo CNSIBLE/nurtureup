@@ -10,12 +10,19 @@ import classNames from "classnames";
 import {FormattedMessage, injectIntl} from "../../util/reactIntl";
 
 import {
-  EditListingAvailabilityPanel,
-  FieldSelect,
+  EditListingAvailabilityPanel, FieldCurrencyInput, FieldDateInput,
+  FieldSelect, FieldTextInput,
   Form,
   NurtureUpButton
 } from '../../components';
 import {SERVICE_TYPES} from "../../util/NurtureUpLists";
+import {nextMonthFn, prevMonthFn} from "../../util/dates";
+import {bookingDateRequired} from "../../util/validators";
+import config from "../../config";
+import {types as sdkTypes} from "../../util/sdkLoader";
+import uuid from "react-uuid";
+
+const {UUID} = sdkTypes;
 
 class ServiceFormComponent extends Component {
   constructor(props) {
@@ -44,16 +51,16 @@ class ServiceFormComponent extends Component {
             onDeleteAvailabilityException,
             onUpdateAvailabilityPlan,
             updatedPlan,
-            listingId,
             currentListing,
           } = fieldRenderProps;
 
-          let {
-            serviceType,
-          } = values;
-
           const listing = ensureListing(currentListing);
+          const listingId = listing.id || new UUID(uuid());
           const attributes = listing.attributes || {}
+          const {price, publicData, availabilityPlan} = attributes
+          let {expirationDate, serviceType} = publicData || {};
+
+          const validDate = expirationDate ? new Date(expirationDate) : {};
 
           //Service Type
           //const serviceTypeChanged = currentServiceType !== serviceType;
@@ -89,6 +96,10 @@ class ServiceFormComponent extends Component {
             form.change(fieldName, value);
           }
 
+          const TODAY = new Date();
+          // Date formatting used for placeholder texts:
+          const dateFormattingOptions = { month: 'short', day: 'numeric', weekday: 'short' };
+
           return (
             <Form
               className={css.root}
@@ -102,17 +113,41 @@ class ServiceFormComponent extends Component {
                 name={`${formId}.serviceType`}
                 label={serviceTypeLabel}
                 value={serviceType}
+                input={{value:serviceType}}
                 onChange={value => onSelectFieldChange(value, 'serviceType', fieldRenderProps)}
               >
                 <option disabled value="">
                   {serviceTypePlaceholder}
                 </option>
                 {SERVICE_TYPES.map(p => (
-                  <option key={p.key} value={p.key}>
+                  <option key={p.key} value={p.key} selected={serviceType === p.key}>
                     {p.label}
                   </option>
                 ))}
               </FieldSelect>
+
+              <FieldDateInput
+                className={css.fieldDateInput}
+                name="expirationDate"
+                id={`${formId}.expirationDate`}
+                label={intl.formatMessage({
+                  id: 'ServiceForm.expirationDateLabel',
+                })}
+                placeholderText={intl.formatDate(TODAY, dateFormattingOptions)}
+                useMobileMargins
+                showErrorMessage={false}
+                validate={bookingDateRequired('Required')}
+                input={{value:{date:validDate}}}
+              />
+
+              <FieldCurrencyInput
+                id={`${formId}.rate`}
+                name="rate"
+                className={css.rate}
+                label={intl.formatMessage({id: 'ServiceForm.rateLabel'})}
+                currencyConfig={config.currencyConfig}
+                defaultValue={price}
+              />
 
               {availability}
 

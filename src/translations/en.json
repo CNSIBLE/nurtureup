@@ -836,6 +836,8 @@
   "SendMessageForm.sendMessage": "Send message",
   "ServiceForm.save": "Save",
   "ServiceForm.cancel": "Cancel",
+  "ServiceForm.expirationDateLabel": "Schedule Valid Through",
+  "ServiceForm.rateLabel": "Service Rate Per Hour",
   "Services.sleepConsultant": "Sleep Consultant",
   "Services.laborDoula": "Labor Doula",
   "Services.nurseryConsultant": "Nursery/Home Consultant",
