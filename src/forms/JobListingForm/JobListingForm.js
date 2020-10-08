@@ -184,6 +184,7 @@ class JobListingFormComponent extends Component {
                   name={`${formId}.serviceType`}
                   label={serviceTypeLabel}
                   value={serviceType}
+                  input={{value:serviceType}}
                   onChange={value => onSelectFieldChange(value, 'serviceType', fieldRenderProps)}
                 >
                   <option disabled value="">
@@ -232,6 +233,7 @@ class JobListingFormComponent extends Component {
                   name={`${formId}.educationLevel`}
                   label={educationLevelLabel}
                   value={educationLevel}
+                  input={{value:educationLevel}}
                   onChange={value => onSelectFieldChange(value, 'educationLevel', fieldRenderProps)}
                 >
                   <option disabled value="">

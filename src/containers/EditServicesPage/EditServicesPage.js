@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {propTypes} from "../../util/types";
-import {bool, string} from 'prop-types';
+import {bool, string, func} from 'prop-types';
 import {isScrollingDisabled, manageDisableScrolling} from "../../ducks/UI.duck";
 import {injectIntl} from "react-intl";
 import {
@@ -24,11 +24,13 @@ import {
   clearForm,
   addAvailabilityException,
   deleteAvailabilityException,
-  setAvailabilityPlan, createServiceListing
+  setAvailabilityPlan,
+  createServiceListing,
+  getListings
 } from "./EditServicesPage.duck";
-import {ensureCurrentUser, ensureOwnListing} from "../../util/data";
-import {getJobListingsEntities} from "../../ducks/jobListingsData.duck";
+import {ensureCurrentUser} from "../../util/data";
 import {SERVICE_TYPES} from "../../util/NurtureUpLists";
+import { formatMoney } from '../../util/currency';
 
 const {UUID} = sdkTypes;
 
@@ -44,14 +46,14 @@ export const EditServicesPageComponent = props => {
     availabilityExceptions,
     page,
     updateInProgress,
-    id,
     currentUser,
     clearForm,
-    getOwnListing,
     onSubmitServiceListing,
+    services,
   } = props;
 
   const [showForm, setShowForm] = useState(false);
+  const [selectedServiceListing, setSelectedServiceListing] = useState({});
   const title = intl.formatMessage({id: 'EditServicesPage.title'});
 
   const {
@@ -70,27 +72,9 @@ export const EditServicesPageComponent = props => {
 
   const user = ensureCurrentUser(currentUser);
   const {profile} = user.attributes || {};
-  const {protectedData, publicData: userPublicData} = profile || {};
+  const {protectedData, publicData} = profile || {};
   const {zip} = protectedData || {};
-  const {preferences, experience, educationLevel} = userPublicData || {};
-
-  const listingId = page.submittedListingId || (id != null ? new UUID(id) : new UUID(uuid()));
-  const listing = getOwnListing(listingId);
-  const isNewServiceListing = (listing == null);
-
-  const currentListing = ensureOwnListing(listing);
-  const attributes = currentListing.attributes || {}
-  const {availabilityPlan, publicData} = attributes || {};
-  const {serviceType, travelRadius} = publicData || {};
-
-  const initValues = {
-    serviceType: serviceType,
-  }
-
-  const currentValues = {
-    currentServiceType: initValues.serviceType,
-    currentAvailabilityPlan: availabilityPlan,
-  }
+  const {preferences, experience, educationLevel, travelRadius} = publicData || {};
 
   const onCancel = () => {
     setShowForm(false);
@@ -106,10 +90,34 @@ export const EditServicesPageComponent = props => {
     console.log("Service Submitted");
     setShowForm(false);
     clearForm();
-  }
+  };
+
+  const onServiceClick = service => {
+    console.log("Service " + service.id.uuid + " was clicked");
+    setSelectedServiceListing(service);
+    onUpdateAvailabilityPlan(service.attributes.availabilityPlan);
+    setShowForm(true);
+  };
 
   const listSection = (
     <div className={css.listSection}>
+      <div className={css.list}>
+        {services.map(service => (
+          <div id={service.id.uuid} className={css.service} onClick={() => onServiceClick(service)}>
+            {SERVICE_TYPES[service.attributes.publicData.serviceType].icon}
+            {service.attributes.title}
+            <ul>
+              {service.attributes.availabilityPlan.entries.map(entry => (
+                <li>
+                  {entry.dayOfWeek}: {entry.startTime}-{entry.endTime}
+                </li>
+              ))}
+            </ul>
+            {service.attributes.price ? `${formatMoney(intl, service.attributes.price)}` : ''}
+          </div>
+        ))}
+      </div>
+
       <NurtureUpButton onClick={() => setShowForm(true)}>
         <FormattedMessage id="EditServicesPage.addService"/>
       </NurtureUpButton>
@@ -129,7 +137,7 @@ export const EditServicesPageComponent = props => {
         fetchExceptionsInProgress={page.fetchExceptionsInProgress}
         onManageDisableScrolling={onManageDisableScrolling}
         updateInProgress={updateInProgress}
-        listingId={listingId}
+        currentListing={selectedServiceListing}
       />
     </div>
   );
@@ -165,12 +173,10 @@ export const EditServicesPageComponent = props => {
 };
 
 EditServicesPageComponent.defaultProps = {
-  id: null,
 }
 
 EditServicesPageComponent.propTypes = {
   scrollingDisabled: bool.isRequired,
-  id: string,
 
   // from injectIntl
   intl: intlShape.isRequired,
@@ -187,13 +193,8 @@ const mapStateToProps = state => {
     updatedPlan,
     availabilityExceptions,
     updateInProgress,
+    services,
   } = state.EditServicesPage;
-
-  const getOwnListing = id => {
-    const listings = getJobListingsEntities(state, [{id, type: 'ownListing'}]);
-
-    return listings.length === 1 ? listings[0] : null;
-  };
 
   return {
     scrollingDisabled: isScrollingDisabled(state),
@@ -201,8 +202,8 @@ const mapStateToProps = state => {
     updateInProgress,
     availabilityExceptions,
     page,
-    getOwnListing,
     currentUser,
+    services,
   };
 };
 
@@ -223,5 +224,7 @@ const EditServicesPage = compose(
   ),
   injectIntl
 )(EditServicesPageComponent);
+
+EditServicesPage.loadData = getListings;
 
 export default EditServicesPage;

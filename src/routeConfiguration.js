@@ -268,7 +268,8 @@ const routeConfiguration = () => {
       name:'EditServicesPage',
       auth: true,
       authPage: 'LoginPage',
-      component: props => <EditServicesPage {...props} />
+      component: props => <EditServicesPage {...props} />,
+      loadData: EditServicesPage.loadData
     },
     {
       path: '/account/change-password',
