@@ -18,6 +18,7 @@ const ROOT_URL = process.env.REACT_APP_CANONICAL_ROOT_URL;
 const CONSOLE_URL =
   process.env.SERVER_SHARETRIBE_CONSOLE_URL || 'https://flex-console.sharetribe.com';
 const BASE_URL = process.env.REACT_APP_SHARETRIBE_SDK_BASE_URL;
+const CHECKR_URL = process.env.REACT_APP_CHECKR_SDK_BASE_URL;
 const TRANSIT_VERBOSE = process.env.REACT_APP_SHARETRIBE_SDK_TRANSIT_VERBOSE === 'true';
 const USING_SSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
@@ -119,6 +120,7 @@ router.get('/login-as', (req, res) => {
   res.clearCookie(codeVerifierKey, { secure: USING_SSL });
 
   const baseUrl = BASE_URL ? { baseUrl: BASE_URL } : {};
+  const checkrUrl = CHECKR_URL ? { checkrUrl: CHECKR_URL } : {};
   const tokenStore = sharetribeSdk.tokenStore.expressCookieStore({
     clientId: CLIENT_ID,
     req,

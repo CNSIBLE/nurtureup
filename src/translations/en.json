@@ -882,7 +882,7 @@
   "SignupForm.streetAddress1Label": "Street Address 1",
   "SignupForm.streetAddress1Placeholder": "12345 Main St",
   "SignupForm.streetAddress1Required": "This field is required",
-  "SignupForm.streetAddress2Label": "Street Address 2",
+  "SignupForm.streetAddress2Label": "Street Address 2 (Optional)",
   "SignupForm.streetAddress2Placeholder": "Apt E",
   "SignupForm.addressCityLabel": "City",
   "SignupForm.addressCityPlaceholder": "Denver",

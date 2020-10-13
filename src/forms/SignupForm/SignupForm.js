@@ -5,6 +5,7 @@ import {FormattedMessage, injectIntl, intlShape} from '../../util/reactIntl';
 import {Form as FinalForm} from 'react-final-form';
 import classNames from 'classnames';
 import * as validators from '../../util/validators';
+import PhoneInput, { format, normalize } from "react-phone-input-auto-format";
 
 
 import css from './SignupForm.css';
@@ -360,7 +361,8 @@ export class SignupFormComponent extends Component {
               firstName: this.state.firstName.trim(),
               lastName: this.state.lastName.trim(),
               email: this.state.email.trim(),
-              password: this.state.password.trim()
+              password: this.state.password.trim(),
+              accountType: '2'
             }
             submitSignup(params);
 
@@ -374,7 +376,8 @@ export class SignupFormComponent extends Component {
               firstName: this.state.firstName.trim(),
               lastName: this.state.lastName.trim(),
               email: this.state.email.trim(),
-              password: this.state.password.trim()
+              password: this.state.password.trim(),
+              accountType: '1'
             }
             submitSignup(params);
           };
@@ -428,8 +431,9 @@ export class SignupFormComponent extends Component {
 
           const backgroundDisclosuresDiv = (
             <div>
-              <BackgroundDisclosures
 
+              {/*<BackgroundDisclosures email={this.state.email.trim()}*/}
+            <BackgroundDisclosures values={this.state}
               />
             </div>
           );
@@ -439,6 +443,15 @@ export class SignupFormComponent extends Component {
             this.setState({showDisclosures: true});
             this.setState({showPaymentDiv: false});
           };
+
+          const Input = () => {
+            return <PhoneInput onChange={handlePhoneChange} />;
+          };
+
+          const handleFormatChange = value => {
+
+          };
+
 
 
           const handleNameChange = (event) => {
@@ -565,7 +578,8 @@ export class SignupFormComponent extends Component {
                   placeholder={phonePlaceholder}
                   value={this.state.phone}
                   onBlur={handlePhoneChange}
-                  validate={validators.composeValidators(phoneRequired, phoneValid)}
+                  //onChange={handleFormatChange}
+                  //validate={validators.composeValidators(phoneRequired, phoneValid)}
                 />
                 <FieldTextInput
                   className={css.email}
