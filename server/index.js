@@ -39,6 +39,9 @@ const fs = require('fs');
 const log = require('./log');
 const { sitemapStructure } = require('./sitemap');
 const csp = require('./csp');
+const cors = require('cors');
+
+
 
 const buildPath = path.resolve(__dirname, '..', 'build');
 const env = process.env.REACT_APP_ENV;
@@ -46,6 +49,7 @@ const dev = process.env.REACT_APP_ENV === 'development';
 const PORT = parseInt(process.env.PORT, 10);
 const CLIENT_ID = process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID;
 const BASE_URL = process.env.REACT_APP_SHARETRIBE_SDK_BASE_URL;
+const CHECKR_URL = process.env.REACT_APP_CHECKR_SDK_BASE_URL;
 const TRANSIT_VERBOSE = process.env.REACT_APP_SHARETRIBE_SDK_TRANSIT_VERBOSE === 'true';
 const USING_SSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 const TRUST_PROXY = process.env.SERVER_SHARETRIBE_TRUST_PROXY || null;
@@ -70,6 +74,8 @@ app.use(log.requestHandler());
 // The helmet middleware sets various HTTP headers to improve security.
 // See: https://www.npmjs.com/package/helmet
 app.use(helmet());
+
+app.use(cors());
 
 if (cspEnabled) {
   // When a CSP directive is violated, the browser posts a JSON body

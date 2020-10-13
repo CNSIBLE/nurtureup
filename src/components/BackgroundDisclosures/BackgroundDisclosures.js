@@ -49,6 +49,7 @@ class BackgroundDisclosuresComponent extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = { isOpen: false,
       ready: false,
       showCollectBackgroundPii: false,
@@ -59,15 +60,16 @@ class BackgroundDisclosuresComponent extends Component {
       checked:false,
       biChecked:false,
       authChecked:false,
-      firstName:'',
-      lastName:'',
+      firstName:this.props.values.firstName,
+      lastName:this.props.values.lastName,
       middleName:'',
       noMiddleName:'',
       dob:'',
       ssn:'',
-      zip:'',
+      zip:this.props.values.zip,
       licenseNumber:'',
-      licenseState:'',
+      licenseState:this.props.values.state,
+      email:this.props.values.email,
       fullNameSignature: ''};
     this.handleConsumerRights = this.handleConsumerRights.bind(this);
     this.handleBackgroundDisclosure = this.handleBackgroundDisclosure.bind(this);
@@ -106,14 +108,14 @@ class BackgroundDisclosuresComponent extends Component {
     }
   }
   onLoadRecaptcha() {
-    window.alert('captch check');
+    //window.alert('captch check');
     if (this.captchaDemo) {
       this.captchaDemo.reset();
     }
   }
   verifyCallback(recaptchaToken) {
     // Here you will get the final recaptchaToken!!!
-    window.alert(recaptchaToken);
+    //window.alert(recaptchaToken);
     console.log(recaptchaToken, "<= your recaptcha token");
     this.setState({recaptchaVerified: true});
   }
@@ -156,11 +158,11 @@ class BackgroundDisclosuresComponent extends Component {
       console.log(event.target.value)
       this.setState({phone: event.target.value});
     };
-    const handleEmailChange = (event) => {
-      console.log(event)
-      console.log(event.target.value)
-      this.setState({email: event.target.value});
-    };
+    // const handleEmailChange = (event) => {
+    //   console.log(event)
+    //   console.log(event.target.value)
+    //   this.setState({email: event.target.value});
+    // };
     const handleAddress1Change = (event) => {
       console.log(event)
       console.log(event.target.value)
@@ -220,10 +222,27 @@ class BackgroundDisclosuresComponent extends Component {
       this.setState({fullNameSignature: event.target.value});
     };
 
+    const handleDobChange = (event) => {
+      console.log(event)
+      console.log(event.target.value)
+      this.setState({dob: event.target.value});
+    };
+
     const handleFinalSubmit = values => {
       const params = {
+        // firstName: this.state.firstName.trim(),
+        // lastName: this.state.lastName.trim(),
+        // middleName:this.state.middleName.trim(),
+        // noMiddleName: this.state.noMiddleName.trim(),
+        // dateOfBirth: this.state.dob.trim(),
+        // ssn: this.state.ssn.trim(),
+        // zip: this.state.zip.trim(),
+        // licenseNumber: this.state.licenseNumber.trim(),
+        // licenseState: this.state.licenseState.trim(),
+        // email: this.props.values.email
+
         firstName: this.state.firstName.trim(),
-        lastName: this.state.lastName.trim(),
+        lastName: this.props.values.lastName.trim(),
         middleName:this.state.middleName.trim(),
         noMiddleName: this.state.noMiddleName.trim(),
         dateOfBirth: this.state.dob.trim(),
@@ -231,8 +250,10 @@ class BackgroundDisclosuresComponent extends Component {
         zip: this.state.zip.trim(),
         licenseNumber: this.state.licenseNumber.trim(),
         licenseState: this.state.licenseState.trim(),
+        email: this.state.email.trim()
+
       }
-      onSubmitBackgroundDisclosures(params)
+      onSubmitBackgroundDisclosures(params);
     }
 
 
@@ -272,16 +293,6 @@ class BackgroundDisclosuresComponent extends Component {
     });
     const licenseStateRequired = validators.required(licenseStateRequiredMessage);
 
-    // const onSubmitBackgroundDisclosures = values => {
-    //   window.alert("here???");
-    // };
-
-    // const handleBackGround = (event) => {
-    //   console.log(event)
-    //   console.log(event.target.value)
-    //   this.setState({firstName: event.target.value});
-    // };
-
     const backgroundInfoDiv = (
       <div>
         <div>
@@ -291,12 +302,12 @@ class BackgroundDisclosuresComponent extends Component {
           <FieldTextInput
             className={css.firstNameBackground}
             type="text"
-            id="firstName"
-            name="firstName"
+            id="fname"
+            name="fname"
             autoComplete="given-name"
             label="First Name"
-            placeholder="First Name"
-            ref={this.input}
+            placeholder={this.state.firstName}
+            //ref={this.input}
             value={this.state.firstName}
             onBlur={handleFirstNameChange}
             //validate={firstNameRequired}
@@ -309,7 +320,7 @@ class BackgroundDisclosuresComponent extends Component {
             autoComplete="additional-name"
             label="Middle Name"
             placeholder="Middle Name"
-            ref={this.input}
+            //ref={this.input}
             value={this.state.middleName}
             onBlur={handleMiddleNameChange}
             //validate={firstNameRequired}
@@ -317,8 +328,8 @@ class BackgroundDisclosuresComponent extends Component {
           <FieldTextInput
             className={css.lastNameBackground}
             type="text"
-            id="lastName"
-            name="lastName"
+            id="lname"
+            name="lname"
             autoComplete="family-name"
             label="Last Name"
             placeholder="Smith"
@@ -345,11 +356,11 @@ class BackgroundDisclosuresComponent extends Component {
             type="text"
             id="dateOfBirth"
             name="dateOfBirth"
-            //autoComplete="family-name"
+            autoComplete="family-name"
             label="Date of Birth"
             placeholder="12/01/1984"
             value={this.state.dob}
-            //onBlur={handleDOBChange}
+            onBlur={handleDobChange}
             //validate={ssnRequired}
           />
           <FieldTextInput
@@ -393,8 +404,8 @@ class BackgroundDisclosuresComponent extends Component {
           <FieldTextInput
             className={css.licenseStateBackground}
             type="text"
-            id="licenseState"
-            name="licenseState"
+            id="state"
+            name="state"
             autoComplete="licenseState"
             label="License State"
             placeholder="Maryland"
@@ -517,7 +528,7 @@ class BackgroundDisclosuresComponent extends Component {
           <div>
             <PrimaryButton disabled={!(this.state.recaptchaVerified && this.state.fullNameSignature)}
               //onClick={values => onSubmitBackgroundDisclosures({ ...values})}>
-                           onClick={handleFinalSubmit()}>
+                           onClick={handleFinalSubmit}>
               Next
             </PrimaryButton>
           </div>

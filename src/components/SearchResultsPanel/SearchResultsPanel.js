@@ -32,7 +32,9 @@ const SearchResultsPanel = props => {
   return (
     <div className={classes}>
       <div className={css.listingCards}>
+
         {listings.map(l => (
+          <tr>
           <ListingCard
             className={css.listingCard}
             key={l.id.uuid}
@@ -40,8 +42,10 @@ const SearchResultsPanel = props => {
             renderSizes={cardRenderSizes}
             setActiveListing={setActiveListing}
           />
+          </tr>
         ))}
         {props.children}
+
       </div>
       {paginationLinks}
     </div>
