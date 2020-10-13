@@ -179,7 +179,7 @@ export const signup = params => (dispatch, getState, sdk) => {
     return Promise.reject(new Error('Login or logout already in progress'));
   }
   dispatch(signupRequest());
-  const { email, password, firstName, lastName, accountType, ...rest } = params;
+  const { email, password, firstName, lastName, ...rest } = params;
 
   const createUserParams = isEmpty(rest)
     ? { email, password, firstName, lastName }
@@ -192,7 +192,6 @@ export const signup = params => (dispatch, getState, sdk) => {
     .create(createUserParams)
     .then(() => dispatch(signupSuccess()))
     .then(() => dispatch(login(email, password)))
-    .then( sdk.currentUser.updateProfile({ privateData: 'giver'}))
     .catch(e => {
       dispatch(signupError(storableError(e)));
       log.error(e, 'signup-failed', {
