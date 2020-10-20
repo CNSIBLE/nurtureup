@@ -218,8 +218,9 @@ const EditListingAvailabilityPanel = props => {
   };
 
   const availabilityPlan = Object.entries(availPlan).length === 0
-    ? createInitialValues(defaultAvailabilityPlan)
+    ? defaultAvailabilityPlan
     : availPlan;
+  const initialValues = createInitialValues(availabilityPlan);
 
   const handleAvailabilitySubmit = values => {
     onSubmit(createAvailabilityPlan(values));
@@ -389,6 +390,7 @@ const EditListingAvailabilityPanel = props => {
               onSubmit={handleAvailabilitySubmit}
               inProgress={updateInProgress}
               fetchErrors={errors}
+              initialValues={initialValues}
             />
           </Modal>
         </Portal>

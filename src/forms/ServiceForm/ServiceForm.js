@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import {bool, string, func, arrayOf, shape, object} from 'prop-types';
 import {compose} from 'redux';
 import {propTypes} from "../../util/types";
@@ -6,18 +6,18 @@ import {Form as FinalForm} from 'react-final-form';
 import {ensureCurrentUser, ensureListing} from '../../util/data';
 import arrayMutators from 'final-form-arrays';
 import css from './ServiceForm.css';
-import classNames from "classnames";
 import {FormattedMessage, injectIntl} from "../../util/reactIntl";
 
 import {
-  EditListingAvailabilityPanel, FieldCurrencyInput, FieldDateInput,
-  FieldSelect, FieldTextInput,
+  EditListingAvailabilityPanel,
+  FieldCurrencyInput,
+  FieldDateInput,
+  FieldSelect,
   Form,
-  NurtureUpButton
+  PrimaryButton
 } from '../../components';
 import {SERVICE_TYPES} from "../../util/NurtureUpLists";
-import {nextMonthFn, prevMonthFn} from "../../util/dates";
-import {bookingDateRequired} from "../../util/validators";
+import {bookingDateRequired, expirationDateRequired} from "../../util/validators";
 import config from "../../config";
 import {types as sdkTypes} from "../../util/sdkLoader";
 import uuid from "react-uuid";
@@ -52,15 +52,17 @@ class ServiceFormComponent extends Component {
             onUpdateAvailabilityPlan,
             updatedPlan,
             currentListing,
+            listingId,
           } = fieldRenderProps;
 
           const listing = ensureListing(currentListing);
-          const listingId = listing.id || new UUID(uuid());
+
           const attributes = listing.attributes || {}
           const {price, publicData, availabilityPlan} = attributes
-          let {expirationDate, serviceType} = publicData || {};
+          const {expirationDate, serviceType:servType} = publicData || {};
 
-          const validDate = expirationDate ? new Date(expirationDate) : {};
+          const [serviceType, setServiceType] = useState(servType);
+          const [validDate, setValidDate] = useState(expirationDate ? new Date(expirationDate) : null)
 
           //Service Type
           //const serviceTypeChanged = currentServiceType !== serviceType;
@@ -69,6 +71,9 @@ class ServiceFormComponent extends Component {
 
           // Availability
           //const availabilityChanged = JSON.stringify(currentAvailabilityPlan) !== JSON.stringify(updatedPlan);
+
+          // Expiration Date
+          const expirationDateLabel = intl.formatMessage({id: 'ServiceForm.expirationDateLabel'});
 
           const handleAvailabilitySubmit = values => {
             onUpdateAvailabilityPlan(values.availabilityPlan);
@@ -91,10 +96,17 @@ class ServiceFormComponent extends Component {
             />
           );
 
-          const onSelectFieldChange = (value, fieldName, props) => {
+          const onServiceTypeChange = (value, props) => {
             const {form} = props;
-            form.change(fieldName, value);
+            form.change('serviceType', value);
+            setServiceType(value);
           }
+
+          const onExpirationDateChange = (value, props) => {
+            const {form} = props;
+            form.change('expirationDate', value);
+            setValidDate(value.date);
+          };
 
           const TODAY = new Date();
           // Date formatting used for placeholder texts:
@@ -103,24 +115,21 @@ class ServiceFormComponent extends Component {
           return (
             <Form
               className={css.root}
-              onSubmit={e => {
-                this.submittedValues = {...values, availabilityPlan: updatedPlan};
-                handleSubmit(e);
-              }}
+              onSubmit={handleSubmit}
             >
               <FieldSelect
                 id="serviceType"
                 name={`${formId}.serviceType`}
                 label={serviceTypeLabel}
                 value={serviceType}
-                input={{value:serviceType}}
-                onChange={value => onSelectFieldChange(value, 'serviceType', fieldRenderProps)}
+                defaultValue={serviceType}
+                onChange={value => onServiceTypeChange(value, fieldRenderProps)}
               >
                 <option disabled value="">
                   {serviceTypePlaceholder}
                 </option>
                 {SERVICE_TYPES.map(p => (
-                  <option key={p.key} value={p.key} selected={serviceType === p.key}>
+                  <option key={p.key} value={p.key}>
                     {p.label}
                   </option>
                 ))}
@@ -128,16 +137,18 @@ class ServiceFormComponent extends Component {
 
               <FieldDateInput
                 className={css.fieldDateInput}
-                name="expirationDate"
-                id={`${formId}.expirationDate`}
-                label={intl.formatMessage({
-                  id: 'ServiceForm.expirationDateLabel',
-                })}
+                id="expirationDate"
+                name={`${formId}.expirationDate`}
+                label={expirationDateLabel}
                 placeholderText={intl.formatDate(TODAY, dateFormattingOptions)}
                 useMobileMargins
-                showErrorMessage={false}
-                validate={bookingDateRequired('Required')}
-                input={{value:{date:validDate}}}
+                showErrorMessage={true}
+                validate={expirationDateRequired('Required', validDate)}
+                input={{value:{date:validDate}, onChange: () => void(0)}}
+                initialDate={validDate}
+                onChange={value => onExpirationDateChange(value, fieldRenderProps)}
+                onFocus={() => void(0)}
+                onBlur={() => void(0)}
               />
 
               <FieldCurrencyInput
@@ -152,14 +163,12 @@ class ServiceFormComponent extends Component {
               {availability}
 
               <div className={css.buttonGroup}>
-                <NurtureUpButton
-                  type="submit"
-                >
+                <PrimaryButton type="submit">
                   <FormattedMessage id="ServiceForm.save"/>
-                </NurtureUpButton>
-                <NurtureUpButton onClick={onCancel}>
+                </PrimaryButton>
+                <PrimaryButton type="button" onClick={onCancel}>
                   <FormattedMessage id="ServiceForm.cancel"/>
-                </NurtureUpButton>
+                </PrimaryButton>
               </div>
             </Form>
           );
@@ -170,7 +179,7 @@ class ServiceFormComponent extends Component {
 }
 
 ServiceFormComponent.defaultProps = {
-  formId: null,
+  formId: "",
   inProgress: false,
   availabilityExceptions: [],
   updatedPlan: {},
@@ -179,6 +188,7 @@ ServiceFormComponent.defaultProps = {
 ServiceFormComponent.propTypes = {
   formId: string,
   onCancel: func.isRequired,
+  onSubmit: func.isRequired,
 
   availabilityExceptions: arrayOf(propTypes.availabilityException),
   fetchExceptionsInProgress: bool.isRequired,
@@ -196,7 +206,7 @@ ServiceFormComponent.propTypes = {
     updateListingError: object,
   }).isRequired,
   updateInProgress: bool.isRequired,
-  listingId: object.isRequired,
+  listingId:object.isRequired,
 };
 
 const ServiceForm = compose(injectIntl)(ServiceFormComponent);
@@ -204,4 +214,3 @@ const ServiceForm = compose(injectIntl)(ServiceFormComponent);
 ServiceForm.displayName = 'ServiceForm';
 
 export default ServiceForm;
-

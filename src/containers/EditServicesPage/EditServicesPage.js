@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {compose} from 'redux';
 import {connect} from 'react-redux';
-import {propTypes} from "../../util/types";
 import {bool, string, func} from 'prop-types';
 import {isScrollingDisabled, manageDisableScrolling} from "../../ducks/UI.duck";
 import {injectIntl} from "react-intl";
@@ -12,25 +11,27 @@ import {
   LayoutWrapperAccountSettingsSideNav,
   LayoutWrapperTopbar,
   LayoutWrapperFooter,
-  Footer, NurtureUpButton,
+  Footer,
+  PrimaryButton,
 } from '../../components';
 import {TopbarContainer} from "../../containers";
 import css from "./EditServicesPage.css";
 import {FormattedMessage, intlShape} from "../../util/reactIntl";
 import {ServiceForm} from "../../forms";
-import uuid from "react-uuid";
-import {types as sdkTypes} from "../../util/sdkLoader";
 import {
   clearForm,
   addAvailabilityException,
   deleteAvailabilityException,
   setAvailabilityPlan,
   createServiceListing,
-  getListings
+  getListings,
+  updateServiceListing
 } from "./EditServicesPage.duck";
 import {ensureCurrentUser} from "../../util/data";
 import {SERVICE_TYPES} from "../../util/NurtureUpLists";
-import { formatMoney } from '../../util/currency';
+import {formatMoney} from '../../util/currency';
+import uuid from "react-uuid";
+import {types as sdkTypes} from "../../util/sdkLoader";
 
 const {UUID} = sdkTypes;
 
@@ -49,6 +50,7 @@ export const EditServicesPageComponent = props => {
     currentUser,
     clearForm,
     onSubmitServiceListing,
+    onUpdateServiceListing,
     services,
   } = props;
 
@@ -76,24 +78,48 @@ export const EditServicesPageComponent = props => {
   const {zip} = protectedData || {};
   const {preferences, experience, educationLevel, travelRadius} = publicData || {};
 
+  const isNewListing = Object.keys(selectedServiceListing).length === 0;
+  const listingId = selectedServiceListing.id || new UUID(uuid());
+
   const onCancel = () => {
     setShowForm(false);
+    setSelectedServiceListing({});
     clearForm();
   }
 
-  const onSubmit = values => {
+  const handleFormSubmit = values => {
     const title = SERVICE_TYPES[values.serviceType].label;
-    onSubmitServiceListing({
-      ...values, title: title, zip: zip, preferences: preferences, experience: experience,
-      educationLevel: educationLevel, travelRadius: travelRadius
-    });
-    console.log("Service Submitted");
-    setShowForm(false);
-    clearForm();
+
+    if (isNewListing) {
+      onSubmitServiceListing({
+        ...values, title: title, zip: zip, preferences: preferences, experience: experience,
+        educationLevel: educationLevel, travelRadius: travelRadius
+      });
+
+      console.log("Service Created");
+    } else {
+      const exprDate = values.expirationDate ||
+        {date: new Date(selectedServiceListing.attributes.publicData.expirationDate)};
+
+      onUpdateServiceListing({
+        ...values, title: title, zip: zip, preferences: preferences, experience: experience,
+        educationLevel: educationLevel, travelRadius: travelRadius, listingId: listingId,
+        expirationDate: exprDate
+      }).then( res => {
+        setShowForm(false);
+        setSelectedServiceListing({});
+        clearForm();
+        console.log("Service updated: " + res);
+      }).catch(e => {
+        console.log(e);
+      });
+
+    }
+
+
   };
 
   const onServiceClick = service => {
-    console.log("Service " + service.id.uuid + " was clicked");
     setSelectedServiceListing(service);
     onUpdateAvailabilityPlan(service.attributes.availabilityPlan);
     setShowForm(true);
@@ -103,12 +129,13 @@ export const EditServicesPageComponent = props => {
     <div className={css.listSection}>
       <div className={css.list}>
         {services.map(service => (
-          <div id={service.id.uuid} className={css.service} onClick={() => onServiceClick(service)}>
+          <div id={service.id.uuid} key={service.id.uuid} className={css.service}
+               onClick={() => onServiceClick(service)}>
             {SERVICE_TYPES[service.attributes.publicData.serviceType].icon}
             {service.attributes.title}
             <ul>
-              {service.attributes.availabilityPlan.entries.map(entry => (
-                <li>
+              {service.attributes.availabilityPlan.entries.map((entry, i) => (
+                <li key={i}>
                   {entry.dayOfWeek}: {entry.startTime}-{entry.endTime}
                 </li>
               ))}
@@ -118,9 +145,9 @@ export const EditServicesPageComponent = props => {
         ))}
       </div>
 
-      <NurtureUpButton onClick={() => setShowForm(true)}>
+      <PrimaryButton onClick={() => setShowForm(true)}>
         <FormattedMessage id="EditServicesPage.addService"/>
-      </NurtureUpButton>
+      </PrimaryButton>
     </div>
   );
 
@@ -128,7 +155,7 @@ export const EditServicesPageComponent = props => {
     <div className={css.serviceFormSection}>
       <ServiceForm
         onCancel={onCancel}
-        onSubmit={values => onSubmit(values)}
+        onSubmit={handleFormSubmit}
         onDeleteAvailabilityException={onDeleteAvailabilityException}
         onAddAvailabilityException={onAddAvailabilityException}
         onUpdateAvailabilityPlan={onUpdateAvailabilityPlan}
@@ -138,6 +165,7 @@ export const EditServicesPageComponent = props => {
         onManageDisableScrolling={onManageDisableScrolling}
         updateInProgress={updateInProgress}
         currentListing={selectedServiceListing}
+        listingId={listingId}
       />
     </div>
   );
@@ -172,8 +200,7 @@ export const EditServicesPageComponent = props => {
   );
 };
 
-EditServicesPageComponent.defaultProps = {
-}
+EditServicesPageComponent.defaultProps = {}
 
 EditServicesPageComponent.propTypes = {
   scrollingDisabled: bool.isRequired,
@@ -215,6 +242,7 @@ const mapDispatchToProps = dispatch => ({
   onUpdateAvailabilityPlan: plan => dispatch(setAvailabilityPlan(plan)),
   clearForm: () => dispatch(clearForm()),
   onSubmitServiceListing: params => dispatch(createServiceListing(params)),
+  onUpdateServiceListing: params => dispatch(updateServiceListing(params)),
 })
 
 const EditServicesPage = compose(
