@@ -187,10 +187,64 @@ export const createServiceListing = params => (dispatch, getState, sdk) => {
   });
 };
 
+export const updateServiceListing = params => (dispatch, getState, sdk) => {
+  const {
+    serviceType,
+    zip,
+    preferences,
+    experience,
+    educationLevel,
+    travelRadius,
+    title,
+    rate,
+    expirationDate,
+    listingId
+  } = params;
+
+  //save exceptions
+  const exceptions = getState().EditServicesPage.availabilityExceptions;
+  const availabilityPlan = getState().EditServicesPage.updatedPlan;
+
+  return new Promise((resolve, reject) => {
+    sdk.ownListings.update({
+        id: listingId,
+        title: title,
+        availabilityPlan: availabilityPlan,
+        price: rate,
+        publicData: {
+          serviceType: serviceType,
+          zip: zip,
+          preferences: preferences,
+          experience: experience,
+          educationLevel: educationLevel,
+          travelRadius: travelRadius,
+          listingType: "service",
+          expirationDate: expirationDate.date.getTime(),
+        },
+      }, {expand: true}
+    ).then(response => {
+      const entities = denormalisedResponseEntities(response);
+      if (entities.length !== 1) {
+        reject(Error('Expected a response from the sdk'));
+      }
+
+      const respId = entities[0].id;
+      for (const exception of exceptions) {
+        saveAvailabilityException({...exception, listingId: respId});
+      }
+
+      resolve("Success");
+    }).catch(e => {
+      throw e;
+    });
+  })
+};
+
 export const getListings = () => (dispatch, getState, sdk) => {
   return sdk.ownListings.query({})
     .then(response => {
       console.log("listings retrieved");
+      //TODO only return listing of type service
       return dispatch(fetchServicesSuccess({data: response.data.data}));
     }).catch(e => {
       dispatch(fetchServicesError({error: storableError(e)}));
