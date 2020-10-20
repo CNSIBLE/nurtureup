@@ -204,6 +204,9 @@ const config = {
     publishableKey: stripePublishableKey,
     supportedCountries: stripeCountryDetails,
   },
+  checkr: {
+    secretKey: '3595047923d5d39fc34e290693efe1924d2c93b2',
+  },
   canonicalRootURL,
   address: {
     addressCountry,

@@ -185,6 +185,7 @@ export const signup = params => (dispatch, getState, sdk) => {
     ? { email, password, firstName, lastName }
     : { email, password, firstName, lastName, protectedData: { ...rest } };
 
+
   // We must login the user if signup succeeds since the API doesn't
   // do that automatically.
   return sdk.currentUser
