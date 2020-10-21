@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { ReCaptcha } from 'react-recaptcha-google';
-import PropTypes from 'prop-types';
+import PropTypes, {shape} from 'prop-types';
 import classNames from 'classnames';
 
 
@@ -23,6 +23,7 @@ import * as validators from "../../util/validators";
 import FieldTextInput from "../FieldTextInput/FieldTextInput";
 import {authenticationInProgress} from "../../ducks/Auth.duck";
 import {isScrollingDisabled} from "../../ducks/UI.duck";
+import { withRouter } from 'react-router-dom';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -49,7 +50,7 @@ class BackgroundDisclosuresComponent extends Component {
 
   constructor(props) {
     super(props);
-
+    const {history} = this.props;
     this.state = { isOpen: false,
       ready: false,
       showCollectBackgroundPii: false,
@@ -253,7 +254,12 @@ class BackgroundDisclosuresComponent extends Component {
         email: this.state.email.trim()
 
       }
-      onSubmitBackgroundDisclosures(params);
+      const {history} = this.props;
+      onSubmitBackgroundDisclosures(params)
+        .then(() => {
+          history.push('/dashboard');
+
+        })
     }
 
 
@@ -572,6 +578,9 @@ BackgroundDisclosuresComponent.propTypes = {
   isOpen: bool,
   onToggleActive: func,
   onSubmitBackgroundDisclosures: func.isRequired,
+  history: shape({
+    push: func.isRequired
+  }).isRequired
 };
 
 const mapStateToProps = state => {
@@ -603,6 +612,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const BackgroundDisclosures = compose(
+  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps

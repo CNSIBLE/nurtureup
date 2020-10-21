@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, {shape} from 'prop-types';
 import {compose} from 'redux';
 import {FormattedMessage, injectIntl, intlShape} from '../../util/reactIntl';
 import {Form as FinalForm} from 'react-final-form';
 import classNames from 'classnames';
 import * as validators from '../../util/validators';
 import PhoneInput, { format, normalize } from "react-phone-input-auto-format";
-
+import { withRouter } from 'react-router-dom';
 
 import css from './SignupForm.css';
 import {PaymentMethodsForm} from "../index";
 import {ensureCurrentUser} from "../../util/data";
 import {isScrollingDisabled, manageDisableScrolling} from "../../ducks/UI.duck";
 import {
+  chargeProFee,
   createStripeSetupIntent,
   stripeCustomer
 } from "../../containers/PaymentMethodsPage/PaymentMethodsPage.duck";
@@ -20,7 +21,7 @@ import {handleCardSetup} from "../../ducks/stripe.duck";
 import {deletePaymentMethod, savePaymentMethod} from "../../ducks/paymentMethods.duck";
 import {connect} from "react-redux";
 import FieldTextInput from "../../components/FieldTextInput/FieldTextInput";
-import {PrimaryButton} from "../../components";
+import {NamedRedirect, PrimaryButton} from "../../components";
 import {authenticationInProgress, signup} from "../../ducks/Auth.duck";
 import {sendVerificationEmail} from "../../ducks/user.duck";
 import BackgroundDisclosures from "../../components/BackgroundDisclosures/BackgroundDisclosures";
@@ -31,6 +32,8 @@ const KEY_CODE_ENTER = 13;
 export class SignupFormComponent extends Component {
   constructor(props) {
     super(props);
+    const {history} = this.props;
+    console.log(history);
     this.state = {
       showPaymentDiv: false,
       showDisclosures: false,
@@ -47,7 +50,8 @@ export class SignupFormComponent extends Component {
       password: '',
       ssn: '',
       licenseNumber: '',
-      licenseState: ''
+      licenseState: '',
+      accountType:''
     };
   }
 
@@ -67,6 +71,7 @@ export class SignupFormComponent extends Component {
             onOpenTermsOfService,
             currentUser,
             onCreateSetupIntent,
+            onChargeProFee,
             onHandleCardSetup,
             onSavePaymentMethod,
             fetchStripeCustomer,
@@ -356,6 +361,7 @@ export class SignupFormComponent extends Component {
           const handleSubmitSignup = values => {
 
             this.setState({showPaymentDiv: true});
+            this.setState({accountType: '2'});
 
             const params = {
               firstName: this.state.firstName.trim(),
@@ -370,8 +376,9 @@ export class SignupFormComponent extends Component {
 
           const handleGiverSignup = values => {
 
-            this.setState({showDisclosures: true});
-
+            //this.setState({showDisclosures: true});
+            this.setState({showPaymentDiv: true});
+            this.setState({accountType: '1'});
             const params = {
               firstName: this.state.firstName.trim(),
               lastName: this.state.lastName.trim(),
@@ -382,11 +389,14 @@ export class SignupFormComponent extends Component {
             submitSignup(params);
           };
 
-          const handlePaymentSubmit = params => {
+          const handlePaymentSubmit = (params, values) => {
             //setIsSubmitting = true;
             const ensuredCurrentUser = ensureCurrentUser(currentUser);
             const stripeCustomer = ensuredCurrentUser.stripeCustomer;
             const {stripe, card, formValues} = params;
+            console.log(params);
+            const {history} = this.props;
+            console.log(history);
             //window.alert("stripe = " + JSON.stringify(stripe));
             //window.alert("user = " + JSON.stringify(currentUser));
 
@@ -413,18 +423,40 @@ export class SignupFormComponent extends Component {
                 //setIsSubmitting(false);
                 //setCardState('default');
               })
+              .then(() => {
+                  return onChargeProFee(stripeCustomer)
+
+              })
+              .then(() => {
+                console.log('In Dashboard Redirect, accountType = ' + this.state.accountType);
+                //const history = fieldRenderProps.history;
+
+                if(this.state.accountType === '1'){
+                  console.log('This is a GIVEr, so we need to open disclosures');
+                  this.setState({showPaymentDiv: false});
+                  this.setState({showDisclosures: true});
+                }else {
+                  console.log('This is a seeker, so we need to go to dashboard');
+                  history.push('/dashboard');
+                }
+
+              })
               .catch(error => {
                 console.error(error);
                 //setIsSubmitting(false);
               });
+
+            // return  <NamedRedirect name="Dashboard"/>;
+
           };
 
           const paymentFormDiv = (
+
             <div>
               <PaymentMethodsForm
                 formId="PaymentMethodsForm"
-                onSubmit={handlePaymentSubmit}
-
+                //onSubmit={handlePaymentSubmit}
+                onSubmit={(params, values) => handlePaymentSubmit(params, values)}
               />
             </div>
           );
@@ -728,6 +760,9 @@ SignupFormComponent.propTypes = {
   onResendVerificationEmail: func.isRequired,
   // from injectIntl
   intl: intlShape.isRequired,
+  history: shape({
+    push: func.isRequired
+  }).isRequired
 };
 
 const mapStateToProps = state => {
@@ -750,6 +785,7 @@ const mapDispatchToProps = dispatch => ({
   fetchStripeCustomer: () => dispatch(stripeCustomer()),
   onHandleCardSetup: params => dispatch(handleCardSetup(params)),
   onCreateSetupIntent: params => dispatch(createStripeSetupIntent(params)),
+  onChargeProFee: params => dispatch(chargeProFee(params)),
   onSavePaymentMethod: (stripeCustomer, newPaymentMethod) =>
     dispatch(savePaymentMethod(stripeCustomer, newPaymentMethod)),
   onDeletePaymentMethod: params => dispatch(deletePaymentMethod(params)),
@@ -757,6 +793,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const SignupForm = compose(
+  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps
