@@ -75,12 +75,12 @@ const Footer = props => {
               <ul className={css.list}>
                 <li><h3>Customer Service</h3></li>
                 <li className={css.listItem}>
-                  <NamedLink name="NewListingPage" className={css.link}>
+                  <NamedLink name="LandingPage" className={css.link}>
                     <FormattedMessage id="Footer.toContactUs" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
-                  <NamedLink name="AboutPage" className={css.link}>
+                  <NamedLink name="LandingPage" className={css.link}>
                     <FormattedMessage id="Footer.privacyStatement" />
                   </NamedLink>
                 </li>
@@ -101,7 +101,7 @@ const Footer = props => {
                 <li><h3>Information</h3></li>
                 <li className={css.listItem}>
                   <NamedLink
-                    name="SearchPage"
+                    name="AboutPage"
                     to={{
                       search:
                         '?address=New%20York%20City%2C%20New%20York%2C%20USA&bounds=40.917576401307%2C-73.7008392055224%2C40.477399%2C-74.2590879797556',
@@ -113,7 +113,7 @@ const Footer = props => {
                 </li>
                 <li className={css.listItem}>
                   <NamedLink
-                    name="SearchPage"
+                    name="LandingPage"
                     to={{
                       search:
                         '?address=Los%20Angeles%2C%20California%2C%20USA&bounds=34.161440999758%2C-118.121305008073%2C33.9018913203336%2C-118.521456965901',
@@ -125,7 +125,7 @@ const Footer = props => {
                 </li>
                 <li className={css.listItem}>
                   <NamedLink
-                    name="SearchPage"
+                    name="LandingPage"
                     to={{
                       search:
                         '?address=San%20Francisco%2C%20California%2C%20USA&bounds=37.8324430069081%2C-122.354995082683%2C37.6044780500533%2C-122.517910874663',
@@ -137,7 +137,7 @@ const Footer = props => {
                 </li>
                 <li className={css.listItem}>
                   <NamedLink
-                    name="SearchPage"
+                    name="LandingPage"
                     to={{
                       search:
                         '?address=Seattle%2C%20Washington%2C%20USA&bounds=47.7779392908564%2C-122.216605992108%2C47.3403950185547%2C-122.441233019046',

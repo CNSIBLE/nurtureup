@@ -1,7 +1,11 @@
 import { fetchCurrentUser } from '../../ducks/user.duck';
-import { setInitialValues as setInitialValuesForPaymentMethods } from '../../ducks/paymentMethods.duck';
+import {
+  setInitialValues as setInitialValuesForPaymentMethods, stripeCustomerCreateError,
+  stripeCustomerCreateSuccess
+} from '../../ducks/paymentMethods.duck';
 import { storableError } from '../../util/errors';
 import * as log from '../../util/log';
+import config from "../../config";
 
 // ================ Action types ================ //
 
@@ -104,3 +108,57 @@ export const loadData = () => (dispatch, getState, sdk) => {
 
   return dispatch(stripeCustomer());
 };
+export const chargeProFee = () => (dispatch, getState, sdk) => {
+
+}
+
+// export const chargeProFee = () => (dispatch, getState, sdk) => {
+//
+//   //this.stripe = window.Stripe(config.stripe.publishableKey);
+//   sdk.stripeSubscriptions.create({ customer: 'cus_IDuOcZi4385bg0', items: [ {price: 'price_1HbHdZIrnAaeNNsZioZ6VUpY'},],  })
+//     .then(response => {
+//       const stripeCustomer = response.data.data;
+//       dispatch(stripeCustomerCreateSuccess(stripeCustomer));
+//       return stripeCustomer;
+//     })
+//     .catch(e => {
+//       log.error(storableError(e), 'create-stripe-user-failed');
+//       dispatch(stripeCustomerCreateError(storableError(e)));
+//     });
+//
+//   console.log('in chargeproFee');
+//
+//   let candidateData = {
+//     customer: 'cus_IDuOcZi4385bg0',
+//     items: [
+//       {price: 'price_1HbHdZIrnAaeNNsZioZ6VUpY'},
+//     ],
+//   };
+//
+//
+//
+//
+//   let xhr = new window.XMLHttpRequest();
+//   xhr.open('POST', 'https://api.stripe.com/v1/subscriptions');
+//   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//   //xhr.setRequestHeader("X-User-Agent", "Checkr.2.0.0.js");
+//   xhr.setRequestHeader("Authorization", "Basic " + btoa('sk_test_J2myicLNeifTwWiHpVkSe2lq007CMJEiYt'));
+//
+//
+//   xhr.onload = function() {
+//     if ((xhr.status != 201 && xhr.status != 200)) { // analyze HTTP status of the response
+//       console.log(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+//     } else { // show the result
+//       console.log(`Done, got ${xhr.response.length} bytes`); // response is the server
+//
+//       console.log(xhr.responseText);
+//
+//       let jsonResponse = JSON.parse(xhr.responseText);
+//       console.log(jsonResponse);
+//       console.log(jsonResponse.id);
+//
+//     }
+//   }
+//
+//   xhr.send(JSON.stringify(candidateData));
+// };
