@@ -3,6 +3,7 @@ import { storableError } from '../../util/errors';
 import { addMarketplaceEntities } from '../../ducks/marketplaceData.duck';
 import { convertUnitToSubUnit, unitDivisor } from '../../util/currency';
 import config from '../../config';
+import {denormalisedResponseEntities} from "../../util/data";
 
 // ================ Action types ================ //
 
@@ -179,3 +180,12 @@ export const searchMapListings = searchParams => (dispatch, getState, sdk) => {
       throw e;
     });
 };
+
+export const getUser = id => (dispatch, getState, sdk) => {
+  return sdk.users.show({id:id}).then(res => {
+    const entities = denormalisedResponseEntities(res);
+    const user = entities[0];
+
+    return user;
+  })
+}

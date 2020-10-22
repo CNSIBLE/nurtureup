@@ -73,6 +73,26 @@ class MainPanel extends Component {
       ? Object.values(secondaryFilters).map(f => f.paramName)
       : [];
 
+    const mobileFilters = (
+      <SearchFiltersMobile
+        className={css.searchFiltersMobile}
+        urlQueryParams={urlQueryParams}
+        listingsAreLoaded={listingsAreLoaded}
+        resultsCount={totalItems}
+        searchInProgress={searchInProgress}
+        searchListingsError={searchListingsError}
+        showAsModalMaxWidth={showAsModalMaxWidth}
+        onMapIconClick={onMapIconClick}
+        onManageDisableScrolling={onManageDisableScrolling}
+        onOpenModal={onOpenModal}
+        onCloseModal={onCloseModal}
+        filterParamNames={filterParamNames}
+        selectedFiltersCount={selectedFiltersCount}
+        {...primaryFilters}
+        {...secondaryFilters}
+      />
+    );
+
     return (
       <div className={classes}>
         <SearchFilters
@@ -86,23 +106,7 @@ class MainPanel extends Component {
           {...searchFiltersPanelProps}
           {...primaryFilters}
         />
-        <SearchFiltersMobile
-          className={css.searchFiltersMobile}
-          urlQueryParams={urlQueryParams}
-          listingsAreLoaded={listingsAreLoaded}
-          resultsCount={totalItems}
-          searchInProgress={searchInProgress}
-          searchListingsError={searchListingsError}
-          showAsModalMaxWidth={showAsModalMaxWidth}
-          onMapIconClick={onMapIconClick}
-          onManageDisableScrolling={onManageDisableScrolling}
-          onOpenModal={onOpenModal}
-          onCloseModal={onCloseModal}
-          filterParamNames={filterParamNames}
-          selectedFiltersCount={selectedFiltersCount}
-          {...primaryFilters}
-          {...secondaryFilters}
-        />
+
         {isSearchFiltersPanelOpen ? (
           <div className={classNames(css.searchFiltersPanel)}>
             <SearchFiltersPanel

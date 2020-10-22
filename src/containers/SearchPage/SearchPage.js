@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { array, bool, func, number, oneOf, object, shape, string } from 'prop-types';
-import { injectIntl, intlShape } from '../../util/reactIntl';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import React, {Component} from 'react';
+import {array, bool, func, number, oneOf, object, shape, string} from 'prop-types';
+import {injectIntl, intlShape} from '../../util/reactIntl';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {withRouter} from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import unionWith from 'lodash/unionWith';
 import classNames from 'classnames';
 import config from '../../config';
 import routeConfiguration from '../../routeConfiguration';
-import { createResourceLocatorString, pathByRouteName } from '../../util/routes';
-import { parse, stringify } from '../../util/urlHelpers';
-import { propTypes } from '../../util/types';
-import { getListingsById } from '../../ducks/marketplaceData.duck';
-import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/UI.duck';
+import {createResourceLocatorString, pathByRouteName} from '../../util/routes';
+import {parse, stringify} from '../../util/urlHelpers';
+import {propTypes} from '../../util/types';
+import {getListingsById} from '../../ducks/marketplaceData.duck';
+import {manageDisableScrolling, isScrollingDisabled} from '../../ducks/UI.duck';
 import {
   SearchMap,
   ModalInMobile,
@@ -28,9 +28,9 @@ import {
   Footer,
   LayoutSingleColumn
 } from '../../components';
-import { TopbarContainer } from '../../containers';
+import {TopbarContainer} from '../../containers';
 
-import { searchListings, searchMapListings, setActiveListing } from './SearchPage.duck';
+import {searchListings, searchMapListings, setActiveListing} from './SearchPage.duck';
 import {
   pickSearchParamsOnly,
   validURLParamsForExtendedData,
@@ -110,7 +110,7 @@ export class SearchPageComponent extends Component {
   // Callback to determine if new search is needed
   // when map is moved by user or viewport has changed
   onMapMoveEnd(viewportBoundsChanged, data) {
-    const { viewportBounds, viewportCenter } = data;
+    const {viewportBounds, viewportCenter} = data;
 
     const routes = routeConfiguration();
     const searchPagePath = pathByRouteName('SearchPage', routes);
@@ -125,16 +125,16 @@ export class SearchPageComponent extends Component {
     // we start to react to "mapmoveend" events by generating new searches
     // (i.e. 'moveend' event in Mapbox and 'bounds_changed' in Google Maps)
     if (viewportBoundsChanged && isSearchPage) {
-      const { history, location } = this.props;
+      const {history, location} = this.props;
 
       // parse query parameters, including a custom attribute named certificate
-      const { address, bounds, mapSearch, ...rest } = parse(location.search, {
+      const {address, bounds, mapSearch, ...rest} = parse(location.search, {
         latlng: ['origin'],
         latlngBounds: ['bounds'],
       });
 
       //const viewportMapCenter = SearchMap.getMapCenter(map);
-      const originMaybe = config.sortSearchByDistance ? { origin: viewportCenter } : {};
+      const originMaybe = config.sortSearchByDistance ? {origin: viewportCenter} : {};
 
       const searchParams = {
         address,
@@ -151,13 +151,13 @@ export class SearchPageComponent extends Component {
   // Invoked when a modal is opened from a child component,
   // for example when a filter modal is opened in mobile view
   onOpenMobileModal() {
-    this.setState({ isMobileModalOpen: true });
+    this.setState({isMobileModalOpen: true});
   }
 
   // Invoked when a modal is closed from a child component,
   // for example when a filter modal is opened in mobile view
   onCloseMobileModal() {
-    this.setState({ isMobileModalOpen: false });
+    this.setState({isMobileModalOpen: false});
   }
 
   render() {
@@ -177,7 +177,7 @@ export class SearchPageComponent extends Component {
       onActivateListing,
     } = this.props;
     // eslint-disable-next-line no-unused-vars
-    const { mapSearch, page, ...searchInURL } = parse(location.search, {
+    const {mapSearch, page, ...searchInURL} = parse(location.search, {
       latlng: ['origin'],
       latlngBounds: ['bounds'],
     });
@@ -202,29 +202,29 @@ export class SearchPageComponent extends Component {
 
     const onMapIconClick = () => {
       this.useLocationSearchBounds = true;
-      this.setState({ isSearchMapOpenOnMobile: true });
+      this.setState({isSearchMapOpenOnMobile: true});
     };
     const someHandler = (question, value) => {
-      //alert(question + '' + value);
-      this.setState({ showLocation: true });
+      console.log(question + '' + value);
+      this.setState({showLocation: true});
     }
 
     const handleZip = (zip) => {
-      alert(zip);
-      this.setState({ showLocation: false });
-      this.setState({ showTimes: true });
+      console.log(zip);
+      this.setState({showLocation: false});
+      this.setState({showTimes: true});
     }
 
-    const handleTimeFrame = (question,time) => {
-      alert(time);
-      this.setState({ showLocation: false });
-      this.setState({ showTimes: false });
-      this.setState({ showSearchResultsPanel: true });
+    const handleTimeFrame = (question, time) => {
+      console.log(time);
+      this.setState({showLocation: false});
+      this.setState({showTimes: false});
+      this.setState({showSearchResultsPanel: true});
 
     }
 
-    const { address, bounds, origin } = searchInURL || {};
-    const { title, description, schema } = createSearchResultSchema(listings, address, intl);
+    const {address, bounds, origin} = searchInURL || {};
+    const {title, description, schema} = createSearchResultSchema(listings, address, intl);
 
     // Set topbar class based on if a modal is open in
     // a child component
@@ -257,46 +257,50 @@ export class SearchPageComponent extends Component {
 
         <LayoutSingleColumn>
           <LayoutWrapperTopbar>
-            <TopbarContainer />
+            <TopbarContainer
+              currentPage="SearchPage"
+              desktopClassName={css.desktopTopbar}
+              mobileClassName={css.mobileTopbar}
+            />
+            <div className={css.heroContainer}>
+              <div className={css.heroContent}/>
+            </div>
           </LayoutWrapperTopbar>
           <LayoutWrapperMain>
-            <div className={css.heroContainer}>
-              <div className={css.heroContent} />
-
+            <div>
+              {this.state.showLocation ? <SearchLocation clickEvent={handleZip}/> :
+                this.state.showTimes ? <SearchTimes clickEvent={handleTimeFrame}/> :
+                  this.state.showSearchResultsPanel ?
+                    <div className={css.container}>
+                      <MainPanel
+                        urlQueryParams={validQueryParams}
+                        listings={listings}
+                        searchInProgress={searchInProgress}
+                        searchListingsError={searchListingsError}
+                        searchParamsAreInSync={searchParamsAreInSync}
+                        onActivateListing={onActivateListing}
+                        onManageDisableScrolling={onManageDisableScrolling}
+                        onOpenModal={this.onOpenMobileModal}
+                        onCloseModal={this.onCloseMobileModal}
+                        onMapIconClick={onMapIconClick}
+                        pagination={pagination}
+                        searchParamsForPagination={parse(location.search)}
+                        showAsModalMaxWidth={MODAL_BREAKPOINT}
+                        primaryFilters={{
+                          yogaStylesFilter: filters.yogaStylesFilter,
+                          certificateFilter: filters.certificateFilter,
+                          priceFilter: filters.priceFilter,
+                          keywordFilter: filters.keywordFilter,
+                        }}
+                      />
+                    </div> :
+                    <SearchSectionServices clickEvent={someHandler}/>}
             </div>
 
-                <div >
-                  {this.state.showLocation ? <SearchLocation clickEvent={handleZip}/> :
-                    this.state.showTimes? <SearchTimes clickEvent={handleTimeFrame}/> :
-                      this.state.showSearchResultsPanel? <div className={css.container}>
-                          <MainPanel
-                            urlQueryParams={validQueryParams}
-                            listings={listings}
-                            searchInProgress={searchInProgress}
-                            searchListingsError={searchListingsError}
-                            searchParamsAreInSync={searchParamsAreInSync}
-                            onActivateListing={onActivateListing}
-                            onManageDisableScrolling={onManageDisableScrolling}
-                            onOpenModal={this.onOpenMobileModal}
-                            onCloseModal={this.onCloseMobileModal}
-                            onMapIconClick={onMapIconClick}
-                            pagination={pagination}
-                            searchParamsForPagination={parse(location.search)}
-                            showAsModalMaxWidth={MODAL_BREAKPOINT}
-                            primaryFilters={{
-                              yogaStylesFilter: filters.yogaStylesFilter,
-                              certificateFilter: filters.certificateFilter,
-                              priceFilter: filters.priceFilter,
-                              keywordFilter: filters.keywordFilter,
-                            }}
-                          /> </div> :
-                        <SearchSectionServices clickEvent={someHandler}/>}
-                </div>
-
-            <LoginModal />
+            <LoginModal/>
           </LayoutWrapperMain>
           <LayoutWrapperFooter>
-            <Footer />
+            <Footer/>
           </LayoutWrapperFooter>
         </LayoutSingleColumn>
       </Page>
@@ -406,8 +410,8 @@ SearchPage.loadData = (params, search) => {
     latlng: ['origin'],
     latlngBounds: ['bounds'],
   });
-  const { page = 1, address, origin, ...rest } = queryParams;
-  const originMaybe = config.sortSearchByDistance && origin ? { origin } : {};
+  const {page = 1, address, origin, ...rest} = queryParams;
+  const originMaybe = config.sortSearchByDistance && origin ? {origin} : {};
   return searchListings({
     ...rest,
     ...originMaybe,

@@ -113,10 +113,7 @@ export const EditServicesPageComponent = props => {
       }).catch(e => {
         console.log(e);
       });
-
     }
-
-
   };
 
   const onServiceClick = service => {
