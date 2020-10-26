@@ -12,7 +12,7 @@ const SummaryConsumerRights = props => {
   const classes = classNames(rootClassName || css.root, className);
 
   const showBackgroundDisclosures = values => {
-    window.alert('I made it');
+    //window.alert('I made it');
     //this.setState({showDisclosures: true});
     //this.setState({showPaymentDiv: false});
     //this.setState({showBackgroundDiv:false});

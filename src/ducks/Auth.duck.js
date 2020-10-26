@@ -178,12 +178,14 @@ export const signup = params => (dispatch, getState, sdk) => {
   if (authenticationInProgress(getState())) {
     return Promise.reject(new Error('Login or logout already in progress'));
   }
-  dispatch(signupRequest());
-  const { email, password, firstName, lastName, ...rest } = params;
 
+  console.log('Params  = ' + JSON.stringify(params));
+  dispatch(signupRequest());
+  const { email, password, firstName, lastName, accountType, ...rest } = params;
+  //const { email, password, firstName, lastName, address1, address2, city, state, zip, phone } = params;
   const createUserParams = isEmpty(rest)
     ? { email, password, firstName, lastName }
-    : { email, password, firstName, lastName, protectedData: { ...rest } };
+    : { email, password, firstName, lastName, protectedData: { ...rest }};
 
 
   // We must login the user if signup succeeds since the API doesn't
@@ -200,4 +202,12 @@ export const signup = params => (dispatch, getState, sdk) => {
         lastName: params.lastName,
       });
     });
+};
+
+export const updateMetadata = params => (dispatch, getState, sdk) => {
+
+  return sdk.currentUser
+    .updateProfile({privateData: params})
+    .then(response => {console.log('Response :' + response)});
+
 };

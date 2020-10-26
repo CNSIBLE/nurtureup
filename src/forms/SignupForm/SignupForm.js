@@ -21,8 +21,8 @@ import {handleCardSetup} from "../../ducks/stripe.duck";
 import {deletePaymentMethod, savePaymentMethod} from "../../ducks/paymentMethods.duck";
 import {connect} from "react-redux";
 import FieldTextInput from "../../components/FieldTextInput/FieldTextInput";
-import {NamedRedirect, PrimaryButton} from "../../components";
-import {authenticationInProgress, signup} from "../../ducks/Auth.duck";
+import {NamedLink, NamedRedirect, PrimaryButton} from "../../components";
+import {authenticationInProgress, signup, updateMetadata} from "../../ducks/Auth.duck";
 import {sendVerificationEmail} from "../../ducks/user.duck";
 import BackgroundDisclosures from "../../components/BackgroundDisclosures/BackgroundDisclosures";
 
@@ -71,6 +71,7 @@ export class SignupFormComponent extends Component {
             onOpenTermsOfService,
             currentUser,
             onCreateSetupIntent,
+            onUpdateUserProfile,
             onChargeProFee,
             onHandleCardSetup,
             onSavePaymentMethod,
@@ -368,6 +369,12 @@ export class SignupFormComponent extends Component {
               lastName: this.state.lastName.trim(),
               email: this.state.email.trim(),
               password: this.state.password.trim(),
+              phone: this.state.phone.trim(),
+              streetAddress1: this.state.address1.trim(),
+              streetAddress2: this.state.address2.trim(),
+              zip: this.state.zip.trim(),
+              city: this.state.city.trim(),
+              state: this.state.state.trim(),
               accountType: '2'
             }
             submitSignup(params);
@@ -384,9 +391,36 @@ export class SignupFormComponent extends Component {
               lastName: this.state.lastName.trim(),
               email: this.state.email.trim(),
               password: this.state.password.trim(),
+              phone: this.state.phone.trim(),
+              streetAddress1: this.state.address1.trim(),
+              streetAddress2: this.state.address2.trim(),
+              zip: this.state.zip.trim(),
+              city: this.state.city.trim(),
+              state: this.state.state.trim(),
               accountType: '1'
             }
             submitSignup(params);
+          };
+
+          const skipPayment = () => {
+            const {history} = this.props;
+            const params = {paymentMethodAdded: "false"};
+
+            onUpdateUserProfile(params)
+              .then(result => {
+                if (this.state.accountType === '1') {
+                  console.log('This is a GIVEr, so we need to open disclosures');
+                  this.setState({showPaymentDiv: false});
+                  this.setState({showDisclosures: true});
+                } else {
+                  console.log('This is a seeker, so we need to go to dashboard');
+                  history.push('/dashboard');
+                }
+              })
+              .catch(error => {
+                console.error(error);
+                //setIsSubmitting(false);
+              });
           };
 
           const handlePaymentSubmit = (params, values) => {
@@ -458,6 +492,11 @@ export class SignupFormComponent extends Component {
                 //onSubmit={handlePaymentSubmit}
                 onSubmit={(params, values) => handlePaymentSubmit(params, values)}
               />
+              <div className={css.name}>
+                <a href="#" onClick={skipPayment}>
+                  Skip
+                </a>{' '}
+              </div>
             </div>
           );
 
@@ -785,6 +824,7 @@ const mapDispatchToProps = dispatch => ({
   fetchStripeCustomer: () => dispatch(stripeCustomer()),
   onHandleCardSetup: params => dispatch(handleCardSetup(params)),
   onCreateSetupIntent: params => dispatch(createStripeSetupIntent(params)),
+  onUpdateUserProfile: params => dispatch(updateMetadata(params)),
   onChargeProFee: params => dispatch(chargeProFee(params)),
   onSavePaymentMethod: (stripeCustomer, newPaymentMethod) =>
     dispatch(savePaymentMethod(stripeCustomer, newPaymentMethod)),
